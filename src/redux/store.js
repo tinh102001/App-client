@@ -10,6 +10,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
+
 const DataProvider = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;
 };
