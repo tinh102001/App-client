@@ -8,12 +8,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
+import { login } from "../../redux/actions/authActions";
+
+import { useDispatch, useSelector } from "react-redux";
+
 const initialValues = {
-  userName: "",
+  email: "",
   password: "",
 };
 
 const Login = () => {
+  // const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const location = useLocation();
   // const isAppLogin = !!searchParams.get('app');
   // const appAuth = () => {
@@ -26,9 +32,11 @@ const Login = () => {
     initialValues,
     onSubmit: (values) => {
       //  Xử gọi api
+      console.log(values);
+      dispatch(login(values));
     },
     validationSchema: Yup.object({
-      userName: Yup.string()
+      email: Yup.string()
         .min(
           3,
 
@@ -148,7 +156,7 @@ const Login = () => {
               className="form-group"
               style={{
                 marginBottom:
-                  formik.touched.userName && formik.errors.userName
+                  formik.touched.email && formik.errors.email
                     ? "0.8rem"
                     : "1rem",
               }}
@@ -161,16 +169,16 @@ const Login = () => {
                   <input
                     className="form-control"
                     placeholder="Tên đăng nhập/Email"
-                    {...formik.getFieldProps("userName")}
+                    {...formik.getFieldProps("email")}
                   />
                 </div>
               </div>
-              {formik.touched.userName && formik.errors.userName ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div
                   className="fv-plugins-message-container"
                   style={{ paddingLeft: "40px" }}
                 >
-                  <div className="fv-help-block">{formik.errors.userName}</div>
+                  <div className="fv-help-block">{formik.errors.email}</div>
                 </div>
               ) : null}
             </Col>
