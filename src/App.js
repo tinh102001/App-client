@@ -1,18 +1,16 @@
-import React from "react";
-import { Routes, Route} from "react-router-dom";
+import React, { Suspense } from "react";
+import AppRouter from "./app/AppRouter";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorApp from "./layout/components/ErrorApp/ErrorApp";
 
-import Login from "./pages/login";
-import Register from "./pages/register";
-import Status from "./components/home/Status";
-
-function App() {
+const App = () => {
   return (
-      <Routes>
-        <Route path="/login" element={<Login></Login>}></Route>
-        <Route path="/register" element={<Register></Register>}></Route>
-        <Route path="/" element={<Status></Status>}></Route>
-      </Routes>
+    <ErrorBoundary FallbackComponent={<ErrorApp></ErrorApp>}>
+      <Suspense fallback={<ErrorApp></ErrorApp>}>
+        <AppRouter></AppRouter>
+      </Suspense>
+    </ErrorBoundary>
   );
-}
+};
 
 export default App;

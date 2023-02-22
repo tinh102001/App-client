@@ -1,10 +1,10 @@
-const valid = ({ fullname, username, email, password, cf_password }) => {
+const valid = ({ fullName, username, email, password, cf_password }) => {
   const err = {};
 
-  if (!fullname) {
-    err.fullname = "Please add your full name.";
-  } else if (fullname.length > 25) {
-    err.fullname = "Full name is up to 25 characters long.";
+  if (!fullName) {
+    err.fullName = "Please add your full name.";
+  } else if (fullName.length > 25) {
+    err.fullName = "Full name is up to 25 characters long.";
   }
 
   if (!username) {
