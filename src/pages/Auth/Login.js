@@ -261,7 +261,7 @@ const Login = () => {
         <div className="signup-forgot text-center mt-2">
           <span className="or-text">
             {"Chưa có tài khoản?"}
-            <Link className="registration-link mx-2" to={`/auth/register`}>
+            <Link className="registration-link mx-2" to={`/register`}>
               {"Đăng ký".toLocaleUpperCase()}
             </Link>
           </span>

@@ -52,7 +52,7 @@ const Register = () => {
         <div className="register-footer text-end">
           <div className="my-1 or-text">
             Đã có tài khoản?
-            <Link className="registration-link ml-2" to="/auth/login">
+            <Link className="registration-link ml-2" to="/login">
               ĐĂNG NHẬP
             </Link>
           </div>
