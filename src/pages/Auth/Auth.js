@@ -1,7 +1,7 @@
 import { Route, Routes, Outlet } from "react-router-dom";
-import LottieAnimation from "../../layout/components/Lotte/LottieAnimation";
+import LottieAnimation from "../../components/lotte/LottieAnimation";
 import Login from "./Login";
-import Register from "./register/Register";
+import Register from "./Register";
 function Auth() {
   return (
     <div className="auth">

@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { GoogleLogin } from "react-google-login";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../../redux/actions/authActions";
 
-import { useDispatch, useSelector } from "react-redux";
-
-const initialValues = {
-  email: "",
-  password: "",
-};
-
+// const initialValues = {
+//   email: "",
+//   password: "",
+// };
 const Login = () => {
-  // const { auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => {
+    // console.log(state);
+    return state;
+  });
+
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const location = useLocation();
   // const isAppLogin = !!searchParams.get('app');
@@ -27,14 +35,17 @@ const Login = () => {
   //     window.location.href = '/auth-app';
   //   }
   // };
+  useEffect(() => {
+    if (auth.token) navigate("/");
+  }, [auth.token, navigate]);
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
       //  Xử gọi api
-      console.log(values);
       dispatch(login(values));
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       email: Yup.string()
         .min(

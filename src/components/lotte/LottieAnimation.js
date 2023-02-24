@@ -3,11 +3,11 @@ import lottie from "lottie-web";
 
 function LottieAnimation(props) {
   const ref = useRef();
-  const { path, speed =1, width, height } = props;
+  const { path, speed = 1, width, height } = props;
   useEffect(() => {
     lottie
       .loadAnimation({
-        container: ref.current ,
+        container: ref.current,
         renderer: "svg",
         loop: true,
         autoplay: true,

@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import AppRouter from "./app/AppRouter";
+import AppRouter from "./router/AppRouter";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorApp from "./layout/components/ErrorApp/ErrorApp";
+import ErrorApp from "./pages/ErrorApp/ErrorApp";
 
 const App = () => {
   return (

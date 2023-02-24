@@ -5,11 +5,13 @@ import valid from "../../utils/validForm";
 export const login = (data) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
     const res = await postAPI("login", data);
+
     dispatch({
       type: GLOBALTYPES.AUTH,
       payload: {
-        token: res.data.access_token,
+        token: res.data.accessToken,
         user: res.data.user,
       },
     });
@@ -41,7 +43,7 @@ export const refreshToken = () => async (dispatch) => {
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {
-          token: res.data.access_token,
+          token: res.data.accessToken,
           user: res.data.user,
         },
       });
