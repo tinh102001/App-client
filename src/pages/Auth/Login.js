@@ -11,13 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../../redux/actions/authActions";
 
-// const initialValues = {
-//   email: "",
-//   password: "",
-// };
+import Toast from "../../components/alert/Toast";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+
 const Login = () => {
-  const { auth } = useSelector((state) => {
-    // console.log(state);
+  const { auth, alert } = useSelector((state) => {
     return state;
   });
 
@@ -113,6 +111,13 @@ const Login = () => {
 
   return (
     <div className="card card-login container">
+      {alert.error && (
+        <Toast
+          msg={{ title: "Error", body: alert.error }}
+          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
+          bgColor="bg-danger"
+        />
+      )}
       <div className="card-login-content">
         <div className="logo text-center my-4">
           <Link to="/">
@@ -247,7 +252,7 @@ const Login = () => {
               className="mr-auto mb-1 col-md-12 col-sm-12"
               type="submit"
               style={{ borderRadius: 10 }}
-              disabled={formik.isSubmitting}
+              // disabled={formik.isSubmitting}
             >
               {"Đăng nhập"}
             </Button>

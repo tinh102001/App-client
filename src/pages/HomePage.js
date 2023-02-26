@@ -1,13 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
-import SpinLoader from "../components/alert/SpinLoader";
+import SpinLoader from "../components/loading/SpinLoader";
+import Toast from "../components/alert/Toast";
 
 function HomePage() {
-  const { auth } = useSelector((state) => state);
+  const { auth, alert } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   return (
-    <>{auth.token ? <div>Hello {auth.user.username}</div> : <SpinLoader />}</>
+    <>
+      <>
+        {alert.success && (
+          <Toast
+            msg={{ title: "Success", body: alert.success }}
+            handleShow={() =>
+              dispatch({ type: GLOBALTYPES.ALERT, payload: {} })
+            }
+            bgColor="bg-success"
+          />
+        )}
+      </>
+      <div>
+        {auth.token ? <div>Hello {auth.user.username}</div> : <SpinLoader />}
+      </div>
+    </>
   );
 }
 
