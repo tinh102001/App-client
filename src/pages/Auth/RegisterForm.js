@@ -5,9 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row } from "react-bootstrap";
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { register } from "../../redux/actions/authActions";
+
+import Toast from "../../components/alert/Toast";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
 const initialValues = {
-  userName: "",
+  fullname: "",
+  username: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -15,6 +23,17 @@ const initialValues = {
 };
 
 const RegisterForm = () => {
+  const { auth, alert } = useSelector((state) => state);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth.token) {
+      console.log("ABC")
+      navigate("/");}
+  }, [auth.token, navigate]);
+
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordAgain, setIsShowPasswordAgain] = useState(false);
 
@@ -53,17 +72,21 @@ const RegisterForm = () => {
     });
   }, [isShowPassword]);
 
-  const handleCheckUserName = (userName) => {
-    if (!userName) {
-      formik.setFieldError("userName", "Trường này không được bỏ trống");
+  const handleCheckUserName = (username) => {
+    if (!username) {
+      formik.setFieldError("username", "Trường này không được bỏ trống");
       return;
     }
     //    Thiếu check user tồn tại
   };
   const RegistrationSchema = Yup.object().shape({
-    userName: Yup.string()
+    fullname: Yup.string()
       .min(3, "Tên đăng nhập phải tối thiểu 3 ký tự")
       .max(50, "Tên đăng nhập chỉ tối đa 50 ký tự")
+      .required("Trường này không được bỏ trống"),
+    username: Yup.string()
+      .min(3, "Tên tài khoản phải tối thiểu 3 ký tự")
+      .max(50, "Tên tài khoản chỉ tối đa 50 ký tự")
       .required("Trường này không được bỏ trống")
       .matches(
         /^[a-zA-Z0-9_]+$/i,
@@ -106,20 +129,34 @@ const RegisterForm = () => {
     enableReinitialize: true,
     validationSchema: RegistrationSchema,
     onSubmit: (values) => {
-      window.alert("Form submitted");
-      console.log(values);
+      const { confirmPassword, ...payload } = values;
+      dispatch(register(payload));
     },
   });
 
   return (
     <form onSubmit={formik.handleSubmit} className="form-register">
+      {alert.error && (
+        <Toast
+          msg={{ title: "Error", body: alert.error }}
+          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
+          bgColor="bg-danger"
+        />
+      )}
+      {alert.success && (
+        <Toast
+          msg={{ title: "Success", body: alert.success }}
+          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
+          bgColor="bg-success"
+        />
+      )}
       <Row>
         <Col
           md={12}
           className="form-group"
           style={{
             marginBottom:
-              formik.touched.userName && formik.errors.userName
+              formik.touched.fullname && formik.errors.fullname
                 ? "0.8rem"
                 : "1rem",
           }}
@@ -127,7 +164,7 @@ const RegisterForm = () => {
           <div
             className="input-text-container"
             onBlur={() => {
-              handleCheckUserName(formik.getFieldProps("userName").value);
+              handleCheckUserName(formik.getFieldProps("fullname").value);
             }}
           >
             <div className="input-group">
@@ -136,17 +173,53 @@ const RegisterForm = () => {
               </div>
               <input
                 className="form-control"
-                placeholder="Tên đăng nhập"
-                {...formik.getFieldProps("userName")}
+                placeholder="Họ và tên"
+                {...formik.getFieldProps("fullname")}
               />
             </div>
           </div>
-          {formik.touched.userName && formik.errors.userName ? (
+          {formik.touched.fullname && formik.errors.fullname ? (
             <div
               className="fv-plugins-message-container"
               style={{ paddingLeft: "40px" }}
             >
-              <div className="fv-help-block">{formik.errors.userName}</div>
+              <div className="fv-help-block">{formik.errors.fullname}</div>
+            </div>
+          ) : null}
+        </Col>
+        <Col
+          md={12}
+          className="form-group"
+          style={{
+            marginBottom:
+              formik.touched.username && formik.errors.username
+                ? "0.8rem"
+                : "1rem",
+          }}
+        >
+          <div
+            className="input-text-container"
+            onBlur={() => {
+              handleCheckUserName(formik.getFieldProps("username").value);
+            }}
+          >
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+              <input
+                className="form-control"
+                placeholder="Tên tài khoản"
+                {...formik.getFieldProps("username")}
+              />
+            </div>
+          </div>
+          {formik.touched.username && formik.errors.username ? (
+            <div
+              className="fv-plugins-message-container"
+              style={{ paddingLeft: "40px" }}
+            >
+              <div className="fv-help-block">{formik.errors.username}</div>
             </div>
           ) : null}
         </Col>
@@ -325,7 +398,7 @@ const RegisterForm = () => {
             type="submit"
             className="btn btn-primary btn-block mb-3"
             style={{ borderRadius: 10 }}
-            disabled={formik.isSubmitting}
+            // disabled={formik.isSubmitting}
           >
             Đăng ký
           </button>

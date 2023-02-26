@@ -14,19 +14,18 @@ import { login } from "../../redux/actions/authActions";
 import Toast from "../../components/alert/Toast";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+
 const Login = () => {
-  const { auth, alert } = useSelector((state) => {
-    return state;
-  });
+  const { auth, alert } = useSelector((state) => state);
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const location = useLocation();
+  
   // const isAppLogin = !!searchParams.get('app');
   // const appAuth = () => {
   //   if (isAppLogin) {
