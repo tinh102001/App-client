@@ -29,9 +29,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (auth.token) {
-      console.log("ABC")
-      navigate("/");}
+    if (auth.token) navigate("/");
   }, [auth.token, navigate]);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -129,8 +127,7 @@ const RegisterForm = () => {
     enableReinitialize: true,
     validationSchema: RegistrationSchema,
     onSubmit: (values) => {
-      const { confirmPassword, ...payload } = values;
-      dispatch(register(payload));
+      dispatch(register(values));
     },
   });
 

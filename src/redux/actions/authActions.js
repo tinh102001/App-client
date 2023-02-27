@@ -67,7 +67,7 @@ export const register = (data) => async (dispatch) => {
     dispatch({
       type: GLOBALTYPES.AUTH,
       payload: {
-        token: res.data.access_token,
+        token: res.data.accessToken,
         user: res.data.user,
       },
     });

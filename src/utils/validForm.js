@@ -1,10 +1,10 @@
-const valid = ({ fullName, username, email, password, cf_password }) => {
+const valid = ({ fullname, username, email, password, confirmPassword }) => {
   const err = {};
 
-  if (!fullName) {
-    err.fullName = "Please add your full name.";
-  } else if (fullName.length > 25) {
-    err.fullName = "Full name is up to 25 characters long.";
+  if (!fullname) {
+    err.fullname = "Please add your full name.";
+  } else if (fullname.length > 25) {
+    err.fullname = "Full name is up to 25 characters long.";
   }
 
   if (!username) {
@@ -25,8 +25,8 @@ const valid = ({ fullName, username, email, password, cf_password }) => {
     err.password = "Password must be at least 6 characters.";
   }
 
-  if (password !== cf_password) {
-    err.cf_password = "Confirm password did not match.";
+  if (password !== confirmPassword) {
+    err.confirmPassword = "Confirm password did not match.";
   }
 
   return {
