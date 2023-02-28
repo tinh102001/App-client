@@ -34,9 +34,3 @@ export const deleteAPI = async (url, token) => {
   });
   return res;
 };
-
-// API để test
-export const postAPITest = async (url, post) => {
-  const res = await axios.post(`/api/${url}`, post);
-  return res;
-};

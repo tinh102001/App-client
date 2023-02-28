@@ -25,7 +25,7 @@ function Status() {
     if (images.length === 0)
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: "Please add your photo." },
+        payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
     dispatch(createPost({ content, images, auth }));
   };
@@ -72,7 +72,7 @@ function Status() {
             <textarea
               name="content"
               value={content}
-              placeholder={`${auth.user.username}, what are you thinking?`}
+              placeholder={`${auth.user.username}, Bạn đang nghĩ gì?`}
               onChange={(e) => setContent(e.target.value)}
             />
             {/* <div className="d-flex">
