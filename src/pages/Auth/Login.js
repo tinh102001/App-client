@@ -109,13 +109,6 @@ const Login = () => {
 
   return (
     <div className="card card-login container">
-      {/* {alert.error && (
-        <Toast
-          msg={{ title: "Error", body: alert.error }}
-          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
-          bgColor="bg-danger"
-        />
-      )} */}
       <Alert />
       <div className="card-login-content">
         <div className="logo text-center my-4">
