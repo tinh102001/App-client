@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import { register } from "../../redux/actions/authActions";
 
-import Toast from "../../components/alert/Toast";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import Alert from "../../components/Alert/Alert";
 
 const initialValues = {
   fullname: "",
@@ -19,11 +18,11 @@ const initialValues = {
   email: "",
   password: "",
   confirmPassword: "",
-  gender: "male",
+  gender: "Nam",
 };
 
 const RegisterForm = () => {
-  const { auth, alert } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -133,20 +132,7 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={formik.handleSubmit} className="form-register">
-      {alert.error && (
-        <Toast
-          msg={{ title: "Error", body: alert.error }}
-          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
-          bgColor="bg-danger"
-        />
-      )}
-      {alert.success && (
-        <Toast
-          msg={{ title: "Success", body: alert.success }}
-          handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
-          bgColor="bg-success"
-        />
-      )}
+      <Alert />
       <Row>
         <Col
           md={12}
@@ -358,7 +344,7 @@ const RegisterForm = () => {
                   value="Nam"
                   name="gender"
                   onChange={formik.handleChange}
-                  defaultChecked={formik.values.gender === "male"}
+                  defaultChecked={formik.values.gender === "Nam"}
                 />
                 <label className="custom-control-label" htmlFor="male">
                   Nam
@@ -368,10 +354,10 @@ const RegisterForm = () => {
                 <input
                   id="female"
                   type="radio"
-                  value="nu"
+                  value="Nữ"
                   name="gender"
                   onChange={formik.handleChange}
-                  defaultChecked={formik.values.gender === "female"}
+                  defaultChecked={formik.values.gender === "Nữ"}
                 />
                 <label className="custom-control-label" htmlFor="female">
                   Nữ

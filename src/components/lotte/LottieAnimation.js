@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import lottie from "lottie-web";
 
-function LottieAnimation(props) {
+const LottieAnimation = (props) => {
   const ref = useRef();
   const { path, speed = 1, width, height } = props;
   useEffect(() => {
@@ -23,6 +23,6 @@ function LottieAnimation(props) {
       style={{ width: width, height: height }}
     />
   );
-}
+};
 
 export default LottieAnimation;

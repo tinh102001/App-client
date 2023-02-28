@@ -1,5 +1,6 @@
 import { postAPI } from "../../utils/fetchAPI";
 import { imageUpload } from "../../utils/imagesUpload";
+import { GLOBALTYPES } from "./globalTypes";
 
 export const POST_TYPES = {
   CREATE_POST: "CREATE_POST",
@@ -22,7 +23,10 @@ export const createPost =
         type: POST_TYPES.CREATE_POST,
         payload: { ...res.data.newPost, user: auth.user },
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
     }
   };

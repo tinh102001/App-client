@@ -6,7 +6,7 @@ import AppRouter from "./router/AppRouter";
 
 import { refreshToken } from "./redux/actions/authActions";
 
-import SpinLoader from "./components/loading/SpinLoader";
+import SpinLoader from "./components/Loading/SpinLoader";
 
 import ErrorApp from "./pages/ErrorApp/ErrorApp";
 

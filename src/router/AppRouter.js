@@ -6,7 +6,11 @@ const HomePage = lazy(() => import("../pages/HomePage"));
 const Register = lazy(() => import("../pages/Auth/Register"));
 const Login = lazy(() => import("../pages/Auth/Login"));
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
-function AppRouter() {
+const Setting = lazy(() => import("../pages/Setting"));
+const ChangePassword = lazy(() => import("../pages/ChangePassword"));
+const MyProfile = lazy(() => import("../pages/MyProfile"));
+
+const AppRouter = () => {
   return (
     <Routes>
       <Route
@@ -17,11 +21,35 @@ function AppRouter() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/setting"
+        element={
+          <PrivateRoute>
+            <Setting />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/password"
+        element={
+          <PrivateRoute>
+            <ChangePassword />
+          </PrivateRoute>
+        }
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
-}
+};
 
 export default AppRouter;

@@ -11,8 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../../redux/actions/authActions";
 
-import Toast from "../../components/alert/Toast";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import Alert from "../../components/Alert/Alert";
 
 const initialValues = {
   email: "",
@@ -20,12 +19,12 @@ const initialValues = {
 };
 
 const Login = () => {
-  const { auth, alert } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  
+
   // const isAppLogin = !!searchParams.get('app');
   // const appAuth = () => {
   //   if (isAppLogin) {
@@ -110,13 +109,14 @@ const Login = () => {
 
   return (
     <div className="card card-login container">
-      {alert.error && (
+      {/* {alert.error && (
         <Toast
           msg={{ title: "Error", body: alert.error }}
           handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
           bgColor="bg-danger"
         />
-      )}
+      )} */}
+      <Alert />
       <div className="card-login-content">
         <div className="logo text-center my-4">
           <Link to="/">

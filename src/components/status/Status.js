@@ -5,10 +5,10 @@ import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { createPost } from "../../redux/actions/postAction";
 
 import { imageShow, videoShow } from "../../utils/imagesShow";
-import SpinLoader from "../loading/SpinLoader";
+import SpinLoader from "../Loading/SpinLoader";
 // import Icons from "./Icons";
 
-function Status() {
+const Status = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -60,8 +60,6 @@ function Status() {
     newArr.splice(index, 1);
     setImages(newArr);
   };
-
-  console.log(images);
 
   return (
     <div className="status_modal">
@@ -149,6 +147,6 @@ function Status() {
       )}
     </div>
   );
-}
+};
 
 export default Status;
