@@ -4,6 +4,7 @@ import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 import SpinLoader from "../components/loading/SpinLoader";
 import Toast from "../components/alert/Toast";
+import Status from "../components/status/Status";
 
 function HomePage() {
   const { auth, alert } = useSelector((state) => state);
@@ -25,6 +26,7 @@ function HomePage() {
       <div>
         {auth.token ? <div>Hello {auth.user.username}</div> : <SpinLoader />}
       </div>
+      <Status />
     </>
   );
 }
