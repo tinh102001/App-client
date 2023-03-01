@@ -73,20 +73,12 @@ const Login = () => {
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  useEffect(() => {
-    const passwordText = document.getElementById("password-text");
-    const eyeToggles = Array.from(document.getElementsByClassName("eyeToggle"));
-    eyeToggles.forEach((eyeToggle) => {
-      eyeToggle.addEventListener("click", (e) => {
-        const type =
-          passwordText?.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordText?.setAttribute("type", type);
-        setIsShowPassword(!isShowPassword);
-      });
-    });
-  }, [isShowPassword]);
+  const eyeToggles = Array.from(document.getElementsByClassName("eyeToggle"));
+  eyeToggles.forEach((eyeToggle) => {
+    eyeToggle.addEventListener("click", (e) => {
+      setIsShowPassword(!isShowPassword);
+    })
+  })
 
   useEffect(() => {
     let referrer = location.state?.path;
@@ -207,12 +199,12 @@ const Login = () => {
                   </div>
                   <input
                     id="password-text"
-                    type="password"
+                    type={ isShowPassword ? "text" : "password"}
                     className="form-control"
                     placeholder={"Nhập mật khẩu"}
                     {...formik.getFieldProps("password")}
                   />
-                  {!isShowPassword && (
+                  {isShowPassword && (
                     <img
                       className="eyeToggle"
                       style={{ marginRight: "15px" }}
@@ -220,7 +212,7 @@ const Login = () => {
                       alt="eye"
                     />
                   )}
-                  {isShowPassword && (
+                  {!isShowPassword && (
                     <FontAwesomeIcon
                       className="eyeToggle"
                       style={{ marginRight: "15px" }}
