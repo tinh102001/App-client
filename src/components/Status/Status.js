@@ -28,11 +28,31 @@ const Status = () => {
         payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
     dispatch(createPost({ content, images, auth }));
+    setContent("");
+    setImages([]);
+    if (tracks) tracks.stop();
+    dispatch({ type: GLOBALTYPES.STATUS, payload: false });
   };
 
-  const handleStopStream = () => {};
+  const handleStopStream = () => {
+    tracks.stop();
+    setStream(false);
+  };
 
-  const handleCapture = () => {};
+  const handleCapture = (e) => {
+    e.preventDefault();
+
+    const width = videoRef.current.clientWidth;
+    const height = videoRef.current.clientHeight;
+
+    refCanvas.current.setAttribute("width", width);
+    refCanvas.current.setAttribute("height", height);
+
+    const ctx = refCanvas.current.getContext("2d");
+    ctx.drawImage(videoRef.current, 0, 0, width, height);
+    let URL = refCanvas.current.toDataURL();
+    setImages([...images, { camera: URL }]);
+  };
 
   const handleChangeImages = (e) => {
     const files = [...e.target.files];
@@ -53,7 +73,22 @@ const Status = () => {
     setImages([...images, ...newImages]);
   };
 
-  const handleStream = () => {};
+  const handleStream = (e) => {
+    e.preventDefault();
+    setStream(true);
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((mediaStream) => {
+          videoRef.current.srcObject = mediaStream;
+          videoRef.current.play();
+
+          const track = mediaStream.getTracks();
+          setTracks(track[0]);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   const deleteImages = (index) => {
     const newArr = [...images];
@@ -116,11 +151,10 @@ const Status = () => {
 
             <div className="input_images">
               {stream ? (
-                <i className="fas fa-camera" onClick={handleCapture} />
+                <button onClick={handleCapture}>Chụp</button>
               ) : (
                 <>
-                  <i className="fas fa-camera" onClick={handleStream} />
-
+                  <button onClick={handleStream}>Chụp ảnh</button>
                   <div className="file_upload">
                     <i className="fas fa-image" />
                     <input
