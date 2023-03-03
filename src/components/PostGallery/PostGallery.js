@@ -1,9 +1,9 @@
 import React from "react";
-import SpinLoader from "../Loading/SpinLoader";
+
 const PostGallery = ({ posts }) => {
   return (
     <div>
-      {posts ? (
+      {posts.length !== 0 ? (
         posts.map((post) => (
           <div key={post._id}>
             {post.content}
@@ -11,7 +11,7 @@ const PostGallery = ({ posts }) => {
           </div>
         ))
       ) : (
-        <SpinLoader />
+        <div>No Post</div>
       )}
     </div>
   );

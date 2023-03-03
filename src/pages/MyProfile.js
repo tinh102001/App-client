@@ -4,7 +4,7 @@ import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Header from "../components/Header/Header";
 import SpinLoader from "../components/Loading/SpinLoader";
-import ProfilePost from "../components/Profile/ProfilePost";
+import PostGallery from "../components/PostGallery/PostGallery";
 
 import { useDispatch } from "react-redux";
 import { getProfileUsers } from "../redux/actions/profileActions";
@@ -18,6 +18,7 @@ const MyProfile = () => {
   const [isShowEditProfile, setIsShowEditProfile] = useState(false);
   const [isShowSaved, setIsShowSaved] = useState(false);
 
+  const [load, setLoad] = useState(false);
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
 
@@ -40,10 +41,12 @@ const MyProfile = () => {
   }, [profile.posts, id]);
 
   const handleLoadMore = useCallback(async () => {
+    setLoad(true);
     const res = await getAPI(`user_posts/${id}?page=${page + 1}`, auth.token);
     const newData = { ...res.data, page: page + 1, _id: id };
     setPosts([...posts, ...newData.posts]);
     setPage((page) => page + 1);
+    setLoad(false);
   }, [auth.token, page, posts, id]);
 
   useEffect(() => {
@@ -164,11 +167,13 @@ const MyProfile = () => {
               </div>
             )}
           </div>
-          <ProfilePost posts={posts} />
+          <PostGallery posts={posts} />
+          
         </div>
       ) : (
         <SpinLoader />
       )}
+      {load && <SpinLoader />}
     </div>
   );
 };
