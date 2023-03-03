@@ -9,6 +9,7 @@ const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 const Setting = lazy(() => import("../pages/Setting"));
 const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 const MyProfile = lazy(() => import("../pages/MyProfile"));
+const Explore = lazy(() => import("../pages/Explore"));
 
 const AppRouter = () => {
   return (
@@ -42,6 +43,14 @@ const AppRouter = () => {
         element={
           <PrivateRoute>
             <ChangePassword />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/explore"
+        element={
+          <PrivateRoute>
+            <Explore />
           </PrivateRoute>
         }
       />
