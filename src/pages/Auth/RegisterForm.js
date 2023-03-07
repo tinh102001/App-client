@@ -34,40 +34,19 @@ const RegisterForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordAgain, setIsShowPasswordAgain] = useState(false);
 
-  useEffect(() => {
-    const eyeToggle2s = Array.from(
-      document.getElementsByClassName("eyeToggle2")
-    );
-    const passwordAgainText = document.getElementById("passwordAgainText");
-    eyeToggle2s.forEach((eyeToggle2) => {
-      eyeToggle2?.addEventListener("click", (e) => {
-        const type2 =
-          passwordAgainText?.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordAgainText?.setAttribute("type", type2);
-        setIsShowPasswordAgain(!isShowPasswordAgain);
-      });
-    });
-  }, [isShowPasswordAgain]);
+  const eyeToggle1s = Array.from(document.getElementsByClassName("eyeToggle1"));
+  eyeToggle1s.forEach((eyeToggle) => {
+    eyeToggle.addEventListener("click", (e) => {
+      setIsShowPassword(!isShowPassword);
+    })
+  })
 
-  useEffect(() => {
-    const passwordText = document.getElementById("passwordText");
-    const eyeToggle1s = Array.from(
-      document.getElementsByClassName("eyeToggle1")
-    );
-
-    eyeToggle1s.forEach((eyeToggle1) => {
-      eyeToggle1?.addEventListener("click", (e) => {
-        const type1 =
-          passwordText?.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordText?.setAttribute("type", type1);
-        setIsShowPassword(!isShowPassword);
-      });
-    });
-  }, [isShowPassword]);
+  const eyeToggle2s = Array.from(document.getElementsByClassName("eyeToggle2"));
+  eyeToggle2s.forEach((eyeToggle) => {
+    eyeToggle.addEventListener("click", (e) => {
+      setIsShowPasswordAgain(!isShowPasswordAgain);
+    })
+  })
 
   const handleCheckUserName = (username) => {
     if (!username) {
@@ -252,12 +231,12 @@ const RegisterForm = () => {
               </div>
               <input
                 id="passwordText"
-                type="password"
+                type={ isShowPassword ? "text" : "password"}
                 className="form-control"
                 placeholder={"Nhập mật khẩu"}
                 {...formik.getFieldProps("password")}
               />
-              {!isShowPassword && (
+              {isShowPassword && (
                 <img
                   className="eyeToggle1"
                   style={{ marginRight: "15px" }}
@@ -265,7 +244,7 @@ const RegisterForm = () => {
                   alt="eye"
                 />
               )}
-              {isShowPassword && (
+              {!isShowPassword && (
                 <FontAwesomeIcon
                   style={{ marginRight: "15px" }}
                   className="eyeToggle1"
@@ -300,12 +279,12 @@ const RegisterForm = () => {
               </div>
               <input
                 id="passwordAgainText"
-                type="password"
+                type={ isShowPasswordAgain ? "text" : "password"}
                 className="form-control"
                 placeholder={"Xác nhận lại mật khẩu"}
                 {...formik.getFieldProps("confirmPassword")}
               />
-              {!isShowPasswordAgain && (
+              {isShowPasswordAgain && (
                 <img
                   className="eyeToggle2"
                   style={{ marginRight: "15px" }}
@@ -313,7 +292,7 @@ const RegisterForm = () => {
                   alt="eye"
                 />
               )}
-              {isShowPasswordAgain && (
+              {!isShowPasswordAgain && (
                 <FontAwesomeIcon
                   style={{ marginRight: "15px" }}
                   className="eyeToggle2"
