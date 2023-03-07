@@ -2,11 +2,11 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { createPost } from "../../redux/actions/postAction";
+import { createPost } from "../../redux/actions/postActions";
 
 import { imageShow, videoShow } from "../../utils/imagesShow";
 import SpinLoader from "../Loading/SpinLoader";
-// import Icons from "./Icons";
+// import Icons from "../Icon/Icons";
 
 const Status = () => {
   const { auth } = useSelector((state) => state);

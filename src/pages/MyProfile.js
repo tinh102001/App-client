@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+
 import Header from "../components/Header/Header";
 import SpinLoader from "../components/Loading/SpinLoader";
 import PostGallery from "../components/PostGallery/PostGallery";
 
-import { useDispatch } from "react-redux";
 import { getProfileUsers } from "../redux/actions/profileActions";
-
 import { getAPI } from "../utils/fetchAPI";
 
 const MyProfile = () => {
@@ -168,7 +167,6 @@ const MyProfile = () => {
             )}
           </div>
           <PostGallery posts={posts} />
-          
         </div>
       ) : (
         <SpinLoader />
