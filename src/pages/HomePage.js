@@ -41,7 +41,7 @@ const HomePage = () => {
   }, [handleLoadMore]);
 
   return (
-    <>
+    <div className="home-page-wrapper">
       <Header />
       <Alert />
       <div>Hello {auth.user.username}</div>
@@ -53,7 +53,7 @@ const HomePage = () => {
         <div>No Post</div>
       )}
       {load && <SkeletonLoader />}
-    </>
+    </div>
   );
 };
 
