@@ -7,6 +7,7 @@ export const POST_TYPES = {
   GET_POSTS: "GET_POSTS",
   UPDATE_POST: "UPDATE_POST",
   LOADING_POST: "LOADING_POST",
+  GET_POST: "GET_POST",
 };
 
 export const createPost =
@@ -53,6 +54,22 @@ export const getPosts = (token) => async (dispatch) => {
   }
 };
 
+export const getPost =
+  ({ detailPost, id, auth }) =>
+  async (dispatch) => {
+    if (detailPost.every((post) => post._id !== id)) {
+      try {
+        const res = await getAPI(`post/${id}`, auth.token);
+        dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post });
+      } catch (err) {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { error: err.response.data.msg },
+        });
+      }
+    }
+  };
+
 export const likePost =
   ({ post, auth }) =>
   async (dispatch) => {
@@ -80,6 +97,41 @@ export const unLikePost =
 
     try {
       await patchAPI(`post/${post._id}/unlike`, null, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
+    }
+  };
+
+export const savePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    const newUser = { ...auth.user, saved: [...auth.user.saved, post._id] };
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } });
+
+    try {
+      await patchAPI(`save_post/${post._id}`, null, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
+    }
+  };
+
+export const unSavePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    const newUser = {
+      ...auth.user,
+      saved: auth.user.saved.filter((id) => id !== post._id),
+    };
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } });
+
+    try {
+      await patchAPI(`unsave_post/${post._id}`, null, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

@@ -4,5 +4,13 @@ import homePosts from "./postReducer";
 import profile from "./profileReducer";
 import alert from "./alertReducer";
 import explore from "./exploreReducer";
+import detailPost from "./detailPostReducer";
 
-export default combineReducers({ auth, homePosts, profile, alert, explore});
+export default combineReducers({
+  auth,
+  homePosts,
+  profile,
+  alert,
+  explore,
+  detailPost,
+});

@@ -64,9 +64,9 @@ const Header = () => {
   };
 
   const handleClick = (e) => {
-    if (e.key === "sub1") navigate("/profile");
-    if (e.key === "sub2") navigate("/password");
-    if (e.key === "sub3") navigate("/setting");
+    if (e.key === "sub1") navigate(`/profile/${auth.user._id}`);
+    if (e.key === "sub2") navigate(`/password`);
+    if (e.key === "sub3") navigate(`/setting`);
     if (e.key === "sub4") setCheckLogout(true);
   };
 

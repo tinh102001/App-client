@@ -26,7 +26,7 @@ const Explore = () => {
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
     const res = await getAPI(
-      `post_discover?num=${explore.page * 9}`,
+      `explore_posts?num=${explore.page * 9}`,
       auth.token
     );
     dispatch({ type: EXPLORE_TYPES.UPDATE_POST, payload: res.data });

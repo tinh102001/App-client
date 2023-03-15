@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { likePost, unLikePost } from "../../redux/actions/postActions";
+import {
+  likePost,
+  unLikePost,
+  savePost,
+  unSavePost,
+} from "../../redux/actions/postActions";
 import LikeButton from "../Button/LikeButton";
+import SaveButton from "../Button/SaveButton";
 
 const PostFooter = ({ post }) => {
   const { auth } = useSelector((state) => state);
@@ -10,7 +16,10 @@ const PostFooter = ({ post }) => {
 
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveLoad, setSaveLoad] = useState(false);
 
+  //console.log(post);
   useEffect(() => {
     if (post.likes.find((like) => like._id === auth.user._id)) {
       setIsLike(true);
@@ -36,6 +45,30 @@ const PostFooter = ({ post }) => {
     await dispatch(unLikePost({ post, auth }));
     setLoadLike(false);
   };
+
+  useEffect(() => {
+    if (auth.user.saved.find((id) => id === post._id)) {
+      setSaved(true);
+    } else {
+      setSaved(false);
+    }
+  }, [auth.user.saved, post._id]);
+
+  const handleSavePost = async (e) => {
+    e.preventDefault();
+    if (saveLoad) return;
+    setSaveLoad(true);
+    await dispatch(savePost({ post, auth }));
+    setSaveLoad(false);
+  };
+
+  const handleUnSavePost = async (e) => {
+    e.preventDefault();
+    if (saveLoad) return;
+    setSaveLoad(true);
+    await dispatch(unSavePost({ post, auth }));
+    setSaveLoad(false);
+  };
   return (
     <div>
       <div> Post Footer </div>
@@ -44,6 +77,11 @@ const PostFooter = ({ post }) => {
           isLike={isLike}
           handleLike={handleLike}
           handleUnLike={handleUnLike}
+        />
+        <SaveButton
+          isSaved={saved}
+          handleSavePost={handleSavePost}
+          handleUnSavePost={handleUnSavePost}
         />
       </div>
       <div>

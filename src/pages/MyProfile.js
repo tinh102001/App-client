@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { EditOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
 import Header from "../components/Header/Header";
 import SpinLoader from "../components/Loading/SpinLoader";
@@ -9,20 +8,20 @@ import PostGallery from "../components/PostGallery/PostGallery";
 
 import { getProfileUsers } from "../redux/actions/profileActions";
 import { getAPI } from "../utils/fetchAPI";
+import { PROFILE_TYPES } from "../redux/actions/profileActions";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
+import Info from "../components/Profile/Info";
 
 const MyProfile = () => {
   const { auth, profile } = useSelector((state) => state);
-  const [isShowFollowers, setIsShowFollowers] = useState(false);
-  const [isShowFollowing, setIsShowFollowing] = useState(false);
-  const [isShowEditProfile, setIsShowEditProfile] = useState(false);
-  const [isShowSaved, setIsShowSaved] = useState(false);
 
   const [load, setLoad] = useState(false);
+  const [saveTab, setSaveTab] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(0);
+  const [savePosts, setSavePosts] = useState([]);
 
   const dispatch = useDispatch();
-  const id = auth.user._id;
+  const { id } = useParams();
 
   useEffect(() => {
     if (profile.ids.every((item) => item !== id)) {
@@ -30,23 +29,48 @@ const MyProfile = () => {
     }
   }, [id, auth, dispatch, profile.ids]);
 
+  const initPosts = async () => {
+    let res = await getAPI(`user_posts/${id}`, auth.token);
+    return setPosts(res.data.posts);
+  };
+
   useEffect(() => {
-    profile.posts.forEach((data) => {
-      if (data._id === id) {
-        setPosts(data.posts);
-        setPage(data.page);
-      }
-    });
-  }, [profile.posts, id]);
+    initPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.token, id]);
+
+  useEffect(() => {
+    setLoad(true);
+    getAPI(`get_save_posts`, auth.token)
+      .then((res) => {
+        setSavePosts(res.data.savePosts);
+        setLoad(false);
+      })
+      .catch((err) => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { error: err.response.data.msg },
+        });
+      });
+
+    return () => setSavePosts([]);
+  }, [auth.token, dispatch]);
 
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
-    const res = await getAPI(`user_posts/${id}?page=${page + 1}`, auth.token);
-    const newData = { ...res.data, page: page + 1, _id: id };
-    setPosts([...posts, ...newData.posts]);
-    setPage((page) => page + 1);
+    if (!saveTab) {
+      const res = await getAPI(
+        `user_posts/${id}?page=${profile.page + 1}`,
+        auth.token
+      );
+      dispatch({
+        type: PROFILE_TYPES.GET_POSTS,
+        payload: { ...res.data, page: profile.page + 1 },
+      });
+      setPosts([...posts, ...res.data.posts]);
+    }
     setLoad(false);
-  }, [auth.token, page, posts, id]);
+  }, [auth.token, profile.page, posts, id, dispatch, saveTab]);
 
   useEffect(() => {
     const onScroll = async function () {
@@ -61,113 +85,21 @@ const MyProfile = () => {
   return (
     <div>
       <Header />
-      {auth.token ? (
-        <div>
-          <div className="myprofile-container">
-            <div className="header-profile">
-              <img
-                className="avatar"
-                src={auth.user.avatar}
-                alt="Ảnh đại diện"
-              />
-              <div className="main">
-                <div className="name">
-                  <h1>{auth.user.username}</h1>
-                  <Button
-                    className="editprofile"
-                    type="primary"
-                    onClick={() => setIsShowEditProfile(true)}
-                  >
-                    <EditOutlined />
-                    Chỉnh sửa trang cá nhân
-                  </Button>
-                </div>
-                <div className="follow">
-                  <div>{auth.user.story.length} bài viết</div>
-                  <div
-                    className="followers"
-                    onClick={() => setIsShowFollowers(true)}
-                  >
-                    {auth.user.followers.length} người theo dõi
-                  </div>
-                  <div
-                    className="following"
-                    onClick={() => setIsShowFollowing(true)}
-                  >
-                    Đang theo dõi {auth.user.following.length} người dùng
-                  </div>
-                </div>
-                <div className="fullname">Tên đầy đủ: {auth.user.fullname}</div>
-              </div>
-            </div>
-            <div className="info">
-              <div className="address">Địa chỉ: {auth.user.address}</div>
-              <div className="mobile">Số điện thoại: {auth.user.mobile}</div>
-              <div className="gender">Giới tính: {auth.user.gender}</div>
-              <div className="story">Tiểu sử: {auth.user.story}</div>
-              <div className="saved" onClick={() => setIsShowSaved(true)}>
-                Đã lưu: {auth.user.saved.length} đã lưu
-              </div>
-            </div>
-            {isShowEditProfile && (
-              <div className="back-form">
-                <div className="modal-form"></div>
-                <div className="container-form">
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => setIsShowEditProfile(false)}
-                  >
-                    Thoát
-                  </Button>
-                </div>
-              </div>
-            )}
-            {isShowFollowers && (
-              <div className="back-form">
-                <div className="modal-form"></div>
-                <div className="container-form">
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => setIsShowFollowers(false)}
-                  >
-                    Thoát
-                  </Button>
-                </div>
-              </div>
-            )}
-            {isShowFollowing && (
-              <div className="back-form">
-                <div className="modal-form"></div>
-                <div className="container-form">
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => setIsShowFollowing(false)}
-                  >
-                    Thoát
-                  </Button>
-                </div>
-              </div>
-            )}
-            {isShowSaved && (
-              <div className="back-form">
-                <div className="modal-form"></div>
-                <div className="container-form">
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => setIsShowSaved(false)}
-                  >
-                    Thoát
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-          <PostGallery posts={posts} />
+      <Info id={id} auth={auth} profile={profile} dispatch={dispatch} />
+      {auth.user._id === id && (
+        <div className="profile_tab">
+          <button onClick={() => setSaveTab(false)}>Posts</button>
+          <button onClick={() => setSaveTab(true)}>Saved</button>
         </div>
+      )}
+      {posts ? (
+        <>
+          {saveTab ? (
+            <PostGallery posts={savePosts} />
+          ) : (
+            <PostGallery posts={posts} />
+          )}
+        </>
       ) : (
         <SpinLoader />
       )}

@@ -11,7 +11,10 @@ const PostCard = ({ posts }) => {
   return (
     <div>
       {posts.map((post) => (
-        <div key={post._id} style={{border: '1px solid black', margin : '10px'}}>
+        <div
+          key={post._id}
+          style={{ border: "1px solid black", margin: "10px" }}
+        >
           <PostHeader post={post} />
           <PostBody post={post} />
           <PostFooter post={post} />
