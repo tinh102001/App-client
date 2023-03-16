@@ -54,6 +54,7 @@ function CreatePostModal({ open, onClose, auth }) {
         payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
     dispatch(createPost({ content, images, auth }));
+
     dispatch({
       type: GLOBALTYPES.ALERT,
       payload: { success: "Đã đăng bài viết" },
@@ -62,17 +63,17 @@ function CreatePostModal({ open, onClose, auth }) {
     setImages([]);
     if (tracks) tracks.stop();
     dispatch({ type: GLOBALTYPES.STATUS, payload: false });
+    onClose();
   };
 
-  const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [hideUpLoad, setHideUpLoad] = useState(false);
   const onEmojiClick = (emojiObject, event) => {
     const textAreaElement = document.getElementById("status-input");
-    setInputStr(
-      inputStr.slice(0, textAreaElement.selectionStart) +
+    setContent(
+      content.slice(0, textAreaElement.selectionStart) +
         emojiObject.emoji +
-        inputStr.slice(textAreaElement.selectionStart)
+        content.slice(textAreaElement.selectionStart)
     );
   };
 
@@ -117,8 +118,7 @@ function CreatePostModal({ open, onClose, auth }) {
     }
   };
 
-  const handleClodeModal = () => {
-    setInputStr("");
+  const handleCloseModal = () => {
     setHideUpLoad(false);
     setShowPicker(false);
     setTracks("");
@@ -140,7 +140,7 @@ function CreatePostModal({ open, onClose, auth }) {
             className="btn btn-close"
             onClick={() => {
               onClose();
-              handleClodeModal();
+              handleCloseModal();
             }}
           ></div>
         </Modal.Header>
@@ -159,8 +159,8 @@ function CreatePostModal({ open, onClose, auth }) {
               className="status-input"
               id="status-input"
               placeholder={`${auth.user.username} ơi, bạn đang nghĩ gì thế?`}
-              value={inputStr}
-              onChange={(e) => setInputStr(e.target.value)}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e)}
             />
             <div
