@@ -38,15 +38,15 @@ const RegisterForm = () => {
   eyeToggle1s.forEach((eyeToggle) => {
     eyeToggle.addEventListener("click", (e) => {
       setIsShowPassword(!isShowPassword);
-    })
-  })
+    });
+  });
 
   const eyeToggle2s = Array.from(document.getElementsByClassName("eyeToggle2"));
   eyeToggle2s.forEach((eyeToggle) => {
     eyeToggle.addEventListener("click", (e) => {
       setIsShowPasswordAgain(!isShowPasswordAgain);
-    })
-  })
+    });
+  });
 
   const handleCheckUserName = (username) => {
     if (!username) {
@@ -231,7 +231,7 @@ const RegisterForm = () => {
               </div>
               <input
                 id="passwordText"
-                type={ isShowPassword ? "text" : "password"}
+                type={isShowPassword ? "text" : "password"}
                 className="form-control"
                 placeholder={"Nhập mật khẩu"}
                 {...formik.getFieldProps("password")}
@@ -279,7 +279,7 @@ const RegisterForm = () => {
               </div>
               <input
                 id="passwordAgainText"
-                type={ isShowPasswordAgain ? "text" : "password"}
+                type={isShowPasswordAgain ? "text" : "password"}
                 className="form-control"
                 placeholder={"Xác nhận lại mật khẩu"}
                 {...formik.getFieldProps("confirmPassword")}
@@ -344,14 +344,6 @@ const RegisterForm = () => {
               </div>
             </div>
           </div>
-          {formik.touched.email && formik.errors.email ? (
-            <div
-              className="fv-plugins-message-container"
-              style={{ paddingLeft: "40px" }}
-            >
-              <div className="fv-help-block">{formik.errors.email}</div>
-            </div>
-          ) : null}
         </Col>
       </Row>
       <Row className="mt-2">
