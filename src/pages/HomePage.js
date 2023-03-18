@@ -15,6 +15,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   const [load, setLoad] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     dispatch(getPosts(auth.token));
@@ -23,6 +24,7 @@ const HomePage = () => {
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
     const res = await getAPI(`posts?limit=${homePosts.page * 6}`, auth.token);
+    if(res.data.posts.length === res.data.totalPosts) setHasMore(false)
     dispatch({
       type: POST_TYPES.GET_POSTS,
       payload: { ...res.data, page: homePosts.page + 1 },
@@ -32,13 +34,13 @@ const HomePage = () => {
 
   useEffect(() => {
     const onScroll = async function () {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasMore) {
         handleLoadMore();
       }
     };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [handleLoadMore]);
+  }, [handleLoadMore, hasMore]);
 
   return (
     <div className="home-page-wrapper">
@@ -53,6 +55,7 @@ const HomePage = () => {
         <div>No Post</div>
       )}
       {load && <SkeletonLoader />}
+      {!hasMore && <div>Đã hiển thị hết các bài viết</div>}
     </div>
   );
 };
