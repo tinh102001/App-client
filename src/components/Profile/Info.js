@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import FollowButton from "../Button/FollowButton";

@@ -3,18 +3,16 @@ import React from "react";
 import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
-
 import InputComment from "../Comment/InputComment";
 import Comments from "../Comment/Comment";
+import "./Style/style.scss";
 
 const PostCard = ({ posts }) => {
+  console.log(posts);
   return (
-    <div>
+    <div className="posts-card">
       {posts.map((post) => (
-        <div
-          key={post._id}
-          style={{ border: "1px solid black", margin: "10px" }}
-        >
+        <div key={post._id} className="post">
           <PostHeader post={post} />
           <PostBody post={post} />
           <PostFooter post={post} />

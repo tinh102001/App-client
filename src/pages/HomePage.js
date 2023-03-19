@@ -9,6 +9,8 @@ import Header from "../components/Header/Header";
 import Alert from "../components/Alert/Alert";
 import PostCard from "../components/PostCard/PostCard";
 import SkeletonLoader from "../components/Loading/SkeletonLoader";
+import Left from "../components/Sidebar/Left";
+import Right from "../components/Sidebar/Right";
 
 const HomePage = () => {
   const { auth, homePosts } = useSelector((state) => state);
@@ -24,7 +26,7 @@ const HomePage = () => {
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
     const res = await getAPI(`posts?limit=${homePosts.page * 6}`, auth.token);
-    if(res.data.posts.length === res.data.totalPosts) setHasMore(false)
+    if (res.data.posts.length === res.data.totalPosts) setHasMore(false);
     dispatch({
       type: POST_TYPES.GET_POSTS,
       payload: { ...res.data, page: homePosts.page + 1 },
@@ -34,7 +36,10 @@ const HomePage = () => {
 
   useEffect(() => {
     const onScroll = async function () {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasMore) {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasMore
+      ) {
         handleLoadMore();
       }
     };
@@ -46,16 +51,23 @@ const HomePage = () => {
     <div className="home-page-wrapper">
       <Header />
       <Alert />
-      <div>Hello {auth.user.username}</div>
-      <Status />
+      <div className="container-fluid">
+        <div className="flex-xl-nowrap row">
+          <Left></Left>
+          <div className="container-content col-xl-6 col-md-9 col-12">
+            <Status />
 
-      {homePosts.posts.length !== 0 ? (
-        <PostCard posts={homePosts.posts} />
-      ) : (
-        <div>No Post</div>
-      )}
-      {load && <SkeletonLoader />}
-      {!hasMore && <div>Đã hiển thị hết các bài viết</div>}
+            {homePosts.posts.length !== 0 ? (
+              <PostCard posts={homePosts.posts} />
+            ) : (
+              <div>No Post</div>
+            )}
+            {load && <SkeletonLoader />}
+            {!hasMore && <div>Đã hiển thị hết các bài viết</div>}
+          </div>
+          <Right></Right>
+        </div>
+      </div>
     </div>
   );
 };

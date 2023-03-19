@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { createPost } from "../../redux/actions/postActions";
@@ -163,7 +163,31 @@ function CreatePostModal({ open, onClose, auth }) {
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e)}
             />
-            <div
+            <OverlayTrigger
+              show={showPicker}
+              placement="bottom-end"
+              overlay={
+                <Tooltip id="tooltip-emoji">
+                  <div>
+                    <Picker
+                      className="emoji-picker"
+                      onEmojiClick={onEmojiClick}
+                    />
+                  </div>
+                </Tooltip>
+              }
+            >
+              {({ ...triggerHandler }) => (
+                <div
+                  {...triggerHandler}
+                  className="icon-emoji"
+                  onClick={() => setShowPicker(!showPicker)}
+                >
+                  <FontAwesomeIcon icon={faFaceSmile} />
+                </div>
+              )}
+            </OverlayTrigger>
+            {/* <div
               className="icon-emoji"
               onClick={() => setShowPicker(!showPicker)}
             >
@@ -171,7 +195,7 @@ function CreatePostModal({ open, onClose, auth }) {
               {showPicker && (
                 <Picker className="emoji-picker" onEmojiClick={onEmojiClick} />
               )}
-            </div>
+            </div> */}
           </div>
           <div className="upload-image-container">
             <div className="show_images">
