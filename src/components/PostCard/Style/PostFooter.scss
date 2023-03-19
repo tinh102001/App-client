@@ -1,0 +1,102 @@
+.post-footer {
+  padding: 0 16px 12px;
+  .number-details {
+    display: flex;
+    justify-content: space-between;
+    color: #65676b;
+    border-bottom: 1px solid #ced0d4;
+    padding: 10px 0;
+    .number-likes {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    .number-comments {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .icon-comment {
+        background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yZ/r/CU34OlhYYa_.png");
+        background-position: 0px -418px;
+        background-size: 26px 698px;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+  }
+
+  .tools-post {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ced0d4;
+    font-weight: 600;
+    .tool {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      height: 40px;
+    }
+    .tool:hover {
+      background: #f0f2f5;
+      cursor: pointer;
+    }
+    .like-post {
+      .like-icon {
+        background-size: 26px 698px;
+        width: 18px;
+        height: 18px;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+    .icon-like {
+      .like-icon {
+        background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yZ/r/CU34OlhYYa_.png");
+        background-position: 0px -232px;
+      }
+    }
+    .icon-unlike {
+      color: #2078f4;
+      .like-icon {
+        background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yZ/r/CU34OlhYYa_.png");
+        background-position: 0px -212px;
+        -webkit-filter: invert(39%) sepia(57%) saturate(200%) saturate(200%)
+          saturate(200%) saturate(200%) saturate(200%) saturate(147.75%)
+          hue-rotate(202deg) brightness(97%) contrast(96%);
+      }
+    }
+
+    .comment-post {
+      .icon-comment {
+        background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yZ/r/CU34OlhYYa_.png");
+        background-position: 0px -418px;
+        background-size: 26px 698px;
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+
+    .save-post {
+      .icon-save {
+        path {
+          fill: #ffc107;
+        }
+      }
+      .icon-save ~ .save {
+        color: #ffc107;
+      }
+    }
+  }
+}

@@ -14,12 +14,11 @@ import Info from "../components/Profile/Info";
 
 const MyProfile = () => {
   const { auth, profile } = useSelector((state) => state);
-
-  const [load, setLoad] = useState(false);
+  // const [load, setLoad] = useState(false);
   const [saveTab, setSaveTab] = useState(false);
   const [posts, setPosts] = useState([]);
   const [savePosts, setSavePosts] = useState([]);
-  const [selectedItem, setSelectedItem] = useState('item1');
+  const [selectedItem, setSelectedItem] = useState("item1");
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -41,11 +40,11 @@ const MyProfile = () => {
   }, [auth.token, id]);
 
   useEffect(() => {
-    setLoad(true);
+    // setLoad(true);
     getAPI(`get_save_posts`, auth.token)
       .then((res) => {
         setSavePosts(res.data.savePosts);
-        setLoad(false);
+        // setLoad(false);
       })
       .catch((err) => {
         dispatch({
@@ -59,11 +58,11 @@ const MyProfile = () => {
 
   const handleClick = (item) => {
     setSelectedItem(item);
-    setSaveTab(!saveTab)
-  }
+    setSaveTab(!saveTab);
+  };
 
   const handleLoadMore = useCallback(async () => {
-    setLoad(true);
+    // setLoad(true);
     if (!saveTab) {
       const res = await getAPI(
         `user_posts/${id}?page=${profile.page + 1}`,
@@ -75,7 +74,7 @@ const MyProfile = () => {
       });
       setPosts([...posts, ...res.data.posts]);
     }
-    setLoad(false);
+    // setLoad(false);
   }, [auth.token, profile.page, posts, id, dispatch, saveTab]);
 
   useEffect(() => {
@@ -95,10 +94,18 @@ const MyProfile = () => {
       <div className="profile-content">
         {auth.user._id === id && (
           <div className="profile_tab">
-            <Link className={selectedItem === 'item1' ? 'selected' : ''} 
-              onClick={() => handleClick('item1')}>Bài viết</Link>
-            <Link className={selectedItem === 'item2' ? 'selected' : ''} 
-              onClick={() => handleClick('item2')}>Đã lưu</Link>
+            <Link
+              className={selectedItem === "item1" ? "selected" : ""}
+              onClick={() => handleClick("item1")}
+            >
+              Bài viết
+            </Link>
+            <Link
+              className={selectedItem === "item2" ? "selected" : ""}
+              onClick={() => handleClick("item2")}
+            >
+              Đã lưu
+            </Link>
           </div>
         )}
         {posts ? (
