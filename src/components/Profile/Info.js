@@ -41,21 +41,26 @@ const Info = ({ id, auth, profile, dispatch }) => {
       {userData.map((user) => (
         <div className="myprofile-container" key={user._id}>
           <div className="header-profile">
-            <img className="avatar" src={user.avatar} alt="Ảnh đại diện" />
-            <div className="main">
-              <div className="name">
-                <h1>{user.username}</h1>
+            <div className="avatar-container">
+              <img className="avatar" src={user.avatar} alt="Ảnh đại diện" />
+              {id === auth.user._id ? (
                 <Button
                   className="editprofile"
                   type="primary"
                   onClick={() => setIsShowEditProfile(true)}
                 >
-                  <EditOutlined />
+                  {/* <EditOutlined /> */}
                   Chỉnh sửa trang cá nhân
                 </Button>
+              ) : (
+                <FollowButton user={user} />
+              )}
+            </div>
+            <div className="main">
+              <div className="name">
+                <h1>{user.username}</h1>
               </div>
               <div className="follow">
-                <div>{user.story.length} bài viết</div>
                 <div
                   className="followers"
                   onClick={() => setIsShowFollowers(true)}
@@ -72,12 +77,7 @@ const Info = ({ id, auth, profile, dispatch }) => {
               <div className="fullname">Tên đầy đủ: {user.fullname}</div>
             </div>
           </div>
-          {id === auth.user._id ? (
-            <button>Edit Profile</button>
-          ) : (
-            <FollowButton user={user} />
-          )}
-          <div className="info">
+          <div className="info-user">
             <div className="address">Địa chỉ: {user.address}</div>
             <div className="mobile">Số điện thoại: {user.mobile}</div>
             <div className="gender">Giới tính: {user.gender}</div>

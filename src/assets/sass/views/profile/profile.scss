@@ -1,0 +1,21 @@
+.profile-content {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    .profile_tab {
+        border-top: solid 1px #ccc;
+        display: flex;
+        margin: auto;
+        align-items: center;
+        justify-content: center;
+        a {
+            text-decoration: none;
+            padding: 20px;
+            color: black;
+        }
+        .selected {
+            background-color: #ccc;
+        }  
+    }
+}

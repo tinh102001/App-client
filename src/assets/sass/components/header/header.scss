@@ -7,7 +7,7 @@
     width: 100%;
     height: 70px;
     border-bottom: solid 1.5px #f1f1f1;
-    background-color: #ffffff;
+    
     .logo {
         left: 50px;
         display: flex;
@@ -22,7 +22,7 @@
         margin: 50px auto;
         .form-control {
             margin: auto;
-            width: 80%;
+            width: 60%;
         }
         // .search-user {
         //     position: absolute;
@@ -35,7 +35,7 @@
     }
 
     .menu {
-        flex: 4;
+        flex: 3;
         display: flex;
         float: right;
         .profile {
@@ -49,12 +49,26 @@
             cursor: pointer;
             border: solid 2px #f1f1f1;
         }
-        .btn-notification {
+        .btn-notification{
             display: flex;
+            left: 50px;
             align-items: center;
             margin: auto;
             margin-right: 20px;
-            vertical-align: middle;
+            // vertical-align: middle;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 0;
+            background-color: #f1f1f1;
+        }
+
+        .btn-discover {
+            display: flex;
+            align-items: center;
+            margin: auto;
+            // margin-right: 20px;
+            // vertical-align: middle;
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -63,6 +77,9 @@
         }
 
         .btn-notification:hover {
+            background-color: #c7c8c9;
+        }
+        .btn-discover:hover {
             background-color: #c7c8c9;
         }
         .menu-profile {

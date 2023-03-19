@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { follow, unfollow } from "../../redux/actions/profileActions";
+import { Button } from "antd";
 
 const FollowButton = ({ user }) => {
   const [followed, setFollowed] = useState(false);
@@ -38,9 +39,9 @@ const FollowButton = ({ user }) => {
   return (
     <>
       {followed ? (
-        <button onClick={handleUnFollow}>UnFollow</button>
+        <Button type="primary" onClick={handleUnFollow}>UnFollow</Button>
       ) : (
-        <button onClick={handleFollow}>Follow</button>
+        <Button onClick={handleFollow}>Follow</Button>
       )}
     </>
   );

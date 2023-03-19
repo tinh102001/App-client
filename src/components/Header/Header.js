@@ -7,6 +7,7 @@ import {
   HeartOutlined,
   KeyOutlined,
   LogoutOutlined,
+  CompassFilled,
 } from "@ant-design/icons";
 import { Menu, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,8 +66,8 @@ const Header = () => {
 
   const handleClick = (e) => {
     if (e.key === "sub1") navigate(`/profile/${auth.user._id}`);
-    if (e.key === "sub2") navigate(`/password`);
-    if (e.key === "sub3") navigate(`/setting`);
+    if (e.key === "sub2") navigate("/password");
+    if (e.key === "sub3") navigate("/setting");
     if (e.key === "sub4") setCheckLogout(true);
   };
 
@@ -130,6 +131,12 @@ const Header = () => {
         <button className="btn-notification" onClick={handleNotification}>
           <HeartOutlined
             className="notification-icon"
+            style={{ fontSize: "24px", margin: "auto" }}
+          />
+        </button>
+        <button className="btn-discover" onClick={() => navigate("/explore")}>
+          <CompassFilled
+            className="discover-icon"f
             style={{ fontSize: "24px", margin: "auto" }}
           />
         </button>

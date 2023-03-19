@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Header from "../components/Header/Header";
@@ -19,6 +19,7 @@ const MyProfile = () => {
   const [saveTab, setSaveTab] = useState(false);
   const [posts, setPosts] = useState([]);
   const [savePosts, setSavePosts] = useState([]);
+  const [selectedItem, setSelectedItem] = useState('item1');
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -56,6 +57,11 @@ const MyProfile = () => {
     return () => setSavePosts([]);
   }, [auth.token, dispatch]);
 
+  const handleClick = (item) => {
+    setSelectedItem(item);
+    setSaveTab(!saveTab)
+  }
+
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
     if (!saveTab) {
@@ -86,24 +92,28 @@ const MyProfile = () => {
     <div>
       <Header />
       <Info id={id} auth={auth} profile={profile} dispatch={dispatch} />
-      {auth.user._id === id && (
-        <div className="profile_tab">
-          <button onClick={() => setSaveTab(false)}>Posts</button>
-          <button onClick={() => setSaveTab(true)}>Saved</button>
-        </div>
-      )}
-      {posts ? (
-        <>
-          {saveTab ? (
-            <PostGallery posts={savePosts} />
-          ) : (
-            <PostGallery posts={posts} />
-          )}
-        </>
-      ) : (
-        <SpinLoader />
-      )}
-      {load && <SpinLoader />}
+      <div className="profile-content">
+        {auth.user._id === id && (
+          <div className="profile_tab">
+            <Link className={selectedItem === 'item1' ? 'selected' : ''} 
+              onClick={() => handleClick('item1')}>Bài viết</Link>
+            <Link className={selectedItem === 'item2' ? 'selected' : ''} 
+              onClick={() => handleClick('item2')}>Đã lưu</Link>
+          </div>
+        )}
+        {posts ? (
+          <>
+            {saveTab ? (
+              <PostGallery posts={savePosts} />
+            ) : (
+              <PostGallery posts={posts} />
+            )}
+          </>
+        ) : (
+          <SpinLoader />
+        )}
+        {/* {load && <SpinLoader />} */}
+      </div>
     </div>
   );
 };
