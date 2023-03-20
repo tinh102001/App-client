@@ -1,0 +1,26 @@
+.container-comment {
+  display: flex;
+  align-items: center;
+  padding: 0 16px 12px;
+  gap: 8px;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .comment-input {
+    height: 40px;
+    border-radius: 18px;
+    background: #f0f2f5;
+    resize: none;
+    flex: 1;
+    padding: 0;
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+  }
+  .comment-input::-webkit-input-placeholder {
+    color: #65676b;
+    font-weight: 500;
+  }
+}

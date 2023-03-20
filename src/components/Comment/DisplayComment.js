@@ -10,9 +10,9 @@ const DisplayComment = ({ comment, post, replyCm }) => {
   }, [replyCm, next]);
 
   return (
-    <div>
+    <div className="comment-container">
       <CommentCard comment={comment} post={post} commentId={comment._id}>
-        <div>
+        <div className="comments">
           {showRep.map(
             (item, index) =>
               item.reply && (
@@ -25,13 +25,17 @@ const DisplayComment = ({ comment, post, replyCm }) => {
               )
           )}
 
-          {replyCm.length - next > 0 ? (
-            <div onClick={() => setNext(next + 10)}>See more comments...</div>
-          ) : (
-            replyCm.length > 1 && (
-              <div onClick={() => setNext(1)}>Hide comments...</div>
-            )
-          )}
+          <div className="btn-add-hide-comment">
+            {replyCm.length - next > 0 ? (
+              <div onClick={() => setNext(next + 10)}>
+                Xem thêm bình luận...
+              </div>
+            ) : (
+              replyCm.length > 1 && (
+                <div onClick={() => setNext(1)}>Ẩn bình luận...</div>
+              )
+            )}
+          </div>
         </div>
       </CommentCard>
     </div>
