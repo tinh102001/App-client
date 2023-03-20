@@ -15,8 +15,8 @@ const PostCard = ({ posts }) => {
           <PostHeader post={post} />
           <PostBody post={post} />
           <PostFooter post={post} />
-          <Comments post={post} />
           <InputComment post={post} />
+          <Comments post={post} />
         </div>
       ))}
     </div>
