@@ -9,11 +9,13 @@ import Header from "../components/Header/Header";
 import Alert from "../components/Alert/Alert";
 import PostCard from "../components/PostCard/PostCard";
 import SkeletonLoader from "../components/Loading/SkeletonLoader";
+import UserSuggest from "../components/UserSuggest/UserSuggest";
+import { getSuggestions } from "../redux/actions/suggestionsAction";
 import Left from "../components/Sidebar/Left";
 import Right from "../components/Sidebar/Right";
 
 const HomePage = () => {
-  const { auth, homePosts } = useSelector((state) => state);
+  const { auth, homePosts, suggestions } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [load, setLoad] = useState(false);
@@ -21,6 +23,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getPosts(auth.token));
+    dispatch(getSuggestions(auth.token));
   }, [auth.token, dispatch]);
 
   const handleLoadMore = useCallback(async () => {
@@ -56,7 +59,7 @@ const HomePage = () => {
           <Left></Left>
           <div className="container-content col-xl-6 col-md-9 col-12">
             <Status />
-
+            <UserSuggest users={suggestions.users}/>
             {homePosts.posts.length !== 0 ? (
               <PostCard posts={homePosts.posts} />
             ) : (

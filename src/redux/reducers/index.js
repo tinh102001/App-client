@@ -5,6 +5,7 @@ import profile from "./profileReducer";
 import alert from "./alertReducer";
 import explore from "./exploreReducer";
 import detailPost from "./detailPostReducer";
+import suggestions from './suggestionsReducer';
 
 export default combineReducers({
   auth,
@@ -13,4 +14,5 @@ export default combineReducers({
   alert,
   explore,
   detailPost,
+  suggestions,
 });
