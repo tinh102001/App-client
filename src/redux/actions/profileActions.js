@@ -70,7 +70,7 @@ export const follow =
     });
 
     try {
-     await patchAPI(`user/${user._id}/follow`, null, auth.token);
+      await patchAPI(`user/${user._id}/follow`, null, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -92,7 +92,6 @@ export const unfollow =
     } else {
       users.forEach((item) => {
         if (item._id === user._id) {
-          console.log(item)
           newUser = {
             ...item,
             followers: DeleteData(item.followers, auth.user._id),
@@ -114,7 +113,7 @@ export const unfollow =
     });
 
     try {
-       await patchAPI(`user/${user._id}/unfollow`, null, auth.token);
+      await patchAPI(`user/${user._id}/unfollow`, null, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
