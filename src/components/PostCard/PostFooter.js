@@ -11,7 +11,6 @@ import {
   unSavePost,
 } from "../../redux/actions/postActions";
 
-
 const PostFooter = ({ post }) => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -29,11 +28,6 @@ const PostFooter = ({ post }) => {
     }
   }, [post.likes, auth.user._id]);
 
-  // useEffect(() => {
-  //   if (!isLike) handleLike();
-  //   else handleUnLike();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isLike]);
   const handleLike = async (e) => {
     e.preventDefault();
     if (loadLike) return;
@@ -99,7 +93,11 @@ const PostFooter = ({ post }) => {
           }}
         >
           <span className={`like-icon`}></span>
-          <span className="like">Thích</span>
+          {isLike ? (
+            <span className="like">Bỏ thích</span>
+          ) : (
+            <span className="like">Thích</span>
+          )}
         </div>
         <div className="tool comment-post">
           <span className="icon-comment"></span>
@@ -115,28 +113,15 @@ const PostFooter = ({ post }) => {
           <span className="icon-comment"></span>
           <FontAwesomeIcon
             icon={faBookmark}
-            className={`${!saved ? "icon-save" : "icon-un-save"}`}
+            className={`${saved ? "icon-save" : "icon-un-save"}`}
           />
-          <span className="save">Lưu bài viết</span>
+          {saved ? (
+            <span className="save">Bỏ lưu bài viết</span>
+          ) : (
+            <span className="save">Lưu bài viết</span>
+          )}
         </div>
       </div>
-      {/* <div>
-        <LikeButton
-          isLike={isLike}
-          handleLike={handleLike}
-          handleUnLike={handleUnLike}
-        />
-        <SaveButton
-          isSaved={saved}
-          handleSavePost={handleSavePost}
-          handleUnSavePost={handleUnSavePost}
-        />
-      </div>
-      <div>
-        <h6>{post.likes.length} likes</h6>
-
-        <h6>{post.comments.length} comments</h6>
-      </div> */}
     </div>
   );
 };

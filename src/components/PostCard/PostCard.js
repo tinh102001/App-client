@@ -8,7 +8,6 @@ import Comments from "../Comment/Comment";
 import "./Style/style.scss";
 
 const PostCard = ({ posts }) => {
-  console.log(posts);
   return (
     <div className="posts-card">
       {posts.map((post) => (

@@ -1,8 +1,9 @@
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from "moment";
 import React from "react";
 import { NavDropdown } from "react-bootstrap";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
 const PostHeader = ({ post }) => {
   return (
@@ -12,10 +13,11 @@ const PostHeader = ({ post }) => {
           <img className="avatar" src={post.user.avatar} alt="avatar" />
         </div>
         <div className="content flex-grow-1">
-          <span className="user-name">{post.user.username}</span>
-          <span className="post-time">
-            {moment(post.createdAt).startOf("hour").fromNow()}
-          </span>
+          <Link to={`/profile/${post.user._id}`} style={{"text-decoration": "none"}}>
+            <span className="user-name">{post.user.username}</span>{" "}
+          </Link>
+
+          <span className="post-time">{moment(post.createdAt).fromNow()}</span>
         </div>
         <NavDropdown
           className="nav-dropdown-post"
