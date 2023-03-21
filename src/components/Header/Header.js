@@ -136,7 +136,7 @@ const Header = () => {
         </button>
         <button className="btn-discover" onClick={() => navigate("/explore")}>
           <CompassFilled
-            className="discover-icon"f
+            className="discover-icon"
             style={{ fontSize: "24px", margin: "auto" }}
           />
         </button>

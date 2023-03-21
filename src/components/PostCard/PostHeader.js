@@ -13,7 +13,7 @@ const PostHeader = ({ post }) => {
           <img className="avatar" src={post.user.avatar} alt="avatar" />
         </div>
         <div className="content flex-grow-1">
-          <Link to={`/profile/${post.user._id}`} style={{"text-decoration": "none"}}>
+          <Link to={`/profile/${post.user._id}`} style={{"textDecoration": "none"}}>
             <span className="user-name">{post.user.username}</span>{" "}
           </Link>
 
