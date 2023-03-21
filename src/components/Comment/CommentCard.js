@@ -1,22 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import SVG from "react-inlinesvg";
 import InputComment from "./InputComment";
 
-const CommentCard = ({ children, comment, post }) => {
+import { likeComment, unLikeComment } from "../../redux/actions/commentActions";
+
+const CommentCard = ({ children, comment, post, commentId }) => {
   const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const [content, setContent] = useState("");
   const [readMore, setReadMore] = useState(false);
-
+  const [isLike, setIsLike] = useState(false);
+  const [loadLike, setLoadLike] = useState(false);
   const [onReply, setOnReply] = useState(false);
 
   useEffect(() => {
     setContent(comment.content);
     setOnReply(false);
+    setIsLike(false);
+    if (comment.likes.find((like) => like._id === auth.user._id)) {
+      setIsLike(true);
+    }
   }, [comment, auth.user._id]);
+
+  const handleLike = async () => {
+    if (loadLike) return;
+    setIsLike(true);
+
+    setLoadLike(true);
+    await dispatch(likeComment({ comment, post, auth }));
+    setLoadLike(false);
+  };
+
+  const handleUnLike = async () => {
+    if (loadLike) return;
+    setIsLike(false);
+
+    setLoadLike(true);
+    await dispatch(unLikeComment({ comment, post, auth }));
+    setLoadLike(false);
+  };
+
+  const handleReply = () => {
+    if (onReply) return setOnReply(false);
+    setOnReply({ ...comment, commentId });
+  };
   return (
     <div className="comment-card">
       <Link to={`/profile/${comment.user._id}`}>
@@ -27,12 +58,12 @@ const CommentCard = ({ children, comment, post }) => {
 
       <div className="container">
         <div className="content-comment ">
+          <div className="user-comment">{comment.user.username}</div>
           {comment.tag && comment.tag._id !== comment.user._id && (
             <Link to={`/profile/${comment.tag._id}`} className="mr-1">
               @{comment.tag.username}
             </Link>
           )}
-          <div className="user-comment">{comment.user.username}</div>
           <span className="content">
             {content.length < 100
               ? content
@@ -57,8 +88,21 @@ const CommentCard = ({ children, comment, post }) => {
         </div>
 
         <div className="footer-comment">
-          <small className="tool-footer like-comment">Thích</small>
-          <small className="tool-footer feedback">Phản hồi</small>
+          <div
+            onClick={(e) => {
+              if (!isLike) handleLike(e);
+              else handleUnLike(e);
+            }}
+          >
+            {isLike ? (
+              <small className="tool-footer like-comment">Bỏ thích</small>
+            ) : (
+              <small className="tool-footer like-comment">Thích</small>
+            )}
+          </div>
+          <small className="tool-footer feedback" onClick={handleReply}>
+            {onReply ? "Hủy" : "Phản hồi"}
+          </small>
           <small className="tool-footer time-comment">
             {moment(comment.createdAt).fromNow()}
           </small>
@@ -67,7 +111,7 @@ const CommentCard = ({ children, comment, post }) => {
 
       {onReply && (
         <InputComment post={post} onReply={onReply} setOnReply={setOnReply}>
-          <Link to={`/profile/${onReply.user._id}`} className="mr-1">
+          <Link to={`/profile/${onReply.user._id}`}>
             @{onReply.user.username}:
           </Link>
         </InputComment>

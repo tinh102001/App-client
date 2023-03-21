@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createComment } from "../../redux/actions/commentActions";
 import "./Style/InputComment.scss";
 
-const InputComment = ({ post }) => {
+const InputComment = ({ post, children, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
 
   const { auth } = useSelector((state) => state);
@@ -11,14 +11,23 @@ const InputComment = ({ post }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!content.trim()) {
+      if (setOnReply) return setOnReply(false);
+      return;
+    }
+
+    setContent("");
     const newComment = {
       content,
       likes: [],
       user: auth.user,
       createdAt: new Date().toISOString(),
+      reply: onReply && onReply.commentId,
+      tag: onReply && onReply.user,
     };
 
     dispatch(createComment({ post, newComment, auth }));
+    if (setOnReply) return setOnReply(false);
   };
 
   const handleKeyDown = (evt) => {
@@ -30,6 +39,7 @@ const InputComment = ({ post }) => {
   return (
     <div className="container-comment">
       <img className="avatar" src={auth.user.avatar} alt="avatar" />
+      {children}
       <textarea
         className="comment-input"
         id="comment-input"
