@@ -9,11 +9,16 @@ const PostHeader = ({ post }) => {
   return (
     <div className="card-header">
       <div className="header-container d-flex align-items-center">
-        <div className="avatar-container">
-          <img className="avatar" src={post.user.avatar} alt="avatar" />
-        </div>
+        <Link to={`/profile/${post.user._id}`}>
+          <div className="avatar-container">
+            <img className="avatar" src={post.user.avatar} alt="avatar" />
+          </div>
+        </Link>
         <div className="content flex-grow-1">
-          <Link to={`/profile/${post.user._id}`} style={{"textDecoration": "none"}}>
+          <Link
+            to={`/profile/${post.user._id}`}
+            style={{ "text-decoration": "none" }}
+          >
             <span className="user-name">{post.user.username}</span>{" "}
           </Link>
 

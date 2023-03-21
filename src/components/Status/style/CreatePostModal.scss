@@ -105,6 +105,9 @@
       .show_images {
         .file_img {
           position: relative;
+          img {
+            width: 100%;
+          }
         }
       }
 
