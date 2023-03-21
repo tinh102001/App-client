@@ -17,7 +17,7 @@ const PostHeader = ({ post }) => {
         <div className="content flex-grow-1">
           <Link
             to={`/profile/${post.user._id}`}
-            style={{ "text-decoration": "none" }}
+            style={{ "textDecoration": "none" }}
           >
             <span className="user-name">{post.user.username}</span>{" "}
           </Link>
