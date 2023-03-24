@@ -25,6 +25,15 @@
       margin: auto;
       width: 60%;
     }
+    .users{
+      position: absolute;
+      width: 50%;
+      min-width: 250px;
+      background: #fafafa;
+      max-height: calc(100vh - 150px);
+      overflow: auto;
+      margin-top: 3px;
+    }
     // .search-user {
     //     position: absolute;
     //     margin-top: 3px;
@@ -149,3 +158,4 @@
     }
   }
 }
+

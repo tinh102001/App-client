@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ProfileOutlined,
@@ -11,9 +11,13 @@ import {
 } from "@ant-design/icons";
 import { Menu, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+
 import { logout } from "../../redux/actions/authActions";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { getAPI } from "../../utils/fetchAPI";
+
 import SpinLoader from "../Loading/SpinLoader";
-// import UserCard from '../UserCard/UserCard';
+import UserCard from "../UserCard/UserCard";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -39,12 +43,13 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([]);
+  const [load, setLoad] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [checkLogout, setCheckLogout] = useState(false);
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isShowNotification, setIsShowNotification] = useState(false);
   const [openKeys, setOpenKeys] = useState(["sub1"]);
-  // const [users, setUsers] = useState([])
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -54,14 +59,29 @@ const Header = () => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (!search) return;
 
-  const handeSearch = (e) => {
-    setSearch(e.target.value.toLowerCase());
-    if (search) {
-      setIsSearch(true);
-    } else {
-      setIsSearch(false);
-    }
+      try {
+        setLoad(true);
+        const res = await getAPI(`search?username=${search}`, auth.token);
+        setUsers(res.data.searchResult);
+        setLoad(false);
+      } catch (err) {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { error: err.response.data.msg },
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search, auth.token, dispatch]);
+
+  const handleClose = () => {
+    setSearch("");
+    setUsers([]);
   };
 
   const handleClick = (e) => {
@@ -109,23 +129,31 @@ const Header = () => {
       </div>
       <form className="search-form">
         <input
+          id="search"
           type="text"
           className="form-control"
           placeholder="Search"
-          onChange={(e) => handeSearch(e)}
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
+          }
           onFocus={handleFocus}
           onBlur={() => {
             setIsSearch(false);
           }}
         />
-        {/* {isSearch && 
-          users.map(user => {
-            <UserCard 
-              key={user.id}
-              props={user}
-            />
-          })
-        } */}
+        {load && <SpinLoader />}
+        <div className="users">
+          {search &&
+            users.map((user) => (
+              <UserCard
+                key={user._id}
+                user={user}
+                border="border"
+                handleClose={handleClose}
+              />
+            ))}
+        </div>
       </form>
       <div className="menu">
         <button className="btn-notification" onClick={handleNotification}>
