@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { POST_TYPES, getPosts } from "../redux/actions/postActions";
+import { POST_TYPES } from "../redux/actions/postActions";
 import { getAPI } from "../utils/fetchAPI";
 
 import Status from "../components/Status/Status";
@@ -10,7 +10,6 @@ import Alert from "../components/Alert/Alert";
 import PostCard from "../components/PostCard/PostCard";
 import SkeletonLoader from "../components/Loading/SkeletonLoader";
 import UserSuggest from "../components/UserSuggest/UserSuggest";
-import { getSuggestions } from "../redux/actions/suggestionsAction";
 import Left from "../components/Sidebar/Left";
 import Right from "../components/Sidebar/Right";
 
@@ -20,11 +19,6 @@ const HomePage = () => {
 
   const [load, setLoad] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
-  useEffect(() => {
-    dispatch(getPosts(auth.token));
-    dispatch(getSuggestions(auth.token));
-  }, [auth.token, dispatch]);
 
   const handleLoadMore = useCallback(async () => {
     setLoad(true);
@@ -59,11 +53,13 @@ const HomePage = () => {
           <Left></Left>
           <div className="container-content col-xl-6 col-md-9 col-12">
             <Status />
-            <UserSuggest users={suggestions.users}/>
-            {homePosts.posts.length !== 0 ? (
-              <PostCard posts={homePosts.posts} />
+            <UserSuggest users={suggestions.users} />
+            {homePosts.loading ? (
+              <SkeletonLoader />
+            ) : homePosts.result === 0 && homePosts.posts.length === 0 ? (
+              <h2 className="text-center">No Post</h2>
             ) : (
-              <div>No Post</div>
+              <PostCard posts={homePosts.posts} />
             )}
             {load && <SkeletonLoader />}
             {!hasMore && <div>Đã hiển thị hết các bài viết</div>}

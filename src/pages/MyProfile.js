@@ -2,26 +2,42 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import { getProfileUsers } from "../redux/actions/profileActions";
+import { getAPI } from "../utils/fetchAPI";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
+
 import Header from "../components/Header/Header";
 import SpinLoader from "../components/Loading/SpinLoader";
 import PostGallery from "../components/PostGallery/PostGallery";
-
-import { getProfileUsers } from "../redux/actions/profileActions";
-import { getAPI } from "../utils/fetchAPI";
-import { PROFILE_TYPES } from "../redux/actions/profileActions";
-import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import Info from "../components/Profile/Info";
 
 const MyProfile = () => {
   const { auth, profile } = useSelector((state) => state);
-  // const [load, setLoad] = useState(false);
-  const [saveTab, setSaveTab] = useState(false);
-  const [posts, setPosts] = useState([]);
-  const [savePosts, setSavePosts] = useState([]);
-  const [selectedItem, setSelectedItem] = useState("item1");
-
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  const [load, setLoad] = useState(false);
+
+  const [posts, setPosts] = useState([]);
+  const [result, setResult] = useState(6);
+  const [page, setPage] = useState(0);
+
+  const [saveTab, setSaveTab] = useState(false);
+  const [savePosts, setSavePosts] = useState([]);
+  const [resultSavedPosts, setResultSavedPosts] = useState(6);
+  const [pageSavedPosts, setPageSavedPosts] = useState(2);
+
+  const [selectedItem, setSelectedItem] = useState("item1");
+
+  useEffect(() => {
+    profile.posts.forEach((data) => {
+      if (data._id === id) {
+        setPosts(data.posts);
+        setResult(data.result);
+        setPage(data.page);
+      }
+    });
+  }, [profile.posts, id]);
 
   useEffect(() => {
     if (profile.ids.every((item) => item !== id)) {
@@ -29,22 +45,13 @@ const MyProfile = () => {
     }
   }, [id, auth, dispatch, profile.ids]);
 
-  const initPosts = async () => {
-    let res = await getAPI(`user_posts/${id}`, auth.token);
-    return setPosts(res.data.posts);
-  };
-
   useEffect(() => {
-    initPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.token, id]);
-
-  useEffect(() => {
-    // setLoad(true);
+    setLoad(true);
     getAPI(`get_save_posts`, auth.token)
       .then((res) => {
         setSavePosts(res.data.savePosts);
-        // setLoad(false);
+        setResultSavedPosts(res.data.result);
+        setLoad(false);
       })
       .catch((err) => {
         dispatch({
@@ -62,21 +69,21 @@ const MyProfile = () => {
   };
 
   const handleLoadMore = useCallback(async () => {
-    // setLoad(true);
+    setLoad(true);
     if (!saveTab) {
+      const res = await getAPI(`user_posts/${id}?page=${page + 1}`, auth.token);
+      setPage((page) => page + 1);
+      setPosts([...posts, ...res.data.posts]);
+    } else {
       const res = await getAPI(
-        `user_posts/${id}?page=${profile.page + 1}`,
+        `get_save_posts?page=${pageSavedPosts}`,
         auth.token
       );
-      dispatch({
-        type: PROFILE_TYPES.GET_POSTS,
-        payload: { ...res.data, page: profile.page + 1 },
-      });
-      setPosts([...posts, ...res.data.posts]);
+      setPageSavedPosts((pageSavedPosts) => pageSavedPosts + 1);
+      setSavePosts([...savePosts, ...res.data.savePosts]);
     }
-    // setLoad(false);
-  }, [auth.token, profile.page, posts, id, dispatch, saveTab]);
-
+    setLoad(false);
+  }, [auth.token, page, pageSavedPosts, posts, id, saveTab, savePosts]);
   useEffect(() => {
     const onScroll = async function () {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -111,15 +118,15 @@ const MyProfile = () => {
         {posts ? (
           <>
             {saveTab ? (
-              <PostGallery posts={savePosts} />
+              <PostGallery posts={savePosts} result={resultSavedPosts} />
             ) : (
-              <PostGallery posts={posts} />
+              <PostGallery posts={posts} result={result} />
             )}
           </>
         ) : (
           <SpinLoader />
         )}
-        {/* {load && <SpinLoader />} */}
+        {load && <SpinLoader />}
       </div>
     </div>
   );

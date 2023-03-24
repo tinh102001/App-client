@@ -20,31 +20,15 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         users: [...state.users, action.payload.user],
       };
-    // case PROFILE_TYPES.GET_USER:
-    //   return {
-    //     ...state,
-    //     users: action.payload.user,
-    //   };
     case PROFILE_TYPES.GET_ID:
       return {
         ...state,
         ids: [...state.ids, action.payload],
       };
-    // case PROFILE_TYPES.GET_ID:
-    //   return {
-    //     ...state,
-    //     ids: action.payload,
-    //   };
-    // case PROFILE_TYPES.GET_POSTS:
-    //   return {
-    //     ...state,
-    //     posts: [...state.posts, action.payload],
-    //   };
     case PROFILE_TYPES.GET_POSTS:
       return {
         ...state,
-        posts: action.payload.posts,
-        page: action.payload.page,
+        posts: [...state.posts, action.payload],
       };
     case PROFILE_TYPES.UPDATE_POST:
       return {
