@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavDropdown } from "react-bootstrap";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePost } from "../../redux/actions/postActions";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 const PostHeader = ({ post }) => {
+  const copyUrl = async () => {
+    await navigator.clipboard.writeText(`${window.location.href}post/${post._id}`);
+  }
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch()
+  const [show, setShow] = useState(false)
+  const postDelete = async (e) => {
+    dispatch(deletePost({post,auth}))
+  }
+  const openModal = async (e) => {
+    setShow(true)
+  }
+  const handleClose = () => {
+    setShow(false);
+  };
   return (
+    <>
+    <ConfirmModal show={show} onClose={handleClose} onConfirm={postDelete}/>
     <div className="card-header">
       <div className="header-container d-flex align-items-center">
         <Link to={`/profile/${post.user._id}`}>
@@ -33,8 +53,16 @@ const PostHeader = ({ post }) => {
           }
           id="post-toggle"
         >
+          {auth.user._id === post.user._id && 
           <NavDropdown.Item>
-            <span>Lưu liên kết</span>
+            <span onClick={()=>openModal()}>Chỉnh sửa bài viết</span>
+          </NavDropdown.Item> }
+          {auth.user._id === post.user._id && 
+          <NavDropdown.Item>
+            <span onClick={()=>openModal()}>Xoá bài viết</span>
+          </NavDropdown.Item> }
+          <NavDropdown.Item>
+            <span onClick={()=>copyUrl()}>Lưu liên kết</span>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <span>Bật thông báo về bài viết này</span>
@@ -55,6 +83,7 @@ const PostHeader = ({ post }) => {
         </NavDropdown>
       </div>
     </div>
+    </>
   );
 };
 
