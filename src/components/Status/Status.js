@@ -7,7 +7,7 @@ import { faFaceSmile, faImage } from "@fortawesome/free-solid-svg-icons";
 import CreatePostModal from "./CreatePostModal";
 
 const Status = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const [openPostModal, setOpenPostModal] = useState(false);
 
   const handleClose = () => {
@@ -35,7 +35,7 @@ const Status = () => {
           <span>Cảm xúc</span>
         </div>
       </div>
-      <CreatePostModal open={openPostModal} onClose={handleClose} auth={auth} />
+      <CreatePostModal open={openPostModal} onClose={handleClose} auth={auth} socket={socket}/>
     </div>
   );
 };

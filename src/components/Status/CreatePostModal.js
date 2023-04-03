@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Picker from "emoji-picker-react";
 import { imageShow, videoShow } from "../../utils/imagesShow";
 
-function CreatePostModal({ open, onClose, auth }) {
+function CreatePostModal({ open, onClose, auth, socket }) {
   const [images, setImages] = useState([]);
   const [content, setContent] = useState("");
   const [stream, setStream] = useState(false);
@@ -53,7 +53,7 @@ function CreatePostModal({ open, onClose, auth }) {
         type: GLOBALTYPES.ALERT,
         payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
-    dispatch(createPost({ content, images, auth }));
+    dispatch(createPost({ content, images, auth, socket }));
 
     dispatch({
       type: GLOBALTYPES.ALERT,

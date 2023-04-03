@@ -8,7 +8,7 @@ import InputComment from "./InputComment";
 import { likeComment, unLikeComment } from "../../redux/actions/commentActions";
 
 const CommentCard = ({ children, comment, post, commentId }) => {
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [content, setContent] = useState("");
@@ -31,7 +31,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
     setIsLike(true);
 
     setLoadLike(true);
-    await dispatch(likeComment({ comment, post, auth }));
+    await dispatch(likeComment({ comment, post, auth, socket }));
     setLoadLike(false);
   };
 
@@ -40,7 +40,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
     setIsLike(false);
 
     setLoadLike(true);
-    await dispatch(unLikeComment({ comment, post, auth }));
+    await dispatch(unLikeComment({ comment, post, auth, socket }));
     setLoadLike(false);
   };
 

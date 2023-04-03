@@ -1,6 +1,7 @@
 import { getAPI, postAPI, patchAPI } from "../../utils/fetchAPI";
 import { imageUpload } from "../../utils/imagesUpload";
 import { GLOBALTYPES } from "./globalTypes";
+import { createNotify, removeNotify } from "./notifyActions";
 
 export const POST_TYPES = {
   CREATE_POST: "CREATE_POST",
@@ -11,7 +12,7 @@ export const POST_TYPES = {
 };
 
 export const createPost =
-  ({ content, images, auth }) =>
+  ({ content, images, auth, socket }) =>
   async (dispatch) => {
     let media = [];
     try {
@@ -27,6 +28,17 @@ export const createPost =
         type: POST_TYPES.CREATE_POST,
         payload: { ...res.data.newPost, user: auth.user },
       });
+
+      const msg = {
+        id: res.data.newPost._id,
+        text: "đã thêm một bài viết mới.",
+        recipients: res.data.newPost.user.followers,
+        url: `/post/${res.data.newPost._id}`,
+        content,
+        image: media[0].url,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -71,13 +83,26 @@ export const getPost =
   };
 
 export const likePost =
-  ({ post, auth }) =>
+  ({ post, auth, socket }) =>
   async (dispatch) => {
     const newPost = { ...post, likes: [...post.likes, auth.user] };
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
 
+    socket.emit("likePost", newPost);
+
     try {
       await patchAPI(`post/${post._id}/like`, null, auth.token);
+
+      const msg = {
+        id: auth.user._id,
+        text: "đã thích bài viết của bạn.",
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.images[0].url,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -87,16 +112,26 @@ export const likePost =
   };
 
 export const unLikePost =
-  ({ post, auth }) =>
+  ({ post, auth, socket }) =>
   async (dispatch) => {
     const newPost = {
       ...post,
       likes: post.likes.filter((like) => like._id !== auth.user._id),
     };
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+    socket.emit("unLikePost", newPost);
 
     try {
       await patchAPI(`post/${post._id}/unlike`, null, auth.token);
+
+      const msg = {
+        id: auth.user._id,
+        text: "đã thích bài viết của bạn.",
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+      };
+
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

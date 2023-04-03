@@ -2,9 +2,10 @@ import { GLOBALTYPES } from "./globalTypes";
 import { POST_TYPES } from "./postActions";
 import { patchAPI, postAPI } from "../../utils/fetchAPI";
 import { EditData, DeleteData } from "./globalTypes";
+import { createNotify, removeNotify } from "./notifyActions";
 
 export const createComment =
-  ({ post, newComment, auth }) =>
+  ({ post, newComment, auth, socket }) =>
   async (dispatch) => {
     const newPost = {
       ...post,
@@ -26,6 +27,22 @@ export const createComment =
         ...post,
         comments: [...post.comments, newData],
       };
+
+      socket.emit("createComment", newPost);
+
+      const msg = {
+        id: res.data.newComment._id,
+        text: newComment.reply
+          ? "đã nhắc đến bạn trong một bình luận."
+          : "đã bình luận bài viết của bạn.",
+        recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.images[0].url,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
+
       dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
     } catch (err) {
       dispatch({
@@ -36,7 +53,7 @@ export const createComment =
   };
 
 export const likeComment =
-  ({ comment, post, auth }) =>
+  ({ comment, post, auth, socket }) =>
   async (dispatch) => {
     const newComment = { ...comment, likes: [...comment.likes, auth.user] };
 
@@ -45,6 +62,19 @@ export const likeComment =
     const newPost = { ...post, comments: newComments };
 
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+
+    socket.emit("likePost", newPost);
+
+    const msg = {
+      id: auth.user._id,
+      text: "đã thích bình luận của bạn.",
+      recipients: [comment.user],
+      url: `/post/${post._id}`,
+      content: post.content,
+      image: post.images[0].url,
+    };
+
+    dispatch(createNotify({ msg, auth, socket }));
 
     try {
       await patchAPI(`comment/${comment._id}/like`, null, auth.token);
@@ -57,7 +87,7 @@ export const likeComment =
   };
 
 export const unLikeComment =
-  ({ comment, post, auth }) =>
+  ({ comment, post, auth, socket }) =>
   async (dispatch) => {
     const newComment = {
       ...comment,
@@ -70,8 +100,19 @@ export const unLikeComment =
 
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
 
+    socket.emit("unLikePost", newPost);
+
     try {
       await patchAPI(`comment/${comment._id}/unlike`, null, auth.token);
+
+      const msg = {
+        id: auth.user._id,
+        text: "đã thích bình luận của bạn.",
+        recipients: [comment.user],
+        url: `/post/${post._id}`,
+      };
+
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
