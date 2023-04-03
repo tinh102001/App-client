@@ -6,7 +6,7 @@ import { Button } from "antd";
 const FollowButton = ({ user }) => {
   const [followed, setFollowed] = useState(false);
 
-  const { auth, profile } = useSelector((state) => state);
+  const { auth, profile, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [load, setLoad] = useState(false);
@@ -23,7 +23,7 @@ const FollowButton = ({ user }) => {
 
     setFollowed(true);
     setLoad(true);
-    await dispatch(follow({ users: profile.users, user, auth }));
+    await dispatch(follow({ users: profile.users, user, auth, socket }));
     setLoad(false);
   };
 
@@ -32,14 +32,16 @@ const FollowButton = ({ user }) => {
 
     setFollowed(false);
     setLoad(true);
-    await dispatch(unfollow({ users: profile.users, user, auth }));
+    await dispatch(unfollow({ users: profile.users, user, auth, socket }));
     setLoad(false);
   };
 
   return (
     <>
       {followed ? (
-        <Button type="primary" onClick={handleUnFollow}>UnFollow</Button>
+        <Button type="primary" onClick={handleUnFollow}>
+          UnFollow
+        </Button>
       ) : (
         <Button onClick={handleFollow}>Follow</Button>
       )}

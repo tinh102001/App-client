@@ -18,6 +18,7 @@ import { getAPI } from "../../utils/fetchAPI";
 
 import SpinLoader from "../Loading/SpinLoader";
 import UserCard from "../UserCard/UserCard";
+import Notification from "../Notification/Notification";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -193,9 +194,10 @@ const Header = () => {
         )}
         ;
         {isShowNotification && (
-          <div className="notification">
-            <h1>Thông báo</h1>
-          </div>
+          // <div className="notification">
+          //   <h1>Thông báo</h1>
+          // </div>
+          <Notification />
         )}
         ;{isSearch && <div className="search-user"></div>}
         {checkLogout && (

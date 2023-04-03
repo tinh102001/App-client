@@ -5,7 +5,9 @@ import profile from "./profileReducer";
 import alert from "./alertReducer";
 import explore from "./exploreReducer";
 import detailPost from "./detailPostReducer";
-import suggestions from './suggestionsReducer';
+import suggestions from "./suggestionsReducer";
+import notify from "./notifyReducer";
+import socket from "./socketReducer";
 
 export default combineReducers({
   auth,
@@ -15,4 +17,6 @@ export default combineReducers({
   explore,
   detailPost,
   suggestions,
+  notify,
+  socket,
 });
