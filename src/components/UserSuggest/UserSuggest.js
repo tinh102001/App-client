@@ -1,23 +1,30 @@
 import React from "react";
 import Avatar from "../Avatar/Avatar";
 import FollowButton from "../Button/FollowButton";
+import "./style.scss";
 
 const UserSuggest = ({ users }) => {
   return (
     <div className="user-suggest">
-      {users.map((user) => (
-        <div
-          key={user._id}
-          className="d-flex align-items-center w-50 border gap-1">
-          <Avatar src={user.avatar} size={"small-avatar"}/>
-          <div className="flex-grow-1">
-            <div>{user.username}</div>
-            <div>{user.fullname}</div>
+      <div className="header-suggest">
+        <span className="title">Gợi ý cho bạn</span>
+        <span className="see-all">Xem thêm</span>
+      </div>
+
+      <div className="content-suggest">
+        {users.map((user) => (
+          <div
+            key={user._id}
+            className="d-flex align-items-center gap-1 suggest-user"
+          >
+            <Avatar src={user.avatar} size={"small-avatar"} />
+            <div className="flex-grow-1">
+              <div className="user-name">{user.username}</div>
+            </div>
+            <FollowButton user={user} />
           </div>
-          <FollowButton user={user}/>
-        </div>
-      ))}
-      
+        ))}
+      </div>
     </div>
   );
 };

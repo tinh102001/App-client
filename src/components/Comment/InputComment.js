@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createComment } from "../../redux/actions/commentActions";
+import ContentEditable from "react-contenteditable";
 import "./Style/InputComment.scss";
 
 const InputComment = ({ post, children, onReply, setOnReply }) => {
@@ -8,17 +9,19 @@ const InputComment = ({ post, children, onReply, setOnReply }) => {
 
   const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const [editable, setEditable] = useState(false);
+  const refUserName = useRef();
+  const refInput = useRef();
+  const refInputContainer = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!content.trim()) {
+    if (!e.target.innerHTML.trim()) {
       if (setOnReply) return setOnReply(false);
       return;
     }
-
     setContent("");
     const newComment = {
-      content,
+      content: e.target.innerHTML,
       likes: [],
       user: auth.user,
       createdAt: new Date().toISOString(),
@@ -30,30 +33,61 @@ const InputComment = ({ post, children, onReply, setOnReply }) => {
     if (setOnReply) return setOnReply(false);
   };
 
-  const handleKeyDown = (evt) => {
-    evt.target.style.height = "inherit";
-    evt.target.style.height = `${evt.target.scrollHeight}px`;
-    if (content === "") evt.target.style.height = `40px`;
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setEditable(false);
+    }
   };
+
+  const pasteAsPlainText = (evt) => {
+    evt.preventDefault();
+    let text = evt.clipboardData.getData("text/plain");
+    document.execCommand("insertText", false, text);
+  };
+
+  useEffect(() => {
+    if (onReply && refInput.current) {
+      if (refInputContainer.current && refUserName.current) {
+        refInputContainer.current.style.paddingLeft = `${
+          refUserName.current.clientWidth + 8
+        }px`;
+        refInput.current.el.current.focus();
+      }
+    }
+  }, [onReply]);
 
   return (
     <div className="container-comment">
       <img className="avatar" src={auth.user.avatar} alt="avatar" />
       {children}
-      <textarea
-        className="comment-input"
-        id="comment-input"
-        placeholder={`Viết bình luận công khai`}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onKeyDown={(e) => handleKeyDown(e)}
-        onKeyUp={(e) => {
-          if (e.keyCode === 13) {
-            handleSubmit(e);
-            setContent("");
-          }
-        }}
-      />
+      <div className={`input-container ${onReply ? "feedback" : ""}`}>
+        <div className="input-comment" ref={refInputContainer}>
+          <ContentEditable
+            id={"comment-input"}
+            className="comment-input"
+            contentEditable={editable}
+            placeholder={onReply ? "" : "Viết bình luận công khai"}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+            onKeyPress={handleKeyPress}
+            ref={refInput}
+            onPaste={pasteAsPlainText}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
+            html={content}
+          />
+        </div>
+        {onReply && (
+          <span className="user-name-feedback" ref={refUserName}>
+            {onReply.user.username}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

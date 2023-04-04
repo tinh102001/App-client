@@ -1,5 +1,14 @@
+import UserSuggest from "../UserSuggest/UserSuggest";
+import { useSelector } from "react-redux";
+
 const Right = () => {
-  return <div className="sidebar-right d-xl-block col-xl-2"></div>;
+  const { suggestions } = useSelector((state) => state);
+
+  return (
+    <div className="sidebar-right col-xl-3 col-md-3 col-12">
+      <UserSuggest users={suggestions.users} />
+    </div>
+  );
 };
 
 export default Right;

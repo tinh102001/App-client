@@ -8,7 +8,6 @@ const DisplayComment = ({ comment, post, replyCm }) => {
   useEffect(() => {
     setShowRep(replyCm.slice(replyCm.length - next));
   }, [replyCm, next]);
-
   return (
     <div className="comment-container">
       <CommentCard comment={comment} post={post} commentId={comment._id}>
@@ -27,12 +26,10 @@ const DisplayComment = ({ comment, post, replyCm }) => {
 
           <div className="btn-add-hide-comment">
             {replyCm.length - next > 0 ? (
-              <div onClick={() => setNext(next + 10)}>
-                Xem thêm bình luận...
-              </div>
+              <div onClick={() => setNext(next + 10)}>Xem thêm phản hồi...</div>
             ) : (
               replyCm.length > 1 && (
-                <div onClick={() => setNext(1)}>Ẩn bình luận...</div>
+                <div onClick={() => setNext(1)}>Ẩn phản hồi...</div>
               )
             )}
           </div>

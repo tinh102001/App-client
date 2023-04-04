@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { NavDropdown } from "react-bootstrap";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import SVG from "react-inlinesvg";
 import InputComment from "./InputComment";
@@ -50,74 +53,112 @@ const CommentCard = ({ children, comment, post, commentId }) => {
   };
   return (
     <div className="comment-card">
-      <Link to={`/profile/${comment.user._id}`}>
-        <div className="avatar-container">
-          <img className="avatar" src={comment.user.avatar} alt="avatar" />
-        </div>
-      </Link>
-
-      <div className="container">
-        <div className="content-comment ">
-          <div className="user-comment">{comment.user.username}</div>
-          {comment.tag && comment.tag._id !== comment.user._id && (
-            <Link to={`/profile/${comment.tag._id}`} className="mr-1">
-              @{comment.tag.username}
-            </Link>
-          )}
-          <span className="content">
-            {content.length < 100
-              ? content
-              : readMore
-              ? content + " "
-              : content.slice(0, 100) + "...."}
-          </span>
-          {content.length > 100 && (
-            <span onClick={() => setReadMore(!readMore)} className="edit-text">
-              {readMore ? "ẩn đi" : "xem thêm"}
-            </span>
-          )}
-          <div className="number-like-comment">
-            {comment.likes.length > 0 && (
-              <SVG
-                src={process.env.PUBLIC_URL + "/icons/icon-like.svg"}
-                alt="like"
-              />
-            )}
-            <span>{comment.likes.length > 0 ? comment.likes.length : ""}</span>
+      <div className="comment-container-first">
+        <Link to={`/profile/${comment.user._id}`}>
+          <div className="avatar-container">
+            <img className="avatar" src={comment.user.avatar} alt="avatar" />
           </div>
-        </div>
+        </Link>
 
-        <div className="footer-comment">
-          <div
-            onClick={(e) => {
-              if (!isLike) handleLike(e);
-              else handleUnLike(e);
-            }}
-          >
-            {isLike ? (
-              <small className="tool-footer like-comment">Bỏ thích</small>
-            ) : (
-              <small className="tool-footer like-comment">Thích</small>
-            )}
+        <div className="container">
+          <div className="d-flex align-items-center gap-2">
+            <div className="content-comment ">
+              <div className="user-comment">{comment.user.username}</div>
+              {comment.tag && comment.tag._id !== comment.user._id && (
+                <Link to={`/profile/${comment.tag._id}`} className="mr-1">
+                  @{comment.tag.username}
+                </Link>
+              )}
+              <span className="content">
+                {content.length < 100
+                  ? content
+                  : readMore
+                  ? content + " "
+                  : content.slice(0, 100) + "...."}
+              </span>
+              {content.length > 100 && (
+                <span
+                  onClick={() => setReadMore(!readMore)}
+                  className="edit-text"
+                >
+                  {readMore ? "ẩn đi" : "xem thêm"}
+                </span>
+              )}
+              <div className="number-like-comment">
+                {comment.likes.length > 0 && (
+                  <SVG
+                    src={process.env.PUBLIC_URL + "/icons/icon-like.svg"}
+                    alt="like"
+                  />
+                )}
+                <span>
+                  {comment.likes.length > 0 ? comment.likes.length : ""}
+                </span>
+              </div>
+            </div>
+            <div className="option-comment-nav-down">
+              <NavDropdown
+                className="nav-dropdown-comment"
+                title={
+                  <div className="option-comment">
+                    <FontAwesomeIcon icon={faEllipsis} />
+                  </div>
+                }
+                id="comment-toggle"
+              >
+                {auth.user._id === comment.user._id ? (
+                  <>
+                    <NavDropdown.Item>
+                      <span>Chỉnh sửa</span>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <span>Xóa</span>
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <NavDropdown.Item>
+                      <span>Ẩn bình luận </span>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <span>Báo cáo bình luận</span>
+                    </NavDropdown.Item>
+                  </>
+                )}
+              </NavDropdown>
+            </div>
           </div>
-          <small className="tool-footer feedback" onClick={handleReply}>
-            {onReply ? "Hủy" : "Phản hồi"}
-          </small>
-          <small className="tool-footer time-comment">
-            {moment(comment.createdAt).fromNow()}
-          </small>
+
+          <div className="footer-comment">
+            <div
+              onClick={(e) => {
+                if (!isLike) handleLike(e);
+                else handleUnLike(e);
+              }}
+            >
+              {isLike ? (
+                <small className="tool-footer like-comment">Bỏ thích</small>
+              ) : (
+                <small className="tool-footer like-comment">Thích</small>
+              )}
+            </div>
+            <small className="tool-footer feedback" onClick={handleReply}>
+              {onReply ? "Hủy" : "Phản hồi"}
+            </small>
+            <small className="tool-footer time-comment">
+              {moment(comment.createdAt).fromNow()}
+            </small>
+          </div>
         </div>
       </div>
-
       {onReply && (
-        <InputComment post={post} onReply={onReply} setOnReply={setOnReply}>
-          <Link to={`/profile/${onReply.user._id}`}>
-            @{onReply.user.username}:
-          </Link>
-        </InputComment>
+        <InputComment
+          post={post}
+          onReply={onReply}
+          setOnReply={setOnReply}
+        ></InputComment>
       )}
-
-      {children}
+      <div className="comment-feedback">{children}</div>
     </div>
   );
 };
