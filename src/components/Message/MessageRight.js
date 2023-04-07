@@ -23,9 +23,6 @@ import {
 import MessageDisplay from "./MessageDisplay";
 import Spinner from "react-bootstrap/Spinner";
 import UserCardMessage from "../UserCard/UserCardMessage";
-// import Icons from "../Icons";
-// import "./Style/message.css";
-// import "./Style/MessageRight.scss";
 
 const MessageRight = () => {
   const { auth, message, socket, peer, online } = useSelector((state) => state);

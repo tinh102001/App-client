@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { getAPI } from "../../utils/fetchAPI";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
@@ -102,9 +102,7 @@ const MessageLeft = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button type="submit" style={{ display: "none" }}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
+        <button type="submit" style={{ display: "none" }}></button>
       </form>
 
       <div className="message_chat_list">
