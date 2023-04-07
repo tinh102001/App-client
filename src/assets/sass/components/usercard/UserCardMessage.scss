@@ -1,0 +1,33 @@
+.user_card_mess_container {
+  display: flex;
+  width: inherit;
+  justify-content: space-between;
+  .user_info {
+    margin: 0.3rem;
+    padding: 0 0.5rem;
+    .user_info_path {
+      display: flex;
+      column-gap: 0.1rem;
+      .user_info_column {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+  .user_info:hover {
+    background-color: #e4e6eb;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .function_button {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-right: 0.5rem;
+    column-gap: 1.5rem;
+  }
+  .function_button *:hover {
+    background-color: #e4e6eb;
+    cursor: pointer;
+  }
+}

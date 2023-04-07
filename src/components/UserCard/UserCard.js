@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "../Avatar/Avatar";
 import { Link } from "react-router-dom";
 
-const UserCard = ({ user, border, handleClose }) => {
+const UserCard = ({ user, border, handleClose, children }) => {
   const handleCloseAll = () => {
     if (handleClose) handleClose();
   };
@@ -24,6 +24,7 @@ const UserCard = ({ user, border, handleClose }) => {
           </div>
         </Link>
       </div>
+      {children}
     </div>
   );
 };

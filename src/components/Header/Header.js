@@ -8,6 +8,7 @@ import {
   KeyOutlined,
   LogoutOutlined,
   CompassFilled,
+  MessageOutlined
 } from "@ant-design/icons";
 import { Menu, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -157,6 +158,12 @@ const Header = () => {
         </div>
       </form>
       <div className="menu">
+      <button className="btn-message" onClick={() => navigate("/message")}>
+          <MessageOutlined
+            className="message-icon"
+            style={{ fontSize: "24px", margin: "auto" }}
+          />
+        </button>
         <button className="btn-notification" onClick={handleNotification}>
           <HeartOutlined
             className="notification-icon"

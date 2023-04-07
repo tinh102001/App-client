@@ -8,6 +8,8 @@ import detailPost from "./detailPostReducer";
 import suggestions from "./suggestionsReducer";
 import notify from "./notifyReducer";
 import socket from "./socketReducer";
+import message from "./messageReducer";
+import online from "./onlineReducer";
 
 export default combineReducers({
   auth,
@@ -19,4 +21,6 @@ export default combineReducers({
   suggestions,
   notify,
   socket,
+  message,
+  online,
 });

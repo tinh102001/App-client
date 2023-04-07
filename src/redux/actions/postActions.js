@@ -9,7 +9,7 @@ export const POST_TYPES = {
   UPDATE_POST: "UPDATE_POST",
   LOADING_POST: "LOADING_POST",
   GET_POST: "GET_POST",
-  DELETE_POST: "DELETE_POST"
+  DELETE_POST: "DELETE_POST",
 };
 
 export const createPost =
@@ -175,16 +175,18 @@ export const unSavePost =
       });
     }
   };
-  export const deletePost = ({post, auth }) => async (dispatch) => {
-    dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
+
+export const deletePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    dispatch({ type: POST_TYPES.DELETE_POST, payload: post });
 
     try {
-        const res = await deleteAPI(`post/${post._id}`, auth.token)
-        
+      await deleteAPI(`post/${post._id}`, auth.token);
     } catch (err) {
-        dispatch({
-            type: GLOBALTYPES.ALERT,
-            payload: {error: err.response.data.msg}
-        })
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
     }
-  }
+  };

@@ -56,14 +56,23 @@ const PostBody = ({ post }) => {
           {post.images.map((img, i) => {
             return (
               <Carousel.Item key={i} className="img-post">
-                <img
-                  src={img.url}
-                  alt={img.url}
-                  onLoad={() => {
-                    getImageWidth();
-                  }}
-                  ref={refImages[i]}
-                />
+                {img.url.match(/video/i) ? (
+                  <video
+                    controls
+                    src={img.url}
+                    className="d-block w-100"
+                    alt={img.url}
+                  />
+                ) : (
+                  <img
+                    src={img.url}
+                    alt={img.url}
+                    onLoad={() => {
+                      getImageWidth();
+                    }}
+                    ref={refImages[i]}
+                  />
+                )}
               </Carousel.Item>
             );
           })}

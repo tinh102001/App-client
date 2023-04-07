@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
+import Conversation from "../pages/Message/Conversation";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const Register = lazy(() => import("../pages/Auth/Register"));
@@ -11,6 +12,8 @@ const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 const MyProfile = lazy(() => import("../pages/MyProfile"));
 const Explore = lazy(() => import("../pages/Explore"));
 const PostDetail = lazy(() => import("../pages/PostDetail"));
+// const Conversation = lazy(() => import("../pages/Message/Conversation"));
+const Message = lazy(() => import("../pages/Message/Message"));
 
 const AppRouter = () => {
   return (
@@ -60,6 +63,22 @@ const AppRouter = () => {
         element={
           <PrivateRoute>
             <PostDetail />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/message"
+        element={
+          <PrivateRoute>
+            <Message />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/message/:id"
+        element={
+          <PrivateRoute>
+            <Conversation />
           </PrivateRoute>
         }
       />
