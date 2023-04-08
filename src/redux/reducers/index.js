@@ -10,6 +10,7 @@ import notify from "./notifyReducer";
 import socket from "./socketReducer";
 import message from "./messageReducer";
 import online from "./onlineReducer";
+import status from "./statusReducer";
 
 export default combineReducers({
   auth,
@@ -23,4 +24,5 @@ export default combineReducers({
   socket,
   message,
   online,
+  status,
 });

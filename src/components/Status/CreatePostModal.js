@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { createPost } from "../../redux/actions/postActions";
+import { createPost, updatePost } from "../../redux/actions/postActions";
 import {
   faFaceSmile,
   faPlus,
@@ -13,8 +13,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Picker from "emoji-picker-react";
 import { imageShow, videoShow } from "../../utils/imagesShow";
+import { useSelector } from "react-redux";
 
 function CreatePostModal({ open, onClose, auth, socket }) {
+  const { status } = useSelector((state) => state);
   const [images, setImages] = useState([]);
   const [content, setContent] = useState("");
   const [stream, setStream] = useState(false);
@@ -53,7 +55,11 @@ function CreatePostModal({ open, onClose, auth, socket }) {
         type: GLOBALTYPES.ALERT,
         payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
-    dispatch(createPost({ content, images, auth, socket }));
+    if(status.onEdit){
+      dispatch(updatePost({content, images, auth, status}))
+    }else{
+      dispatch(createPost({content, images, auth, socket}))
+    }
 
     dispatch({
       type: GLOBALTYPES.ALERT,
@@ -126,6 +132,15 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     setContent("");
     setStream(false);
   };
+  useEffect(() => {
+    if(status.onEdit){
+      setContent(status.content)
+      setImages(status.images)
+    }else{
+      setContent('')
+      setImages([])
+    }
+  },[status])
   return (
     <Modal
       show={open}
@@ -135,7 +150,7 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     >
       <Form onSubmit={handleSubmit}>
         <Modal.Header>
-          <div className="title-create-post">Tạo bài viết</div>
+          <div className="title-create-post">{status.onEdit ? "Chỉnh sửa bài viết" : "Tạo bài viết"}</div>
           <div
             className="btn btn-close"
             onClick={() => {

@@ -190,3 +190,35 @@ export const deletePost =
       });
     }
   };
+export const updatePost = 
+  ({content, images, auth, status}) => 
+  async (dispatch) => {
+    let media = []
+    const imgNewUrl = images.filter(img => !img.url)
+    const imgOldUrl = images.filter(img => img.url)
+
+    if(status.content === content 
+        && imgNewUrl.length === 0
+        && imgOldUrl.length === status.images.length
+    ) return;
+
+    try {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
+      if(imgNewUrl.length > 0) media = await imageUpload(imgNewUrl)
+
+      const res = await patchAPI(`post/${status._id}`, { 
+          content, images: [...imgOldUrl, ...media] 
+      }, auth.token)
+      console.log("1")
+      console.log(res)
+      dispatch({ type: POST_TYPES.UPDATE_POST, payload: res.data.updatePost })
+      console.log("2")
+      dispatch({ type: GLOBALTYPES.ALERT, payload: {success: res.data.msg} })
+      console.log("3")
+    } catch (err) {
+      dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: {error: err.response.data.msg}
+      })
+    }
+  };
