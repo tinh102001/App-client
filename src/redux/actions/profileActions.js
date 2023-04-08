@@ -1,6 +1,7 @@
 import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getAPI, patchAPI } from "../../utils/fetchAPI";
 import { createNotify, removeNotify } from "./notifyActions";
+import { refreshToken } from "./authActions";
 //import { imageUpload } from "../../utils/imagesUpload";
 
 export const PROFILE_TYPES = {
@@ -37,6 +38,27 @@ export const getProfileUsers =
       });
 
       dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
+    }
+  };
+  export const editprofile =
+  ({ data, auth }) =>
+  async (dispatch) => {
+
+    try {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+      const res = await patchAPI('user', data, auth.token)
+      dispatch(refreshToken())
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: res.data.msg,
+        },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

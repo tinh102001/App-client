@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
-
 import FollowButton from "../Button/FollowButton";
+import UserFollow from "../UserFollow/UserFollow";
+import Alert from "../Alert/Alert";
+import { useSelector } from "react-redux";
+import EditProfile from "./EditProfile";
 
 const Info = ({ id, auth, profile, dispatch }) => {
   const [userData, setUserData] = useState([]);
-
+  const {socket} = useSelector((state) => state)
   const [isShowFollowers, setIsShowFollowers] = useState(false);
   const [isShowFollowing, setIsShowFollowing] = useState(false);
-  const [isShowEditProfile, setIsShowEditProfile] = useState(false);
   const [isShowSaved, setIsShowSaved] = useState(false);
+  const [openPostModal, setOpenPostModal] = useState(false);
+    
+    const handleClose = () => {
+        setOpenPostModal(false);
+    };
 
   useEffect(() => {
     if (id === auth.user._id) {
@@ -27,6 +34,11 @@ const Info = ({ id, auth, profile, dispatch }) => {
     }
   }, [id, auth, dispatch, profile.users]);
 
+  const handleClickEvent = () => {
+    setIsShowFollowers(false);
+    setIsShowFollowing(false)
+  }
+
   //   useEffect(() => {
   //     if (showFollowers || showFollowing || onEdit) {
   //       dispatch({ type: GLOBALTYPES.MODAL, payload: true });
@@ -37,6 +49,8 @@ const Info = ({ id, auth, profile, dispatch }) => {
 
   return (
     <div className="info">
+      <EditProfile open={openPostModal} onClose={handleClose} auth={auth} socket={socket}/>
+      <Alert />
       {userData.map((user) => (
         <div className="myprofile-container" key={user._id}>
           <div className="header-profile">
@@ -46,7 +60,7 @@ const Info = ({ id, auth, profile, dispatch }) => {
                 <Button
                   className="editprofile"
                   type="primary"
-                  onClick={() => setIsShowEditProfile(true)}
+                  onClick={() => setOpenPostModal(true)}
                 >
                   {/* <EditOutlined /> */}
                   Chỉnh sửa trang cá nhân
@@ -81,32 +95,26 @@ const Info = ({ id, auth, profile, dispatch }) => {
             <div className="mobile">Số điện thoại: {user.mobile}</div>
             <div className="gender">Giới tính: {user.gender}</div>
             <div className="story">Tiểu sử: {user.story}</div>
-            <div className="saved" onClick={() => setIsShowSaved(true)}>
+            <div className="website">Trang web: <a href={user.website}>{user.website}</a></div>
+            {/* <div className="saved" onClick={() => setIsShowSaved(true)}>
               Đã lưu: {user.saved.length} đã lưu
-            </div>
+            </div> */}
           </div>
-          {isShowEditProfile && (
-            <div className="back-form">
-              <div className="modal-form"></div>
-              <div className="container-form">
-                <Button
-                  type="primary"
-                  danger
-                  onClick={() => setIsShowEditProfile(false)}
-                >
-                  Thoát
-                </Button>
-              </div>
-            </div>
-          )}
           {isShowFollowers && (
             <div className="back-form">
               <div className="modal-form"></div>
               <div className="container-form">
+                <h3>Người theo dõi</h3>
+                <div style={{ height: '200px', overflowY: 'scroll' }}>
+                  {user.followers.map(item => (
+                    <UserFollow user = {item} event={{ onClick: handleClickEvent }} />
+                  ))}
+                </div>
                 <Button
                   type="primary"
                   danger
                   onClick={() => setIsShowFollowers(false)}
+                  style={{position: "absolute", right: 10, bottom: 10}}
                 >
                   Thoát
                 </Button>
@@ -117,10 +125,17 @@ const Info = ({ id, auth, profile, dispatch }) => {
             <div className="back-form">
               <div className="modal-form"></div>
               <div className="container-form">
+              <h3>Đang theo dõi</h3>
+              <div style={{ height: '200px', overflowY: 'scroll' }}>
+                  {user.following.map(item => (
+                    <UserFollow user = {item} event={{ onClick: handleClickEvent }}/>
+                  ))}
+                </div>
                 <Button
                   type="primary"
                   danger
                   onClick={() => setIsShowFollowing(false)}
+                  style={{position: "absolute", right: 10, bottom: 10}}
                 >
                   Thoát
                 </Button>
@@ -128,18 +143,25 @@ const Info = ({ id, auth, profile, dispatch }) => {
             </div>
           )}
           {isShowSaved && (
-            <div className="back-form">
-              <div className="modal-form"></div>
-              <div className="container-form">
-                <Button
-                  type="primary"
-                  danger
-                  onClick={() => setIsShowSaved(false)}
-                >
-                  Thoát
-                </Button>
+          <div className="back-form">
+            <div className="modal-form"></div>
+            <div className="container-form">
+            <h3>Đang theo dõi</h3>
+            <div style={{ height: '200px', overflowY: 'scroll' }}>
+                {user.saved.map(item => (
+                  <UserFollow user = {item} event={{ onClick: handleClickEvent }}/>
+                ))}
               </div>
+              <Button
+                type="primary"
+                danger
+                onClick={() => setIsShowSaved(false)}
+                style={{position: "absolute", right: 10, bottom: 10}}
+              >
+                Thoát
+              </Button>
             </div>
+          </div>
           )}
         </div>
       ))}
