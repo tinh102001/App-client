@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { POST_TYPES } from "./redux/actions/postActions";
 import { NOTIFY_TYPES } from "./redux/actions/notifyActions";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
+import { MESS_TYPES } from "./redux/actions/messageActions";
 
 import audiobell from "./audio/got-it-done-613.mp3";
 
@@ -20,7 +21,7 @@ const spawnNotification = (body, icon, url, title) => {
 };
 
 const SocketClient = () => {
-  const { auth, notify, socket } = useSelector((state) => state);
+  const { auth, notify, socket, online } = useSelector((state) => state);
   const dispatch = useDispatch();
   const audioRef = useRef();
 
@@ -120,6 +121,60 @@ const SocketClient = () => {
     });
 
     return () => socket.off("removeNotifyToClient");
+  }, [socket, dispatch]);
+
+  // Message
+  useEffect(() => {
+    socket.on("addMessageToClient", (msg) => {
+      dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
+
+      dispatch({
+        type: MESS_TYPES.ADD_USER,
+        payload: {
+          ...msg.user,
+          text: msg.text,
+          media: msg.media,
+        },
+      });
+    });
+
+    return () => socket.off("addMessageToClient");
+  }, [socket, dispatch]);
+
+  // Check User Online / Offline
+  useEffect(() => {
+    socket.emit("checkUserOnline", auth.user);
+  }, [socket, auth.user]);
+
+  useEffect(() => {
+    socket.on("checkUserOnlineToMe", (data) => {
+      data.forEach((item) => {
+        if (!online.includes(item.id)) {
+          dispatch({ type: GLOBALTYPES.ONLINE, payload: item.id });
+        }
+      });
+    });
+
+    return () => socket.off("checkUserOnlineToMe");
+  }, [socket, dispatch, online]);
+
+  useEffect(() => {
+    socket.on("checkUserOnlineToClient", (id) => {
+      if (!online.includes(id)) {
+        dispatch({ type: GLOBALTYPES.ONLINE, payload: id });
+      }
+    });
+
+    return () => socket.off("checkUserOnlineToClient");
+  }, [socket, dispatch, online]);
+
+  // Check User Offline
+  useEffect(() => {
+    socket.on("CheckUserOffline", (id) => {
+      dispatch({ type: GLOBALTYPES.OFFLINE, payload: id });
+    });
+
+    return () => socket.off("CheckUserOffline");
   }, [socket, dispatch]);
 
   return (

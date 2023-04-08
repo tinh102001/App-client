@@ -7,14 +7,17 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost } from "../../redux/actions/postActions";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import CreatePostModal from "../Status/CreatePostModal";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
 const PostHeader = ({ post }) => {
   const copyUrl = async () => {
     await navigator.clipboard.writeText(`${window.location.href}post/${post._id}`);
   }
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch()
   const [show, setShow] = useState(false)
+  const [openPostModal, setOpenPostModal] = useState(false)
   const postDelete = async (e) => {
     dispatch(deletePost({post,auth}))
   }
@@ -24,9 +27,18 @@ const PostHeader = ({ post }) => {
   const handleClose = () => {
     setShow(false);
   };
+  const handlePostClose = () => {
+    setOpenPostModal(false);
+    dispatch({ type: GLOBALTYPES.STATUS, payload: false})
+  };
+  const openPostModalClick = async () => {
+    setOpenPostModal(true)
+    dispatch({ type: GLOBALTYPES.STATUS, payload: {...post, onEdit: true}})
+  }
   return (
     <>
     <ConfirmModal show={show} onClose={handleClose} onConfirm={postDelete}/>
+    <CreatePostModal open={openPostModal} onClose={handlePostClose} auth={auth} socket={socket}/>
     <div className="card-header">
       <div className="header-container d-flex align-items-center">
         <Link to={`/profile/${post.user._id}`}>
@@ -55,7 +67,7 @@ const PostHeader = ({ post }) => {
         >
           {auth.user._id === post.user._id && 
           <NavDropdown.Item>
-            <span onClick={()=>openModal()}>Chỉnh sửa bài viết</span>
+            <span onClick={()=>openPostModalClick()}>Chỉnh sửa bài viết</span>
           </NavDropdown.Item> }
           {auth.user._id === post.user._id && 
           <NavDropdown.Item>

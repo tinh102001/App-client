@@ -59,7 +59,7 @@
       cursor: pointer;
       border: solid 2px #f1f1f1;
     }
-    .btn-notification {
+    .btn-notification, .btn-message {
       display: flex;
       left: 50px;
       align-items: center;
@@ -86,7 +86,7 @@
       background-color: #f1f1f1;
     }
 
-    .btn-notification:hover {
+    .btn-notification:hover, .btn-message:hover  {
       background-color: #c7c8c9;
     }
     .btn-discover:hover {
