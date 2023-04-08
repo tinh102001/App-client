@@ -161,7 +161,7 @@ const Header = () => {
         </div>
       </form>
       <div className="menu">
-      <button className="btn-message" onClick={() => navigate("/message")}>
+        <button className="btn-message" onClick={() => navigate("/message")}>
           <MessageOutlined
             className="message-icon"
             style={{ fontSize: "24px", margin: "auto" }}
@@ -173,6 +173,12 @@ const Header = () => {
             style={{ fontSize: "24px", margin: "auto" }}
           />
         </button>
+        {isShowNotification && (
+          // <div className="notification">
+          //   <h1>Thông báo</h1>
+          // </div>
+          <Notification style = {{position: "absolute", top: "85%"}} />
+        )}
         <button className="btn-discover" onClick={() => navigate("/explore")}>
           <CompassFilled
             className="discover-icon"
@@ -180,16 +186,33 @@ const Header = () => {
           />
         </button>
         {auth.token ? (
-          <img
-            className="profile"
-            src={auth.user.avatar}
-            alt="avatar"
-            onClick={handleProfile}
-          ></img>
+          <div className="container-menu">
+            <img
+              className="profile"
+              src={auth.user.avatar}
+              alt="avatar"
+              onClick={handleProfile}
+            >
+            </img>
+            {isShowProfile && (
+              <Menu
+                className="menu-profile"
+                mode="inline"
+                openKeys={openKeys}
+                onOpenChange={onOpenChange}
+                onClick={(e) => handleClick(e)}
+                style={{
+                  width: 256,
+                }}
+                items={items}
+              />
+            )}
+          </div>
+          
         ) : (
           <SpinLoader />
         )}
-        {isShowProfile && (
+        {/* {isShowProfile && (
           <Menu
             className="menu-profile"
             mode="inline"
@@ -202,13 +225,13 @@ const Header = () => {
             items={items}
           />
         )}
-        ;
-        {isShowNotification && (
+        ; */}
+        {/* {isShowNotification && (
           // <div className="notification">
           //   <h1>Thông báo</h1>
           // </div>
           <Notification />
-        )}
+        )} */}
         ;{isSearch && <div className="search-user"></div>}
         {checkLogout && (
           <div className="back-form">
