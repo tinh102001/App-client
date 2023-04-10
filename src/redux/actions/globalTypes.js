@@ -9,6 +9,7 @@ export const GLOBALTYPES = {
   OFFLINE: "OFFLINE",
   CALL: "CALL",
   PEER: "PEER",
+  CONFIRM: "CONFIRM",
 };
 
 export const EditData = (data, id, post) => {

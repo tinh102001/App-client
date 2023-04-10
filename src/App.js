@@ -14,9 +14,10 @@ import { GLOBALTYPES } from "./redux/actions/globalTypes";
 
 import SpinLoader from "./components/Loading/SpinLoader";
 import ErrorApp from "./pages/ErrorApp/ErrorApp";
+import ConfirmModal from "./components/ConfirmModal/ConfirmModal";
 
 const App = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, confirmModal } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const App = () => {
     <ErrorBoundary FallbackComponent={<ErrorApp></ErrorApp>}>
       <Suspense fallback={<SpinLoader />}>
         {auth.token && <SocketClient />}
+        <ConfirmModal />
         <AppRouter></AppRouter>
       </Suspense>
     </ErrorBoundary>

@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  position: static;
+  position: sticky;
   align-items: center;
   margin: auto;
   top: 0;
@@ -8,6 +8,7 @@
   height: 70px;
   border-bottom: solid 1.5px rgb(219, 219, 219);
   background: #ffffff;
+  z-index: 2;
 
   .logo {
     left: 50px;

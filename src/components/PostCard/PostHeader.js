@@ -23,10 +23,8 @@ const PostHeader = ({ post }) => {
   }
   const openModal = async (e) => {
     setShow(true)
+    dispatch({ type: GLOBALTYPES.CONFIRM, payload: {post: post, action: 'Xoá bài viết'}})
   }
-  const handleClose = () => {
-    setShow(false);
-  };
   const handlePostClose = () => {
     setOpenPostModal(false);
     dispatch({ type: GLOBALTYPES.STATUS, payload: false})
@@ -37,7 +35,6 @@ const PostHeader = ({ post }) => {
   }
   return (
     <>
-    <ConfirmModal show={show} onClose={handleClose} onConfirm={postDelete}/>
     <CreatePostModal open={openPostModal} onClose={handlePostClose} auth={auth} socket={socket}/>
     <div className="card-header">
       <div className="header-container d-flex align-items-center">

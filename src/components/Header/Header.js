@@ -93,7 +93,7 @@ const Header = () => {
     }
     if (e.key === "sub2") navigate("/password");
     if (e.key === "sub3") navigate("/setting");
-    if (e.key === "sub4") setCheckLogout(true);
+    if (e.key === "sub4") dispatch({type: GLOBALTYPES.CONFIRM, payload: { action: "Đăng xuất"}})
   };
 
   const handleFocus = () => {

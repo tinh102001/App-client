@@ -11,6 +11,7 @@ import socket from "./socketReducer";
 import message from "./messageReducer";
 import online from "./onlineReducer";
 import status from "./statusReducer";
+import confirmModal from "./confirmModalReducer";
 
 export default combineReducers({
   auth,
@@ -25,4 +26,5 @@ export default combineReducers({
   message,
   online,
   status,
+  confirmModal,
 });
