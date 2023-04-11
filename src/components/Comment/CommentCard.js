@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import SVG from "react-inlinesvg";
-import InputComment from "./InputComment";
 
 import { likeComment, unLikeComment } from "../../redux/actions/commentActions";
+
+import InputComment from "./InputComment";
 
 const CommentCard = ({ children, comment, post, commentId }) => {
   const { auth, socket } = useSelector((state) => state);

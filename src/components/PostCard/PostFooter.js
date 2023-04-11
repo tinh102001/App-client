@@ -1,8 +1,10 @@
-import { faBookmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import SVG from "react-inlinesvg";
 import { useSelector, useDispatch } from "react-redux";
+import SVG from "react-inlinesvg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 
 import {
   likePost,
@@ -81,7 +83,7 @@ const PostFooter = ({ post }) => {
         </div>
         <div className="number-comments">
           <span>{post.comments.length}</span>
-          <span className="icon-comment"></span>
+          <FontAwesomeIcon icon={faComment} />
         </div>
       </div>
       <div className="tools-post">
@@ -100,7 +102,7 @@ const PostFooter = ({ post }) => {
           )}
         </div>
         <div className="tool comment-post">
-          <span className="icon-comment"></span>
+          <FontAwesomeIcon icon={faComment} />
           <span className="like">Bình luận</span>
         </div>
         <div
@@ -112,7 +114,7 @@ const PostFooter = ({ post }) => {
         >
           <span className="icon-comment"></span>
           <FontAwesomeIcon
-            icon={faBookmark}
+            icon={saved ? faBookmarkSolid : faBookmarkRegular}
             className={`${saved ? "icon-save" : "icon-un-save"}`}
           />
           {saved ? (

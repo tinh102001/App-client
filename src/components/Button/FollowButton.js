@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { follow, unfollow } from "../../redux/actions/profileActions";
 
 const FollowButton = ({ user }) => {
-  const [followed, setFollowed] = useState(false);
-
   const { auth, profile, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const [followed, setFollowed] = useState(false);
   const [load, setLoad] = useState(false);
 
   useEffect(() => {

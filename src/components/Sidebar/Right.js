@@ -1,5 +1,6 @@
-import UserSuggest from "../UserSuggest/UserSuggest";
 import { useSelector } from "react-redux";
+
+import UserSuggest from "../UserSuggest/UserSuggest";
 
 const Right = () => {
   const { suggestions } = useSelector((state) => state);

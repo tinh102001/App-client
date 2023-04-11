@@ -1,8 +1,7 @@
 import React from "react";
 import Avatar from "../Avatar/Avatar";
-// import "./UserCardListMessage.scss";
 
-const UserCardListMessage = ({ user, online, children }) => {
+const UserCardListMessage = ({ user, children }) => {
   return (
     <div className="user_card_mess_list_container">
       <div className="user_list_info">

@@ -12,7 +12,6 @@ const ChangePassword = lazy(() => import("../pages/ChangePassword"));
 const MyProfile = lazy(() => import("../pages/MyProfile"));
 const Explore = lazy(() => import("../pages/Explore"));
 const PostDetail = lazy(() => import("../pages/PostDetail"));
-// const Conversation = lazy(() => import("../pages/Message/Conversation"));
 const Message = lazy(() => import("../pages/Message/Message"));
 
 const AppRouter = () => {

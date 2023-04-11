@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./style/index.scss";
 import { faFaceSmile, faImage } from "@fortawesome/free-solid-svg-icons";
+
 import CreatePostModal from "./CreatePostModal";
 
 const Status = () => {

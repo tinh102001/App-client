@@ -1,11 +1,10 @@
 import React from "react";
 
 import PostBody from "./PostBody";
-import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
+import PostFooter from "./PostFooter";
 import InputComment from "../Comment/InputComment";
 import Comments from "../Comment/Comment";
-import "./Style/style.scss";
 
 const PostCard = ({ posts }) => {
   return (

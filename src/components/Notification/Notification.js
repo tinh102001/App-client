@@ -12,7 +12,6 @@ import {
   deleteAllNotifies,
 } from "../../redux/actions/notifyActions";
 
-import "./Notification.scss";
 const Notification = () => {
   const { auth, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -57,7 +56,11 @@ const Notification = () => {
         )}
       </div>
       <hr className="mt-0" />
-      <div className="btn_delete_all_notification" style={{ cursor: "pointer" }} onClick={handleDeleteAll}>
+      <div
+        className="btn_delete_all_notification"
+        style={{ cursor: "pointer" }}
+        onClick={handleDeleteAll}
+      >
         Xóa tất cả
       </div>
       <hr className="my-1" />

@@ -47,7 +47,6 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
-  // const [isSearch, setIsSearch] = useState(false);
   const [checkLogout, setCheckLogout] = useState(false);
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isShowNotification, setIsShowNotification] = useState(false);

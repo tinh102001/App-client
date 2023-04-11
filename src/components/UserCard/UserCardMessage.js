@@ -1,7 +1,6 @@
 import React from "react";
 import Avatar from "../Avatar/Avatar";
 import { Link } from "react-router-dom";
-// import "./UserCardMessage.scss";
 
 const UserCardMessage = ({ user, online, children }) => {
   return (

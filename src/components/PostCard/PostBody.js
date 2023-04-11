@@ -2,13 +2,15 @@ import React, { createRef, useRef, useState } from "react";
 import { Carousel } from "react-bootstrap";
 
 const PostBody = ({ post }) => {
+  const imageRef = useRef();
+  const [maxHeight, setMaxHeight] = useState(0);
+
   const [refImages] = useState(
     Array(post.images.length)
       .fill(null)
       .map(() => createRef())
   );
-  const imageRef = useRef();
-  const [maxHeight, setMaxHeight] = useState(0);
+
   const getImageWidth = (link) => {
     let maxHeight = 0;
     refImages.forEach((el, i) => {

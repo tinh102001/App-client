@@ -9,8 +9,9 @@ import EditProfile from "./EditProfile";
 import Avatar from "../Avatar/Avatar";
 
 const Info = ({ id, auth, profile, dispatch }) => {
-  const [userData, setUserData] = useState([]);
   const { socket } = useSelector((state) => state);
+
+  const [userData, setUserData] = useState([]);
   const [isShowFollowers, setIsShowFollowers] = useState(false);
   const [isShowFollowing, setIsShowFollowing] = useState(false);
   const [openPostModal, setOpenPostModal] = useState(false);
@@ -39,6 +40,7 @@ const Info = ({ id, auth, profile, dispatch }) => {
     setIsShowFollowers(false);
     setIsShowFollowing(false);
   };
+
   return (
     <div className="info">
       <EditProfile

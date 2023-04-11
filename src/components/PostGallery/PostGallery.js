@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 
-import "./PostGallery.scss";
 const PostGallery = ({ posts, result }) => {
   const navigate = useNavigate();
   const handleClick = (id) => {

@@ -1,11 +1,11 @@
-.user_list_info{
-    display: flex;
-    flex-direction: row;
-    column-gap: 0.5rem;
+.user_list_info {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
 }
 
 @media screen and (max-width: 800px) {
-    .user_list_fullname {
-        display: none;
-    }
+  .user_list_fullname {
+    display: none;
+  }
 }

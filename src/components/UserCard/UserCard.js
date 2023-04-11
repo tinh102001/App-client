@@ -1,6 +1,7 @@
 import React from "react";
-import Avatar from "../Avatar/Avatar";
 import { Link } from "react-router-dom";
+
+import Avatar from "../Avatar/Avatar";
 
 const UserCard = ({ user, handleClose, children }) => {
   const handleCloseAll = () => {

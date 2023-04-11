@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createComment } from "../../redux/actions/commentActions";
 import ContentEditable from "react-contenteditable";
-import "./Style/InputComment.scss";
+
+import { createComment } from "../../redux/actions/commentActions";
 
 const InputComment = ({ post, children, onReply, setOnReply }) => {
-  const [content, setContent] = useState("");
-
   const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  const [content, setContent] = useState("");
   const [editable, setEditable] = useState(false);
+
   const refUserName = useRef();
   const refInput = useRef();
   const refInputContainer = useRef();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!e.target.innerHTML.trim()) {

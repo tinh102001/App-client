@@ -1,7 +1,7 @@
 import React from "react";
+
 import Avatar from "../Avatar/Avatar";
 import FollowButton from "../Button/FollowButton";
-import "./style.scss";
 
 const UserSuggest = ({ users }) => {
   return (

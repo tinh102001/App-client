@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import DisplayComment from "./DisplayComment";
-import "./Style/style.scss";
+
 const Comments = ({ post }) => {
   const [comments, setComments] = useState([]);
-  const [showComments, setShowComments] = useState([]);
   const [next, setNext] = useState(2);
-
+  const [showComments, setShowComments] = useState([]);
   const [replyComments, setReplyComments] = useState([]);
 
   useEffect(() => {

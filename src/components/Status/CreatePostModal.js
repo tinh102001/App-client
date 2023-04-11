@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { createPost, updatePost } from "../../redux/actions/postActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFaceSmile,
   faPlus,
@@ -10,18 +9,26 @@ import {
   faCameraRetro,
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Picker from "emoji-picker-react";
+
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { createPost, updatePost } from "../../redux/actions/postActions";
 import { imageShow, videoShow } from "../../utils/imagesShow";
-import { useSelector } from "react-redux";
 
 function CreatePostModal({ open, onClose, auth, socket }) {
   const { status } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const [tracks, setTracks] = useState("");
   const [images, setImages] = useState([]);
   const [content, setContent] = useState("");
   const [stream, setStream] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
+  const [hideUpLoad, setHideUpLoad] = useState(false);
+
   const videoRef = useRef();
   const refCanvas = useRef();
+
   const deleteImages = (index) => {
     const newArr = [...images];
     newArr.splice(index, 1);
@@ -46,8 +53,7 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     let URL = refCanvas.current.toDataURL();
     setImages([...images, { camera: URL }]);
   };
-  const [tracks, setTracks] = useState("");
-  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (images.length === 0)
@@ -55,10 +61,10 @@ function CreatePostModal({ open, onClose, auth, socket }) {
         type: GLOBALTYPES.ALERT,
         payload: { error: "Không có ảnh. Hãy thêm ảnh của bạn!" },
       });
-    if(status.onEdit){
-      dispatch(updatePost({content, images, auth, status}))
-    }else{
-      dispatch(createPost({content, images, auth, socket}))
+    if (status.onEdit) {
+      dispatch(updatePost({ content, images, auth, status }));
+    } else {
+      dispatch(createPost({ content, images, auth, socket }));
     }
 
     dispatch({
@@ -72,8 +78,6 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     onClose();
   };
 
-  const [showPicker, setShowPicker] = useState(false);
-  const [hideUpLoad, setHideUpLoad] = useState(false);
   const onEmojiClick = (emojiObject, event) => {
     const textAreaElement = document.getElementById("status-input");
     setContent(
@@ -132,15 +136,17 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     setContent("");
     setStream(false);
   };
+
   useEffect(() => {
-    if(status.onEdit){
-      setContent(status.content)
-      setImages(status.images)
-    }else{
-      setContent('')
-      setImages([])
+    if (status.onEdit) {
+      setContent(status.content);
+      setImages(status.images);
+    } else {
+      setContent("");
+      setImages([]);
     }
-  },[status])
+  }, [status]);
+
   return (
     <Modal
       show={open}
@@ -150,7 +156,9 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     >
       <Form onSubmit={handleSubmit}>
         <Modal.Header>
-          <div className="title-create-post">{status.onEdit ? "Chỉnh sửa bài viết" : "Tạo bài viết"}</div>
+          <div className="title-create-post">
+            {status.onEdit ? "Chỉnh sửa bài viết" : "Tạo bài viết"}
+          </div>
           <div
             className="btn btn-close"
             onClick={() => {
@@ -202,15 +210,6 @@ function CreatePostModal({ open, onClose, auth, socket }) {
                 </div>
               )}
             </OverlayTrigger>
-            {/* <div
-              className="icon-emoji"
-              onClick={() => setShowPicker(!showPicker)}
-            >
-              <FontAwesomeIcon icon={faFaceSmile} />
-              {showPicker && (
-                <Picker className="emoji-picker" onEmojiClick={onEmojiClick} />
-              )}
-            </div> */}
           </div>
           <div className="upload-image-container">
             <div className="show_images">
