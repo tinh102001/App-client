@@ -18,31 +18,30 @@
   }
 
   .search-form {
+    position: relative;
     flex: 5;
     display: block;
     width: 50%;
     margin: 50px auto;
     .form-control {
-      margin: auto;
+      background: #fafafa;
+      border: 1px solid #ddd;
       width: 60%;
+      outline: none;
+      text-indent: 5px;
+      border-radius: 3px;
     }
-    .users {
+    .users_search_result {
       position: absolute;
-      width: 50%;
+      width: 60%;
       min-width: 250px;
       background: #fafafa;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       max-height: calc(100vh - 150px);
       overflow: auto;
       margin-top: 3px;
+      border-radius: 10px;
     }
-    // .search-user {
-    //     position: absolute;
-    //     margin-top: 3px;
-    //     border-radius: 3%;
-    //     width: 40%;
-    //     height: 400px;
-    //     background-color: #cccccc;
-    // }
   }
 
   .menu {
@@ -50,22 +49,6 @@
     position: relative;
     display: flex;
     float: right;
-    .notification {
-      z-index: 999;
-      position: absolute;
-      top: 85%;
-      width: 300px;
-      height: 500px;
-      display: block;
-      right: 10px;
-      background-color: #f1f1f1;
-      border-radius: 3%;
-      overflow-y: scroll;
-      ::-webkit-scrollbar {
-        width: 8px;
-        background-color: #cccccc;
-      }
-    }
     .container-menu {
       position: relative;
       .profile {
@@ -79,7 +62,8 @@
         position: absolute;
         top: 85%;
         right: 10px;
-        background-color: #f1f1f1;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         border-radius: 5%;
         z-index: 999;
       }
@@ -88,26 +72,13 @@
         border: solid 2px #f1f1f1;
       }
     }
-    .btn-notification, .btn-message {
-      display: flex;
-      left: 50px;
-      align-items: center;
-      margin: auto;
-      margin-right: 20px;
-      // vertical-align: middle;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      border: 0;
-      background-color: #f1f1f1;
-    }
-
+    .btn-notification,
+    .btn-message,
     .btn-discover {
       display: flex;
       align-items: center;
       margin: auto;
-      // margin-right: 20px;
-      // vertical-align: middle;
+      margin-right: 20px;
       width: 45px;
       height: 45px;
       border-radius: 50%;
@@ -115,41 +86,11 @@
       background-color: #f1f1f1;
     }
 
-    .btn-notification:hover, .btn-message:hover  {
-      background-color: #c7c8c9;
-    }
+    .btn-notification:hover,
+    .btn-message:hover,
     .btn-discover:hover {
       background-color: #c7c8c9;
     }
-    // .menu-profile {
-    //   position: fixed;
-    //   top: 70px;
-    //   display: block;
-    //   right: 0px;
-    //   margin-right: 10px;
-    //   background-color: #f1f1f1;
-    //   border-radius: 5%;
-    // }
-    // .notification {
-    //   position: fixed;
-    //   top: 70px;
-    //   width: 300px;
-    //   height: 500px;
-    //   display: block;
-    //   right: 0px;
-    //   margin-right: 10px;
-    //   background-color: #f1f1f1;
-    //   border-radius: 3%;
-    //   overflow-y: scroll;
-    //   h1 {
-    //     font-family: Helvetica, Arial, sans-serif;
-    //     padding: 10px;
-    //   }
-    //   ::-webkit-scrollbar {
-    //     width: 8px;
-    //     background-color: #cccccc;
-    //   }
-    // }
   }
   .back-form {
     position: fixed;

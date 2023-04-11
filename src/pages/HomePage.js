@@ -34,7 +34,7 @@ const HomePage = () => {
   useEffect(() => {
     const onScroll = async function () {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
         hasMore
       ) {
         handleLoadMore();

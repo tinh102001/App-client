@@ -40,10 +40,8 @@ const MyProfile = () => {
   }, [profile.posts, id]);
 
   useEffect(() => {
-    if (profile.ids.every((item) => item !== id)) {
-      dispatch(getProfileUsers({ id, auth }));
-    }
-  }, [id, auth, dispatch, profile.ids]);
+    dispatch(getProfileUsers({ id, auth }));
+  }, [id, auth, dispatch]);
 
   useEffect(() => {
     setLoad(true);
@@ -99,7 +97,7 @@ const MyProfile = () => {
       <Header />
       <Info id={id} auth={auth} profile={profile} dispatch={dispatch} />
       <div className="profile-content">
-        {auth.user._id === id && (
+        {auth?.user?._id === id && (
           <div className="profile_tab">
             <Link
               className={selectedItem === "item1" ? "selected" : ""}

@@ -1,0 +1,36 @@
+.notification {
+  z-index: 999;
+  position: absolute;
+  top: 75%;
+  width: 300px;
+  height: 500px;
+  display: block;
+  padding: 10px;
+  right: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: white;
+  border-radius: 3%;
+  border: none;
+  min-width: 300px;
+  .btn_delete_all_notification {
+    color: red;
+  }
+  .notification_msg {
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+  }
+  .notification_msg div:hover {
+    background-color: #ccd0d5;
+    border-radius: 10px;
+  }
+}
+
+.notification_msg_content {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  color: black;
+}

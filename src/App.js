@@ -17,7 +17,7 @@ import ErrorApp from "./pages/ErrorApp/ErrorApp";
 import ConfirmModal from "./components/ConfirmModal/ConfirmModal";
 
 const App = () => {
-  const { auth, confirmModal } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {

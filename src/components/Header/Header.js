@@ -7,8 +7,8 @@ import {
   HeartOutlined,
   KeyOutlined,
   LogoutOutlined,
-  CompassFilled,
-  MessageOutlined
+  CompassOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { Menu, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +47,7 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  // const [isSearch, setIsSearch] = useState(false);
   const [checkLogout, setCheckLogout] = useState(false);
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isShowNotification, setIsShowNotification] = useState(false);
@@ -93,11 +93,11 @@ const Header = () => {
     }
     if (e.key === "sub2") navigate("/password");
     if (e.key === "sub3") navigate("/setting");
-    if (e.key === "sub4") dispatch({type: GLOBALTYPES.CONFIRM, payload: { action: "Đăng xuất"}})
+    if (e.key === "sub4")
+      dispatch({ type: GLOBALTYPES.CONFIRM, payload: { action: "Đăng xuất" } });
   };
 
   const handleFocus = () => {
-    if (search) setIsSearch(true);
     setIsShowNotification(false);
     setIsShowProfile(false);
   };
@@ -108,14 +108,12 @@ const Header = () => {
   };
 
   const handleNotification = () => {
-    setIsSearch(false);
     setIsShowProfile(false);
     setIsShowNotification(!isShowNotification);
   };
 
   const handleProfile = () => {
     setIsShowNotification(false);
-    setIsSearch(false);
     setIsShowProfile(!isShowProfile);
   };
 
@@ -143,24 +141,22 @@ const Header = () => {
             setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
           }
           onFocus={handleFocus}
-          onBlur={() => {
-            setIsSearch(false);
-          }}
         />
         {load && <SpinLoader />}
-        <div className="users">
+        <div className="users_search_result">
           {search &&
             users.map((user) => (
-              <UserCard
-                key={user._id}
-                user={user}
-                border="border"
-                handleClose={handleClose}
-              />
+              <UserCard key={user._id} user={user} handleClose={handleClose} />
             ))}
         </div>
       </form>
       <div className="menu">
+        <button className="btn-discover" onClick={() => navigate("/explore")}>
+          <CompassOutlined
+            className="discover-icon"
+            style={{ fontSize: "24px", margin: "auto" }}
+          />
+        </button>
         <button className="btn-message" onClick={() => navigate("/message")}>
           <MessageOutlined
             className="message-icon"
@@ -174,17 +170,9 @@ const Header = () => {
           />
         </button>
         {isShowNotification && (
-          // <div className="notification">
-          //   <h1>Thông báo</h1>
-          // </div>
-          <Notification style = {{position: "absolute", top: "85%"}} />
+          <Notification style={{ position: "absolute", top: "85%" }} />
         )}
-        <button className="btn-discover" onClick={() => navigate("/explore")}>
-          <CompassFilled
-            className="discover-icon"
-            style={{ fontSize: "24px", margin: "auto" }}
-          />
-        </button>
+
         {auth.token ? (
           <div className="container-menu">
             <img
@@ -192,8 +180,7 @@ const Header = () => {
               src={auth.user.avatar}
               alt="avatar"
               onClick={handleProfile}
-            >
-            </img>
+            ></img>
             {isShowProfile && (
               <Menu
                 className="menu-profile"
@@ -208,31 +195,9 @@ const Header = () => {
               />
             )}
           </div>
-          
         ) : (
           <SpinLoader />
         )}
-        {/* {isShowProfile && (
-          <Menu
-            className="menu-profile"
-            mode="inline"
-            openKeys={openKeys}
-            onOpenChange={onOpenChange}
-            onClick={(e) => handleClick(e)}
-            style={{
-              width: 256,
-            }}
-            items={items}
-          />
-        )}
-        ; */}
-        {/* {isShowNotification && (
-          // <div className="notification">
-          //   <h1>Thông báo</h1>
-          // </div>
-          <Notification />
-        )} */}
-        ;{isSearch && <div className="search-user"></div>}
         {checkLogout && (
           <div className="back-form">
             <div className="modal-form"></div>

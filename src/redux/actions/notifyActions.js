@@ -67,7 +67,7 @@ export const isReadNotify =
       payload: { ...msg, isRead: true },
     });
     try {
-      await patchAPI(`/isReadNotify/${msg._id}`, null, auth.token);
+      await patchAPI(`/is_read_notify/${msg._id}`, null, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "../Avatar/Avatar";
 import moment from "moment";
@@ -10,6 +12,7 @@ import {
   deleteAllNotifies,
 } from "../../redux/actions/notifyActions";
 
+import "./Notification.scss";
 const Notification = () => {
   const { auth, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -36,9 +39,9 @@ const Notification = () => {
   };
 
   return (
-    <div className="notification" style={{ minWidth: "300px" }}>
-      <div className="d-flex justify-content-between align-items-center px-3">
-        <h3>Notification</h3>
+    <div className="notification">
+      <div>
+        <h3>Thông báo</h3>
         {notify.sound ? (
           <i
             className="fas fa-bell text-danger"
@@ -54,52 +57,46 @@ const Notification = () => {
         )}
       </div>
       <hr className="mt-0" />
+      <div className="btn_delete_all_notification" style={{ cursor: "pointer" }} onClick={handleDeleteAll}>
+        Xóa tất cả
+      </div>
+      <hr className="my-1" />
+      {notify.data.length === 0 && <div>Bạn chưa có thông báo nào!</div>}
 
-      {notify.data.length === 0 && <div>NoNotice</div>}
-
-      <div style={{ maxHeight: "calc(100vh - 200px)", overflow: "auto" }}>
+      <div className="notification_msg">
         {notify.data.map((msg, index) => (
-          <div key={index} className="px-2 mb-3">
+          <div key={index} style={{ margin: "auto" }}>
             <Link
               to={`${msg.url}`}
-              className="d-flex text-dark align-items-center"
               onClick={() => handleIsRead(msg)}
+              style={{
+                display: "flex",
+                textDecoration: "none",
+                columnGap: "5px",
+              }}
             >
               <Avatar src={msg.user.avatar} size="big-avatar" />
 
-              <div className="mx-1 flex-fill">
+              <div className="notification_msg_content">
                 <div>
-                  <strong className="mr-1">{msg.user.username}</strong>
+                  <strong>{msg.user.username} </strong>
                   <span>{msg.text}</span>
                 </div>
                 {msg.content && <small>{msg.content.slice(0, 20)}...</small>}
+                <small className="notification_status">
+                  {moment(msg.createdAt).fromNow()}
+                </small>
               </div>
-
-              {msg.image && (
-                <div style={{ width: "30px" }}>
-                  {msg.image.match(/video/i) ? (
-                    <video src={msg.image} width="100%" />
-                  ) : (
-                    <Avatar src={msg.image} size="big-avatar" />
-                  )}
-                </div>
+              {!msg.isRead && (
+                <FontAwesomeIcon
+                  icon={faCircle}
+                  size="2xs"
+                  style={{ color: "#051ee1", margin: "auto" }}
+                />
               )}
             </Link>
-            <small className="text-muted d-flex justify-content-between px-2">
-              {moment(msg.createdAt).fromNow()}
-              {!msg.isRead && <i className="fas fa-circle text-primary" />}
-            </small>
           </div>
         ))}
-      </div>
-
-      <hr className="my-1" />
-      <div
-        className="text-right text-danger mr-2"
-        style={{ cursor: "pointer" }}
-        onClick={handleDeleteAll}
-      >
-        Delete All
       </div>
     </div>
   );

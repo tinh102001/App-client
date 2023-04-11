@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faComment } from "@fortawesome/free-solid-svg-icons";
 
+import "./PostGallery.scss";
 const PostGallery = ({ posts, result }) => {
   const navigate = useNavigate();
   const handleClick = (id) => {
@@ -10,36 +13,38 @@ const PostGallery = ({ posts, result }) => {
   if (result === 0)
     return <div style={{ marginTop: 20 }}>Không có bài viết nào</div>;
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
-      <div
-        style={{
-          display: "inline-flex",
-          flexWrap: "wrap",
-          marginLeft: "auto",
-          marginRight: "auto",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {posts.map((post) => (
-          <div key={post._id} onClick={() => handleClick(post._id)}>
-            {/* {post.content} */}
+    <div className="post_gallery">
+      {posts.map((post) => (
+        <div
+          key={post._id}
+          onClick={() => handleClick(post._id)}
+          className="post_gallery_display"
+        >
+          {post.images[0].url.match(/video/i) ? (
+            <video
+              controls
+              src={post.images[0].url}
+              alt={post.images[0].url}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
             <img
               src={post.images[0].url}
               alt={post.images[0].url}
-              style={{ width: 320, height: 320, margin: 20 }}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
+          )}
+          <div className="post_gallery_details">
+            <i>
+              <FontAwesomeIcon icon={faThumbsUp} /> {post.likes.length}
+            </i>
+
+            <i>
+              <FontAwesomeIcon icon={faComment} /> {post.comments.length}
+            </i>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

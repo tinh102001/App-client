@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePost } from "../../redux/actions/postActions";
-import ConfirmModal from "../ConfirmModal/ConfirmModal";
+// import { deletePost } from "../../redux/actions/postActions";
 import CreatePostModal from "../Status/CreatePostModal";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
@@ -16,13 +15,13 @@ const PostHeader = ({ post }) => {
   }
   const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch()
-  const [show, setShow] = useState(false)
+  // const [show, setShow] = useState(false)
   const [openPostModal, setOpenPostModal] = useState(false)
-  const postDelete = async (e) => {
-    dispatch(deletePost({post,auth}))
-  }
+  // const postDelete = async (e) => {
+  //   dispatch(deletePost({post,auth}))
+  // }
   const openModal = async (e) => {
-    setShow(true)
+    // setShow(true)
     dispatch({ type: GLOBALTYPES.CONFIRM, payload: {post: post, action: 'Xoá bài viết'}})
   }
   const handlePostClose = () => {

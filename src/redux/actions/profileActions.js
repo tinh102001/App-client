@@ -1,8 +1,7 @@
 import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getAPI, patchAPI } from "../../utils/fetchAPI";
 import { createNotify, removeNotify } from "./notifyActions";
-import { refreshToken } from "./authActions";
-//import { imageUpload } from "../../utils/imagesUpload";
+import { imageUpload } from "../../utils/imagesUpload";
 
 export const PROFILE_TYPES = {
   LOADING: "LOADING_PROFILE",
@@ -45,20 +44,56 @@ export const getProfileUsers =
       });
     }
   };
-  export const editprofile =
-  ({ data, auth }) =>
+
+export const editProfileUser =
+  ({ userData, avatar, auth }) =>
   async (dispatch) => {
+    if (!userData.fullname)
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Please add your full name." },
+      });
+
+    if (userData.fullname.length > 25)
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Your full name too long." },
+      });
+
+    if (userData.story.length > 200)
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Your story too long." },
+      });
 
     try {
+      let media;
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-      const res = await patchAPI('user', data, auth.token)
-      dispatch(refreshToken())
+
+      if (avatar) media = await imageUpload([avatar]);
+
+      const res = await patchAPI(
+        "user",
+        {
+          ...userData,
+          avatar: avatar ? media[0].url : auth.user.avatar,
+        },
+        auth.token
+      );
+
       dispatch({
-        type: GLOBALTYPES.ALERT,
+        type: GLOBALTYPES.AUTH,
         payload: {
-          success: res.data.msg,
+          ...auth,
+          user: {
+            ...auth.user,
+            ...userData,
+            avatar: avatar ? media[0].url : auth.user.avatar,
+          },
         },
       });
+
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -66,7 +101,6 @@ export const getProfileUsers =
       });
     }
   };
-
 export const follow =
   ({ users, user, auth, socket }) =>
   async (dispatch) => {

@@ -2,25 +2,30 @@ import React from "react";
 import Avatar from "../Avatar/Avatar";
 import { Link } from "react-router-dom";
 
-const UserCard = ({ user, border, handleClose, children }) => {
+const UserCard = ({ user, handleClose, children }) => {
   const handleCloseAll = () => {
     if (handleClose) handleClose();
   };
 
   return (
     <div
-      className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
+      className="user_card_container"
+      style={{ border: "none", padding: "10px" }}
     >
       <div>
         <Link
           to={`/profile/${user._id}`}
           onClick={handleCloseAll}
-          className="d-flex align-items-center"
+          style={{ display: "flex", textDecoration: "none" }}
         >
           <Avatar src={user.avatar} size="big-avatar" />
 
-          <div className="ml-1" style={{ transform: "translateY(-2px)" }}>
-            <span className="d-block">{user.username}</span>
+          <div
+            className="user_card_info"
+            style={{ transform: "translateY(-2px)", marginLeft: "10px" }}
+          >
+            <span className="user_card_info_username">{user.username}</span>
+            <span className="user_card_info_fullname">{user.fullname}</span>
           </div>
         </Link>
       </div>

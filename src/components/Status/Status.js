@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style/index.scss";
@@ -17,7 +17,7 @@ const Status = () => {
   return (
     <div className="status_modal">
       <div className="status_body d-flex">
-        <img className="avatar" src={auth.user.avatar} alt="avatar" />
+        <img className="avatar" src={auth?.user?.avatar} alt="avatar" />
         <div className="status-input" onClick={() => setOpenPostModal(true)}>
           <span className="status-content">{`${auth.user.username} ơi, Bạn đang nghĩ gì thế?`}</span>
         </div>
@@ -35,7 +35,12 @@ const Status = () => {
           <span>Cảm xúc</span>
         </div>
       </div>
-      <CreatePostModal open={openPostModal} onClose={handleClose} auth={auth} socket={socket}/>
+      <CreatePostModal
+        open={openPostModal}
+        onClose={handleClose}
+        auth={auth}
+        socket={socket}
+      />
     </div>
   );
 };
