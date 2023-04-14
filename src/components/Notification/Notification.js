@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBellSlash } from "@fortawesome/free-regular-svg-icons";
 
 import Avatar from "../Avatar/Avatar";
 import moment from "moment";
@@ -30,7 +31,7 @@ const Notification = () => {
 
     if (
       window.confirm(
-        `You have ${newArr.length} unread notices. Are you sure you want to delete all?`
+        `Bạn còn ${newArr.length} thông báo chưa đọc. Bạn có muốn xóa tất cả?`
       )
     ) {
       return dispatch(deleteAllNotifies(auth.token));
@@ -39,18 +40,30 @@ const Notification = () => {
 
   return (
     <div className="notification">
-      <div>
+      <div style={{ display: "flex", position: "relative", width: " 100%" }}>
         <h3>Thông báo</h3>
         {notify.sound ? (
-          <i
-            className="fas fa-bell text-danger"
-            style={{ fontSize: "1.2rem", cursor: "pointer" }}
+          <FontAwesomeIcon
+            icon={faBell}
+            style={{
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              position: "absolute",
+              right: "0",
+              top: "20%",
+            }}
             onClick={handleSound}
           />
         ) : (
-          <i
-            className="fas fa-bell-slash text-danger"
-            style={{ fontSize: "1.2rem", cursor: "pointer" }}
+          <FontAwesomeIcon
+            icon={faBellSlash}
+            style={{
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              position: "absolute",
+              right: "0",
+              top: "20%",
+            }}
             onClick={handleSound}
           />
         )}

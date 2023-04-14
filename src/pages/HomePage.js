@@ -34,7 +34,8 @@ const HomePage = () => {
   useEffect(() => {
     const onScroll = async function () {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 200 &&
         hasMore
       ) {
         handleLoadMore();
@@ -56,12 +57,27 @@ const HomePage = () => {
             {homePosts.loading ? (
               <SkeletonLoader />
             ) : homePosts.result === 0 && homePosts.posts.length === 0 ? (
-              <h2 className="text-center">No Post</h2>
+              <h2
+                className="text-center"
+                style={{ height: "360px", margin: "50px auto" }}
+              >
+                Không có bài viết nào!
+              </h2>
             ) : (
               <PostCard posts={homePosts.posts} />
             )}
             {load && <SkeletonLoader />}
-            {!hasMore && <div>Đã hiển thị hết các bài viết</div>}
+            {!hasMore && (
+              <div
+                style={{
+                  margin: "20px auto",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Đã hiển thị hết các bài viết
+              </div>
+            )}
           </div>
           <Right />
         </div>

@@ -5,7 +5,6 @@ const initialState = {
   ids: [],
   users: [],
   posts: [],
-  page: 2,
 };
 
 const profileReducer = (state = initialState, action) => {

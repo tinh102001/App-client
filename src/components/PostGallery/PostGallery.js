@@ -10,7 +10,7 @@ const PostGallery = ({ posts, result }) => {
   };
 
   if (result === 0)
-    return <div style={{ marginTop: 20 }}>Không có bài viết nào</div>;
+    return <div style={{ margin: "20px auto", textAlign: "center", fontWeight: "bold" }}>Không có bài viết nào</div>;
   return (
     <div className="post_gallery">
       {posts.map((post) => (

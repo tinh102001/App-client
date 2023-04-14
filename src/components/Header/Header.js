@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner, faCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   ProfileOutlined,
   SettingOutlined,
@@ -11,7 +14,6 @@ import {
   MessageOutlined,
 } from "@ant-design/icons";
 import { Menu, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../../redux/actions/authActions";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
@@ -40,7 +42,7 @@ const items = [
 
 const rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4"];
 const Header = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -130,18 +132,23 @@ const Header = () => {
         </Link>
       </div>
       <form className="search-form">
-        <input
-          id="search"
-          type="text"
-          className="form-control"
-          placeholder="Search"
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
-          }
-          onFocus={handleFocus}
-        />
-        {load && <SpinLoader />}
+        <div className="search_input">
+          <input
+            id="search"
+            type="text"
+            className="form-control"
+            placeholder="Search"
+            value={search}
+            onChange={(e) =>
+              setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
+            }
+            onFocus={handleFocus}
+          />
+          <div className="search_loader">
+            {load && <FontAwesomeIcon icon={faSpinner} spin />}
+          </div>
+        </div>
+
         <div className="users_search_result">
           {search &&
             users.map((user) => (
@@ -167,6 +174,9 @@ const Header = () => {
             className="notification-icon"
             style={{ fontSize: "24px", margin: "auto" }}
           />
+          {notify.data.length > 0 && (
+            <FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ff0000", position:"absolute" , right: "0", top: "0"}} />
+          )}
         </button>
         {isShowNotification && (
           <Notification style={{ position: "absolute", top: "85%" }} />

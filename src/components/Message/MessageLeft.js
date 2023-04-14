@@ -32,7 +32,6 @@ const MessageLeft = () => {
 
     try {
       const res = await getAPI(`search?username=${search}`, auth.token);
-      console.log(res);
       setSearchUsers(res.data.searchResult);
     } catch (err) {
       dispatch({

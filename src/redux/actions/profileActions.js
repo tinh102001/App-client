@@ -33,7 +33,7 @@ export const getProfileUsers =
 
       dispatch({
         type: PROFILE_TYPES.GET_POSTS,
-        payload: { ...posts.data, _id: id, page: 1 },
+        payload: { ...posts.data, _id: id, page: 2 },
       });
 
       dispatch({ type: PROFILE_TYPES.LOADING, payload: false });

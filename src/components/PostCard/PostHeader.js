@@ -90,20 +90,7 @@ const PostHeader = ({ post }) => {
               <span onClick={() => copyUrl()}>Lưu liên kết</span>
             </NavDropdown.Item>
             <NavDropdown.Item>
-              <span>Bật thông báo về bài viết này</span>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <span>Nhúng</span>
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item>
-              <span>Ẩn bài viết</span>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <span>Bỏ theo dõi{post.user.username}</span>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <span>Báo cáo bài viết</span>
+              <span onClick={() => copyUrl()}>Đi đến bài viết chi tiết</span>
             </NavDropdown.Item>
           </NavDropdown>
         </div>

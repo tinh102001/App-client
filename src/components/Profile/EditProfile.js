@@ -70,7 +70,7 @@ function EditProfile({ open, onClose, auth }) {
             />
             <span>
               <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon>
-              <p>Change</p>
+              <p>Thay avatar</p>
               <input
                 type="file"
                 name="file"
