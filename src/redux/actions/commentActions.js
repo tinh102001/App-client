@@ -120,3 +120,11 @@ export const unLikeComment =
       });
     }
   };
+
+export const deleteComment = ({ comment, auth }) => async ( dispatch ) => {
+
+  };
+
+export const updateComment = ({ comment, post, content, auth }) => async ( dispatch ) => {
+
+  };

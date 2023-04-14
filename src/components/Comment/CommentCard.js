@@ -110,7 +110,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
                 {auth.user._id === comment.user._id ? (
                   <>
                     <NavDropdown.Item>
-                      <span>Chỉnh sửa</span>
+                      <span onClick={() => dispatch({ type: GLOBALTYPES.CONFIRM, payload: {comment: comment, action: 'Xoá bình luận'}})}>Chỉnh sửa</span>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
                       <span>Xóa</span>
