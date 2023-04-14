@@ -15,11 +15,14 @@
     .content.flex-grow-1 {
       display: flex;
       flex-direction: column;
-      font-family: "Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif";
       .user-name {
         color: #050505;
         font-size: 16px;
         font-weight: 600;
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
       .post-time {
         color: #65676b;

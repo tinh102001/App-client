@@ -64,7 +64,12 @@ const CommentCard = ({ children, comment, post, commentId }) => {
         <div className="container">
           <div className="d-flex align-items-center gap-2">
             <div className="content-comment ">
-              <div className="user-comment">{comment.user.username}</div>
+              <Link
+                to={`/profile/${comment.user._id}`}
+                style={{ textDecoration: "none", color: "#000" }}
+              >
+                <div className="user-comment">{comment.user.username}</div>
+              </Link>
               {comment.tag && comment.tag._id !== comment.user._id && (
                 <Link to={`/profile/${comment.tag._id}`} className="mr-1">
                   @{comment.tag.username}
@@ -131,18 +136,25 @@ const CommentCard = ({ children, comment, post, commentId }) => {
           </div>
 
           <div className="footer-comment">
-            <div
-              onClick={(e) => {
-                if (!isLike) handleLike(e);
-                else handleUnLike(e);
-              }}
-            >
-              {isLike ? (
-                <small className="tool-footer like-comment">Bỏ thích</small>
-              ) : (
-                <small className="tool-footer like-comment">Thích</small>
-              )}
-            </div>
+            {isLike ? (
+              <small
+                className="tool-footer like-comment"
+                onClick={(e) => {
+                  handleUnLike(e);
+                }}
+              >
+                Bỏ thích
+              </small>
+            ) : (
+              <small
+                className="tool-footer like-comment"
+                onClick={(e) => {
+                  handleLike(e);
+                }}
+              >
+                Thích
+              </small>
+            )}
             <small className="tool-footer feedback" onClick={handleReply}>
               {onReply ? "Hủy" : "Phản hồi"}
             </small>

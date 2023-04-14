@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
@@ -23,9 +23,6 @@ const ConfirmModal = () => {
       default:
     }
   };
-  useEffect(() => {
-    console.log(confirmModal.post);
-  }, [confirmModal]);
 
   return (
     <>

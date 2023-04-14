@@ -9,9 +9,10 @@ const UserFollow = ({ user, event }) => {
   const { auth } = useSelector((state) => state);
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/profile/${user._id}`);
+  const handleClick = (e) => {
+    e.preventDefault()
     event.onClick();
+    navigate(`/profile/${user._id}`);
   };
 
   return (
@@ -28,7 +29,7 @@ const UserFollow = ({ user, event }) => {
     >
       <Avatar
         src={user.avatar}
-        size={"small-avatar"}
+        size={"medium-avatar"}
         onClick={handleClick}
         style={{ cursor: "pointer" }}
       />

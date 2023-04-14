@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
 import FollowButton from "../Button/FollowButton";
@@ -8,8 +9,10 @@ import Alert from "../Alert/Alert";
 import EditProfile from "./EditProfile";
 import Avatar from "../Avatar/Avatar";
 
-const Info = ({ id, auth, profile, dispatch }) => {
+const Info = ({ id, auth, profile, dispatch, totalUserPosts }) => {
   const { socket } = useSelector((state) => state);
+
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState([]);
   const [isShowFollowers, setIsShowFollowers] = useState(false);
@@ -41,6 +44,10 @@ const Info = ({ id, auth, profile, dispatch }) => {
     setIsShowFollowing(false);
   };
 
+  const directMessage = (id) => {
+    navigate(`/message/${id}`);
+  };
+
   return (
     <div className="info">
       <EditProfile
@@ -55,51 +62,54 @@ const Info = ({ id, auth, profile, dispatch }) => {
           <div className="avatar-container">
             <Avatar src={user.avatar} size="supper-avatar" />
           </div>
-          <div className="main">
-            <div className="info_user_row_1">
-              <div className="name">
-                <h1>{user.username}</h1>
-              </div>
-              <div style={{ margin: "auto" }}>
-                {id === auth.user._id ? (
-                  <Button
-                    className="editprofile"
-                    type="primary"
-                    onClick={() => setOpenPostModal(true)}
-                  >
-                    Chỉnh sửa trang cá nhân
-                  </Button>
-                ) : (
-                  <FollowButton user={user} />
-                )}
-              </div>
-            </div>
-            <div className="info_user_row_2">
-              <div>
-                <strong>{profile?.posts[0]?.totalUserPosts} </strong>
-                Posts
-              </div>
-              <div
-                className="followers"
-                onClick={() => setIsShowFollowers(true)}
+          <div className="profile-user-settings">
+            <h1 className="profile-user-name">{user.username}</h1>
+            {id === auth.user._id ? (
+              <Button
+                className="btn profile-edit-btn"
+                type="primary"
+                onClick={() => setOpenPostModal(true)}
               >
-                <strong>{user.followers.length} </strong>
-                Followers
+                Chỉnh sửa
+              </Button>
+            ) : (
+              <div className="profile-btn">
+                <FollowButton user={user} />
+                <Button
+                  type="primary"
+                  onClick={() => directMessage(id)}
+                  style={{ marginLeft: "1.5rem" }}
+                >
+                  Nhắn tin
+                </Button>
               </div>
-              <div
-                className="following"
-                onClick={() => setIsShowFollowing(true)}
-              >
-                <strong>{user.following.length} </strong>
-                Followings
-              </div>
-            </div>
-            <div className="info_user_row_3">
-              <div className="fullname">{user.fullname}</div>
-              <div className="story">{user.story}</div>
-              <div className="website">
-                <a href={user.website}>{user.website}</a>
-              </div>
+            )}
+          </div>
+          <div className="profile-stats">
+            <ul>
+              <li>
+                <span className="profile-stat-count">{totalUserPosts}</span> Bài
+                viết
+              </li>
+              <li onClick={() => setIsShowFollowers(true)}>
+                <span className="profile-stat-count">
+                  {user.followers.length}
+                </span>{" "}
+                Người theo dõi
+              </li>
+              <li onClick={() => setIsShowFollowing(true)}>
+                <span className="profile-stat-count">
+                  {user.following.length}
+                </span>{" "}
+                Đang theo dõi
+              </li>
+            </ul>
+          </div>
+          <div className="profile-bio">
+            <div className="fullname">{user.fullname}</div>
+            <div className="story">{user.story}</div>
+            <div className="website">
+              <a href={user.website}>{user.website}</a>
             </div>
           </div>
           {isShowFollowers && (
@@ -107,7 +117,7 @@ const Info = ({ id, auth, profile, dispatch }) => {
               <div className="modal-form"></div>
               <div className="container-form">
                 <h3>Người theo dõi</h3>
-                <div style={{ height: "200px", overflowY: "scroll" }}>
+                <div style={{ height: "200px", overflow: "auto" }}>
                   {user.followers.map((item) => (
                     <UserFollow
                       user={item}
@@ -131,7 +141,7 @@ const Info = ({ id, auth, profile, dispatch }) => {
               <div className="modal-form"></div>
               <div className="container-form">
                 <h3>Đang theo dõi</h3>
-                <div style={{ height: "200px", overflowY: "scroll" }}>
+                <div style={{ height: "200px", overflow: "auto" }}>
                   {user.following.map((item) => (
                     <UserFollow
                       user={item}
