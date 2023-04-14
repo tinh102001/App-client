@@ -10,6 +10,7 @@ export const GLOBALTYPES = {
   CALL: "CALL",
   PEER: "PEER",
   CONFIRM: "CONFIRM",
+  COMMENT: "COMMENT",
 };
 
 export const EditData = (data, id, post) => {

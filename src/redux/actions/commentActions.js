@@ -1,6 +1,6 @@
 import { GLOBALTYPES } from "./globalTypes";
 import { POST_TYPES } from "./postActions";
-import { patchAPI, postAPI } from "../../utils/fetchAPI";
+import { deleteAPI, patchAPI, postAPI } from "../../utils/fetchAPI";
 import { EditData, DeleteData } from "./globalTypes";
 import { createNotify, removeNotify } from "./notifyActions";
 
@@ -121,10 +121,48 @@ export const unLikeComment =
     }
   };
 
-export const deleteComment = ({ comment, auth }) => async ( dispatch ) => {
+export const deleteComment = 
+  ({ post, comment, auth, socket }) => 
+  async ( dispatch ) => {
+  
+    const deleteArr = [...post.comments.filter(cm => cm.reply === comment._id), comment];
+    
+    const newPost = {
+        ...post,
+        comments: post.comments.filter(cm => !deleteArr.find(da => cm._id === da._id))
+    };
+
+    dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+
+    socket.emit('deleteComment', newPost);
+    try {
+      deleteArr.forEach(item => {
+        deleteAPI(`comment/${item._id}`, auth.token);
+
+        const msg = {
+            id: item._id,
+            recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+            url: `/post/${post._id}`,
+        };
+
+        dispatch(removeNotify({msg, auth, socket}));
+      })
+    } catch (err) {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} });
+    }
 
   };
 
-export const updateComment = ({ comment, post, content, auth }) => async ( dispatch ) => {
-
+export const updateComment = 
+  ({ comment, post, auth, updateContent }) => 
+  async ( dispatch ) => {
+    const newComments = EditData(post.comments, comment._id, {...comment, content: updateContent});
+    const newPost = {...post, comments: newComments};
+    
+    dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+    try {
+      patchAPI(`comment/${comment._id}`, { content: updateContent }, auth.token);
+    } catch (err) {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
+    }
   };

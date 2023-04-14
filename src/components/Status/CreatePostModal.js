@@ -132,8 +132,8 @@ function CreatePostModal({ open, onClose, auth, socket }) {
     setHideUpLoad(false);
     setShowPicker(false);
     setTracks("");
-    setImages([]);
-    setContent("");
+    // setImages([]);
+    // setContent("");
     setStream(false);
   };
 

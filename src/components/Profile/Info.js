@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-import FollowButton from "../Button/FollowButton";
+import FollowButton from "../UserFollow/FollowButton";
 import UserFollow from "../UserFollow/UserFollow";
 import Alert from "../Alert/Alert";
 import EditProfile from "./EditProfile";

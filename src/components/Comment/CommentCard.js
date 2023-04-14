@@ -6,16 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import SVG from "react-inlinesvg";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import ContentEditable from "react-contenteditable";
 
-import { likeComment, unLikeComment } from "../../redux/actions/commentActions";
+import { likeComment, unLikeComment, updateComment } from "../../redux/actions/commentActions";
 
 import InputComment from "./InputComment";
 
 const CommentCard = ({ children, comment, post, commentId }) => {
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, updateCmt } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(comment.content);
   const [readMore, setReadMore] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
@@ -52,6 +54,27 @@ const CommentCard = ({ children, comment, post, commentId }) => {
     if (onReply) return setOnReply(false);
     setOnReply({ ...comment, commentId });
   };
+
+  const handleUpdateCmt = () => {
+    dispatch({ type: GLOBALTYPES.COMMENT, payload:  comment._id})
+  };
+
+  const handleSubmit = (e) =>{
+    if(comment.content !== e.target.innerHTML){
+      const updateContent = e.target.innerHTML;
+      dispatch(updateComment({comment, post, updateContent, auth}))
+      dispatch({ type: GLOBALTYPES.COMMENT, payload:  false})
+    }else{
+      dispatch({ type: GLOBALTYPES.COMMENT, payload:  false})
+    }
+  };
+
+  const pasteAsPlainText = (evt) => {
+    evt.preventDefault();
+    let text = evt.clipboardData.getData("text/plain");
+    document.execCommand("insertText", false, text);
+  };
+
   return (
     <div className="comment-card">
       <div className="comment-container-first">
@@ -60,8 +83,23 @@ const CommentCard = ({ children, comment, post, commentId }) => {
             <img className="avatar" src={comment.user.avatar} alt="avatar" />
           </div>
         </Link>
-
-        <div className="container">
+        {((updateCmt ? true : false) && (updateCmt === comment._id)) && (
+          <ContentEditable
+            id={"comment-input-update"}
+            className="comment-input-update"
+            onPaste={pasteAsPlainText}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") {
+                e.preventDefault();
+                setContent(e.target.innerHTML)
+                handleSubmit(e);
+              }
+            }}
+            html={content}
+          />
+        )}
+        {(updateCmt !== comment._id) && (
+          <div className="container">
           <div className="d-flex align-items-center gap-2">
             <div className="content-comment ">
               <Link
@@ -114,10 +152,15 @@ const CommentCard = ({ children, comment, post, commentId }) => {
               >
                 {auth.user._id === comment.user._id ? (
                   <>
-                    <NavDropdown.Item>
-                      <span onClick={() => dispatch({ type: GLOBALTYPES.CONFIRM, payload: {comment: comment, action: 'Xoá bình luận'}})}>Chỉnh sửa</span>
+                    <NavDropdown.Item 
+                      onClick={() => handleUpdateCmt()}>
+                      <span>Chỉnh sửa</span>
                     </NavDropdown.Item>
-                    <NavDropdown.Item>
+                    <NavDropdown.Item 
+                      onClick={() => dispatch({ 
+                        type: GLOBALTYPES.CONFIRM, 
+                        payload: {comment: comment, post: post, action: 'Xoá bình luận'
+                      }})}>
                       <span>Xóa</span>
                     </NavDropdown.Item>
                   </>
@@ -163,6 +206,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
             </small>
           </div>
         </div>
+      )}
       </div>
       {onReply && (
         <InputComment
