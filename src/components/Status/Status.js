@@ -18,7 +18,7 @@ const Status = () => {
       <div className="status_body d-flex">
         <img className="avatar" src={auth?.user?.avatar} alt="avatar" />
         <div className="status-input" onClick={() => setOpenPostModal(true)}>
-          <span className="status-content">{`${auth.user.username} ơi, Bạn đang nghĩ gì thế?`}</span>
+          <span className="status-content">{`${auth?.user?.username} ơi, Bạn đang nghĩ gì thế?`}</span>
         </div>
       </div>
       <div className="status_footer d-flex">

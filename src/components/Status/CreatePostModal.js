@@ -169,9 +169,9 @@ function CreatePostModal({ open, onClose, auth, socket }) {
         </Modal.Header>
         <Modal.Body>
           <div className="user-container">
-            <img className="avatar" src={auth.user.avatar} alt="avatar" />
+            <img className="avatar" src={auth?.user?.avatar} alt="avatar" />
             <div className="user-content">
-              <span className="user-name">{auth.user.username}</span>
+              <span className="user-name">{auth?.user?.username}</span>
               {
                 //feeling
               }
@@ -181,7 +181,7 @@ function CreatePostModal({ open, onClose, auth, socket }) {
             <textarea
               className="status-input"
               id="status-input"
-              placeholder={`${auth.user.username} ơi, bạn đang nghĩ gì thế?`}
+              placeholder={`${auth?.user?.username} ơi, bạn đang nghĩ gì thế?`}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e)}
