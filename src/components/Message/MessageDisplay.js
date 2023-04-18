@@ -1,7 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faPhone,
+  faPhoneSlash,
+  faVideo,
+  faVideoSlash,
+} from "@fortawesome/free-solid-svg-icons";
+
 import moment from "moment";
 
 import { imageShow, videoShow } from "../../utils/imagesShow";
@@ -46,37 +53,69 @@ const MessageDisplay = ({ user, msg, data }) => {
           </div>
 
           {msg.call && (
-            <button
-              className="btn d-flex align-items-center py-3"
-              style={{ background: "#eee", borderRadius: "10px" }}
+            <div
+              style={{
+                display: "flex",
+                background: "#eee",
+                width: "185px",
+                height: "50px",
+                borderRadius: "10px",
+              }}
             >
-              <span
-                className="material-icons font-weight-bold mr-1"
+              <div
                 style={{
-                  fontSize: "2.5rem",
-                  color: msg.call.times === 0 ? "crimson" : "green",
+                  background: "white",
+                  margin: "auto 10px",
+                  width: "30px",
+                  height: "30px",
+                  display: "flex",
+                  borderRadius: "50px",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {msg.call.times === 0
-                  ? msg.call.video
-                    ? "videocam_off"
-                    : "phone_disabled"
-                  : msg.call.video
-                  ? "video_camera_front"
-                  : "call"}
-              </span>
-
-              <div className="text-left">
-                <h6>{msg.call.video ? "Video Call" : "Audio Call"}</h6>
-                <small>
-                  {msg.call.times > 0 ? (
-                    <Times total={msg.call.times} />
-                  ) : (
-                    new Date(msg.createdAt).toLocaleTimeString()
-                  )}
-                </small>
+                <FontAwesomeIcon
+                  icon={
+                    msg.call.times === 0
+                      ? msg.call.video
+                        ? faVideoSlash
+                        : faPhoneSlash
+                      : msg.call.video
+                      ? faVideo
+                      : faPhone
+                  }
+                  size="lg"
+                />
               </div>
-            </button>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: "auto auto auto 0",
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    color: msg.call.times === 0 ? "crimson" : "green",
+                  }}
+                >
+                  {msg.call.times === 0
+                    ? msg.call.video
+                      ? "Cuộc gọi video lỡ"
+                      : "Cuộc gọi thoại lỡ"
+                    : msg.call.video
+                    ? "Cuộc gọi video"
+                    : "Cuộc gọi thoại"}
+                </span>
+                <div className="text-left">
+                  <small>
+                    {msg.call.times > 0 && <Times total={msg.call.times} />}
+                  </small>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

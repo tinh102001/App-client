@@ -13,6 +13,8 @@ import online from "./onlineReducer";
 import status from "./statusReducer";
 import confirmModal from "./confirmModalReducer";
 import updateCmt from "./updateCommentReducer";
+import peer from "./peerReducer";
+import call from "./callReducer";
 
 export default combineReducers({
   auth,
@@ -29,4 +31,6 @@ export default combineReducers({
   status,
   confirmModal,
   updateCmt,
+  peer,
+  call,
 });
