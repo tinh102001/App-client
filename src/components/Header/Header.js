@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   ProfileOutlined,
-  SettingOutlined,
+  // SettingOutlined,
   HeartOutlined,
-  KeyOutlined,
+  // KeyOutlined,
   LogoutOutlined,
   CompassOutlined,
   MessageOutlined,
@@ -35,8 +35,8 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Trang cá nhân", "sub1", <ProfileOutlined />),
-  getItem("Đổi mật khẩu", "sub2", <KeyOutlined />),
-  getItem("Cài đặt", "sub3", <SettingOutlined />),
+  // getItem("Đổi mật khẩu", "sub2", <KeyOutlined />),
+  // getItem("Cài đặt", "sub3", <SettingOutlined />),
   getItem("Đăng xuất", "sub4", <LogoutOutlined />),
 ];
 
@@ -92,8 +92,8 @@ const Header = () => {
       navigate(`/profile/${auth.user._id}`);
       setIsShowProfile(false);
     }
-    if (e.key === "sub2") navigate("/password");
-    if (e.key === "sub3") navigate("/setting");
+    // if (e.key === "sub2") navigate("/password");
+    // if (e.key === "sub3") navigate("/setting");
     if (e.key === "sub4")
       dispatch({ type: GLOBALTYPES.CONFIRM, payload: { action: "Đăng xuất" } });
   };
@@ -123,7 +123,7 @@ const Header = () => {
       <div className="logo">
         <Link to="/">
           <img
-            src={process.env.PUBLIC_URL + "/icons/logo.svg"}
+            src={process.env.PUBLIC_URL + "/logo.png"}
             alt="logo"
             height="50x"
             width="50px"
