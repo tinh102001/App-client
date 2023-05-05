@@ -3,7 +3,7 @@ import { EXPLORE_TYPES } from "../actions/exploreActions";
 const initialState = {
   loading: false,
   posts: [],
-  result: 6,
+  result: 9,
   page: 2,
   firstLoad: false,
 };

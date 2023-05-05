@@ -48,7 +48,7 @@ const Explore = () => {
       <Header />
       <Alert />
       <div>
-        {auth.token ? <PostGallery posts={explore.posts} /> : <SpinLoader />}
+        {auth.token ? <PostGallery posts={explore.posts} result={explore.result}/> : <SpinLoader />}
       </div>
       {load && <SpinLoader />}
     </>
