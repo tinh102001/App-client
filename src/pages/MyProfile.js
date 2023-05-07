@@ -110,7 +110,7 @@ const MyProfile = () => {
   }, [handleLoadMore, hasMore]);
 
   return (
-    <div>
+    <div className="my-profile-warper">
       <Header />
       <Info
         id={id}

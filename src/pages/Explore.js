@@ -45,14 +45,14 @@ const Explore = () => {
   }, [handleLoadMore]);
 
   return (
-    <>
+    <div className="my-profile-warper">
       <Header />
       <Alert />
       <div>
         {auth.token ? <PostGallery posts={explore.posts} /> : <Splash />}
       </div>
       {load && <Splash />}
-    </>
+    </div>
   );
 };
 

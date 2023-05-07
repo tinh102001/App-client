@@ -1,6 +1,9 @@
 @import "./postHeader.scss";
 @import "./postBody.scss";
 @import "./postFooter.scss";
+.post-detail-warper {
+  background-color: var(--background-color-primary);
+}
 .posts-card {
   width: 80%;
   margin: auto;
@@ -11,7 +14,6 @@
     margin-top: 16px;
   }
 }
-
 
 @media screen and (max-width: 768px) {
   .posts-card {

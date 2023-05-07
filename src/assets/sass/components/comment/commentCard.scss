@@ -63,10 +63,25 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        svg {
+          path {
+            fill: var(--color-second);
+          }
+        }
       }
       .option-comment:hover {
         background: var(--background-color-primary);
         cursor: pointer;
+      }
+      .dropdown-menu {
+        color: var(--color-primary);
+        background-color: var(--background-color-second);
+        a {
+          color: var(--color-primary) !important;
+          &:hover {
+            background-color: var(--background-color-third);
+          }
+        }
       }
     }
 
