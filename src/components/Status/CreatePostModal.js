@@ -10,7 +10,7 @@ import {
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import Picker from "emoji-picker-react";
-
+import SVG from "react-inlinesvg";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { createPost, updatePost } from "../../redux/actions/postActions";
 import { imageShow, videoShow } from "../../utils/imagesShow";
@@ -160,12 +160,17 @@ function CreatePostModal({ open, onClose, auth, socket }) {
             {status.onEdit ? "Chỉnh sửa bài viết" : "Tạo bài viết"}
           </div>
           <div
-            className="btn btn-close"
+            className="btn btn-exit"
             onClick={() => {
               onClose();
               handleCloseModal();
             }}
-          ></div>
+          >
+            <SVG
+              src={process.env.PUBLIC_URL + "/icons/XCircle.svg"}
+              alt="exit"
+            />
+          </div>
         </Modal.Header>
         <Modal.Body>
           <div className="user-container">
@@ -231,9 +236,14 @@ function CreatePostModal({ open, onClose, auth, socket }) {
                     </>
                   )}
                   <div
-                    className="btn btn-close"
+                    className="btn btn-exit"
                     onClick={() => deleteImages(index)}
-                  ></div>
+                  >
+                    <SVG
+                      src={process.env.PUBLIC_URL + "/icons/XCircle.svg"}
+                      alt="exit"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -244,12 +254,14 @@ function CreatePostModal({ open, onClose, auth, socket }) {
               }}
             >
               <div
-                className="btn btn-close"
+                className="btn btn-exit"
                 onClick={(e) => {
                   setHideUpLoad(true);
                   e.preventDefault();
                 }}
-              ></div>
+              >
+                <SVG src={process.env.PUBLIC_URL + "/icons/XCircle.svg"} />
+              </div>
               <input
                 className="upload-file-computer"
                 type="file"
@@ -296,10 +308,9 @@ function CreatePostModal({ open, onClose, auth, socket }) {
                     width="100%"
                     height="100%"
                   />
-                  <div
-                    className="btn btn-close"
-                    onClick={handleStopStream}
-                  ></div>
+                  <div className="btn btn-exit" onClick={handleStopStream}>
+                    <SVG src={process.env.PUBLIC_URL + "/icons/XCircle.svg"} />
+                  </div>
                   <canvas ref={refCanvas} style={{ display: "none" }} />
                 </div>
               )}

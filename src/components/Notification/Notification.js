@@ -74,9 +74,8 @@ const Notification = () => {
         style={{ cursor: "pointer" }}
         onClick={handleDeleteAll}
       >
-        Xóa tất cả
+        <span>Xóa tất cả</span>
       </div>
-      <hr className="my-1" />
       {notify.data.length === 0 && <div>Bạn chưa có thông báo nào!</div>}
 
       <div className="notification_msg">

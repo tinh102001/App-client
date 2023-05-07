@@ -7,10 +7,11 @@ import {
 } from "../redux/actions/exploreActions";
 import { getAPI } from "../utils/fetchAPI";
 
-import SpinLoader from "../components/Loading/SpinLoader";
+// import SpinLoader from "../components/Loading/SpinLoader";
 import Header from "../components/Header/Header";
 import Alert from "../components/Alert/Alert";
 import PostGallery from "../components/PostGallery/PostGallery";
+import Splash from "../components/Loading/Splash";
 
 const Explore = () => {
   const { auth, explore } = useSelector((state) => state);
@@ -48,9 +49,9 @@ const Explore = () => {
       <Header />
       <Alert />
       <div>
-        {auth.token ? <PostGallery posts={explore.posts} /> : <SpinLoader />}
+        {auth.token ? <PostGallery posts={explore.posts} /> : <Splash />}
       </div>
-      {load && <SpinLoader />}
+      {load && <Splash />}
     </>
   );
 };

@@ -209,13 +209,19 @@ const MessageRight = () => {
       <div className="message_right_header">
         {user.length !== 0 && (
           <UserCardMessage user={user} online={online}>
-            <div className="function_button">
-              <FontAwesomeIcon icon={faPhone} onClick={handleAudioCall} />
-              <FontAwesomeIcon icon={faVideo} onClick={handleVideoCall} />
-              <FontAwesomeIcon
-                icon={faTrash}
+            <div className="function_button" onClick={handleAudioCall}>
+              <div className="btn btn-phone">
+                <FontAwesomeIcon icon={faPhone} />
+              </div>
+              <div className="btn btn-video" onClick={handleVideoCall}>
+                <FontAwesomeIcon icon={faVideo} />
+              </div>
+              <div
+                className="btn btn-delete"
                 onClick={handleDeleteConversation}
-              />
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </div>
             </div>
           </UserCardMessage>
         )}
@@ -279,7 +285,10 @@ const MessageRight = () => {
         {/* <Icons setContent={setText} content={text} theme={theme} /> */}
 
         <div className="file_upload">
-          <FontAwesomeIcon icon={faImage} />
+          <div className="btn-upload-img">
+            <FontAwesomeIcon icon={faImage} />
+          </div>
+
           <input
             type="file"
             name="file"

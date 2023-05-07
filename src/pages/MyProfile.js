@@ -9,9 +9,10 @@ import { getAPI } from "../utils/fetchAPI";
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 import Header from "../components/Header/Header";
-import SpinLoader from "../components/Loading/SpinLoader";
+// import SpinLoader from "../components/Loading/SpinLoader";
 import PostGallery from "../components/PostGallery/PostGallery";
 import Info from "../components/Profile/Info";
+import Splash from "../components/Loading/Splash";
 
 const MyProfile = () => {
   const { auth, profile } = useSelector((state) => state);
@@ -111,7 +112,13 @@ const MyProfile = () => {
   return (
     <div>
       <Header />
-      <Info id={id} auth={auth} profile={profile} dispatch={dispatch} totalUserPosts={totalUserPosts}/>
+      <Info
+        id={id}
+        auth={auth}
+        profile={profile}
+        dispatch={dispatch}
+        totalUserPosts={totalUserPosts}
+      />
       <div className="profile-content">
         {auth?.user?._id === id && (
           <div className="profile_tab">
@@ -138,7 +145,7 @@ const MyProfile = () => {
             )}
           </>
         ) : (
-          <SpinLoader />
+          <Splash />
         )}
         {load && (
           <FontAwesomeIcon

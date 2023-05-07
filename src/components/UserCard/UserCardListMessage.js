@@ -38,10 +38,10 @@ const UserCardListMessage = ({ user, children, msg }) => {
             className="user_list_fullname"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            <span style={{ color: "black", fontWeight: "bold" }}>
+            <span className="full-name">
               {user.fullname}
             </span>
-            <small style={{ opacity: 0.7 }}>
+            <small className="notify">
               {msg ? showMsg(user) : user.fullname}
             </small>
           </div>

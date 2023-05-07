@@ -2,6 +2,16 @@
   display: flex;
   flex-direction: row;
   column-gap: 0.5rem;
+  .user_list_content {
+    .user_list_fullname {
+      .full-name {
+        color: var(--color-primary);
+      }
+      .notify {
+        color: var(--color-second);
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 800px) {
