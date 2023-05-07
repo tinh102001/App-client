@@ -32,7 +32,7 @@ const ConfirmModal = () => {
 
   return (
     <>
-      <Modal show={confirmModal ? true : false} centered backdrop="static">
+      <Modal show={confirmModal ? true : false} centered backdrop="static" className="modal-confirm">
         <Modal.Header>
           <Modal.Title>{confirmModal.action}</Modal.Title>
         </Modal.Header>

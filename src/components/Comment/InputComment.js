@@ -81,6 +81,7 @@ const InputComment = ({ post, children, onReply, setOnReply }) => {
                 handleSubmit(e);
               }
             }}
+            // value={content}
             html={content}
           />
         </div>

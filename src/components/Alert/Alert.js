@@ -11,7 +11,7 @@ const Alert = () => {
   const dispatch = useDispatch();
   return (
     <div>
-      {alert.loading && <Splash />}
+      {/* {alert.loading && <Splash />} */}
 
       {alert.error && (
         <Toast
