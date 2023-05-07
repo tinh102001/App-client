@@ -2,6 +2,8 @@
   display: flex;
   width: inherit;
   justify-content: space-between;
+  background-color: var(--background-color-second);
+  border: none;
   .user_info {
     margin: 0.3rem;
     padding: 0 0.5rem;
@@ -11,6 +13,9 @@
       .user_info_column {
         display: flex;
         flex-direction: column;
+        .user_fullname {
+          color: var(--color-primary);
+        }
       }
     }
   }
@@ -25,9 +30,21 @@
     align-items: center;
     margin-right: 0.5rem;
     column-gap: 1.5rem;
+    .btn { 
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+
+    }
+    svg {
+      path {
+        fill: var(--color-primary);
+      }
+      fill: var(--color-primary);
+    }
   }
-  .function_button *:hover {
-    background-color: #e4e6eb;
+  .function_button .btn:hover {
+    background-color: var(--color-hover-input);
     cursor: pointer;
   }
 }

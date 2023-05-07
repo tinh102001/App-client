@@ -11,7 +11,7 @@
     align-items: center;
     margin-bottom: 12px;
     .title {
-      color: #737373;
+      color: var(--color-primary);
       font-size: 16px;
       font-weight: 600;
     }
@@ -30,7 +30,7 @@
       grid-template-columns: 1fr 8fr 1fr;
       padding: 0 0 8px;
       .suggest_user_name {
-        color: #050505;
+        color: var(--color-primary);
         font-size: 16px;
         font-weight: 600;
         margin: 2px 0 0 10px;
@@ -38,6 +38,9 @@
           text-decoration: underline;
           cursor: pointer;
         }
+      }
+      .unfollow {
+        color: var(--color-second);
       }
     }
   }

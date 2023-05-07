@@ -6,11 +6,11 @@
   top: 0;
   width: 100%;
   height: 70px;
-  border-bottom: solid 1.5px rgb(219, 219, 219);
-  background: #ffffff;
+  background: var(--background-color-second);
   z-index: 2;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
-    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: var(--color-hover-input) 0px 0px 0px,
+    var(--color-hover-input) 0px 2px 4px;
+  padding: 0 20px;
   .logo {
     left: 50px;
     display: flex;
@@ -28,12 +28,21 @@
       width: 60%;
       display: flex;
       .form-control {
-        background: #fafafa;
-        border: 1px solid #ddd;
+        background: var(--background-color-third);
+        color: var(--color-primary);
+        // border: 1px solid #ddd;
+        border: none;
+        border-radius: 20px;
         width: 100%;
         outline: none;
         text-indent: 5px;
-        border-radius: 3px;
+        &:hover,
+        &:focus,
+        &:active {
+          background: var(--color-hover-input);
+          outline: none;
+          box-shadow: none;
+        }
       }
       .search_loader {
         position: absolute;
@@ -45,7 +54,7 @@
       position: absolute;
       width: 60%;
       min-width: 250px;
-      background: #fafafa;
+      background: var(--background-color-second);
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       max-height: calc(100vh - 150px);
       overflow: auto;
@@ -76,10 +85,15 @@
         position: absolute;
         top: 95%;
         right: 10px;
-        background-color: white;
+        background-color: var(--background-color-second);
+        color: var(--color-primary);
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         border-radius: 5%;
         z-index: 999;
+        .ant-menu-item:hover {
+          background-color: var(--color-hover-input);
+          color: var(--color-primary);
+        }
       }
       .profile:hover {
         cursor: pointer;
@@ -97,13 +111,53 @@
       height: 45px;
       border-radius: 50%;
       border: 0;
-      background-color: #f1f1f1;
+      background-color: var(--background-color-third);
+      justify-content: center;
+      svg {
+        fill: var(--color-primary);
+      }
+      .explore-icon {
+        // SVG
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+      .messenger-icon {
+        // SVG
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+      }
     }
 
     .btn-notification:hover,
     .btn-message:hover,
     .btn-discover:hover {
-      background-color: #c7c8c9;
+      background-color: var(--color-hover-input);
+    }
+    .btn-discover.active,
+    .btn-message.active,
+    .btn-notification.active {
+      background-color: var(--color-active-input);
+      svg {
+        fill: hsl(214, 89%, 52%);
+      }
+    }
+    .btn-notification {
+      .notify-number {
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        background: #e41e3f;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: -4px;
+        right: -4px;
+        position: absolute;
+        font-size: 12px;
+      }
     }
   }
   .back-form {

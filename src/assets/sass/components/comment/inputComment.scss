@@ -25,14 +25,15 @@
       min-height: 40px;
       word-break: break-all;
       border-radius: 18px;
-      background: #f0f2f5;
+      background: var(--background-color-third);
     }
   }
   .comment-input {
     min-height: 40px;
     word-break: break-all;
     border-radius: 18px;
-    background: #f0f2f5;
+    background: var(--background-color-third);
+    color: var(--color-primary);
     resize: none;
     flex: 1;
     padding: 0;

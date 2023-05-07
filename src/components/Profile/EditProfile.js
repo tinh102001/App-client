@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import SVG from "react-inlinesvg";
 
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { checkImage } from "../../utils/imagesUpload";
@@ -56,11 +57,16 @@ function EditProfile({ open, onClose, auth }) {
         <Modal.Header>
           <div className="title-create-post">Chỉnh sửa trang cá nhân</div>
           <div
-            className="btn btn-close"
+            className="btn btn-exit"
             onClick={() => {
               onClose();
             }}
-          ></div>
+          >
+            <SVG
+              src={process.env.PUBLIC_URL + "/icons/XCircle.svg"}
+              alt="exit"
+            />
+          </div>
         </Modal.Header>
         <Modal.Body>
           <div className="info_avatar">
