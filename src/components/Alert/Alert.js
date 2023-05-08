@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
-import SpinLoader from "../Loading/SpinLoader";
 import Toast from "./Toast";
 
 const Alert = () => {
@@ -10,7 +9,6 @@ const Alert = () => {
   const dispatch = useDispatch();
   return (
     <div>
-      {alert.loading && <SpinLoader />}
 
       {alert.error && (
         <Toast

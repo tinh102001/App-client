@@ -2,10 +2,10 @@
   width: 100%;
   height: calc(100vh - 80px);
   border-radius: 3px;
-  background: white;
+  background: var(--background-color-second);
 }
 .message_left {
-  border: 1px solid #dadde1;
+  border: 1px solid var(--color-hover-input);
   height: calc(100vh - 80px);
   padding: 0.5rem;
   .message_left_header {
@@ -13,14 +13,14 @@
     height: 60px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background: white;
+    align-items: center;  
     input {
       flex: 1;
       border-radius: 50px;
       height: 50%;
       border: none;
-      background: #dadde1;
+      background: var(--background-color-third);
+      color: var(--color-primary);
       padding: 0 5px;
     }
   }
@@ -38,17 +38,19 @@
     }
 
     .message_user.active {
-      background: #ecf3ff;
+      background: var(--color-hover-input);
       border-radius: 10px;
     }
 
     .message_user:hover {
-      background-color: #ccd0d5;
+      background-color: var(--color-hover-input);
       border-radius: 10px;
     }
   }
 }
-
+h4 {
+  color: var(--color-primary);
+}
 .message_chat_list .message_user {
   display: flex;
   justify-content: space-between;

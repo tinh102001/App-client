@@ -13,10 +13,7 @@ const UserCardMessage = ({ user, online, children }) => {
         >
           <Avatar src={user.avatar} size="big-avatar" />
           <div className="user_info_column">
-            <div
-              className="user_fullname"
-              style={{ color: "black", fontWeight: "bold" }}
-            >
+            <div className="user_fullname" style={{ fontWeight: "bold" }}>
               {user.fullname}
             </div>
             <div className="user_status">

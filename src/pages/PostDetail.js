@@ -31,10 +31,10 @@ const PostDetail = () => {
   }, [detailPost, dispatch, id, auth]);
 
   return (
-    <>
+    <div className="post-detail-warper">
       <Header />
       {post.length !== 0 ? <PostCard posts={post} /> : <SkeletonLoader />}
-    </>
+    </div>
   );
 };
 

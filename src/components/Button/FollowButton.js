@@ -38,7 +38,8 @@ const FollowButton = ({ user }) => {
     <>
       {followed ? (
         <span
-          style={{ color: "#262626", fontSize: 14, cursor: "pointer" }}
+          style={{ fontSize: 14, cursor: "pointer" }}
+          className="unfollow"
           onClick={handleUnFollow}
         >
           UnFollow
@@ -46,6 +47,7 @@ const FollowButton = ({ user }) => {
       ) : (
         <span
           style={{ color: "#0095F6", fontSize: 14, cursor: "pointer" }}
+          className="follow"
           onClick={handleFollow}
         >
           Follow

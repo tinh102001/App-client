@@ -3,45 +3,51 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faCircle } from "@fortawesome/free-solid-svg-icons";
-import {
-  ProfileOutlined,
-  // SettingOutlined,
-  HeartOutlined,
-  // KeyOutlined,
-  LogoutOutlined,
-  CompassOutlined,
-  MessageOutlined,
-} from "@ant-design/icons";
+import { faMoon, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { ProfileOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Menu, Button } from "antd";
 
 import { logout } from "../../redux/actions/authActions";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { getAPI } from "../../utils/fetchAPI";
-
-import SpinLoader from "../Loading/SpinLoader";
+import SVG from "react-inlinesvg";
+// import SpinLoader from "../Loading/SpinLoader";
 import UserCard from "../UserCard/UserCard";
 import Notification from "../Notification/Notification";
+import { useAppContext } from "../../App";
+import Splash from "../Loading/Splash";
+import { faSun } from "@fortawesome/free-regular-svg-icons";
 
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-
-const items = [
-  getItem("Trang cá nhân", "sub1", <ProfileOutlined />),
-  // getItem("Đổi mật khẩu", "sub2", <KeyOutlined />),
-  // getItem("Cài đặt", "sub3", <SettingOutlined />),
-  getItem("Đăng xuất", "sub4", <LogoutOutlined />),
-];
-
-const rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4"];
 const Header = () => {
+  const { themeDark, setThemeDark } = useAppContext();
+  function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+
+  const items = [
+    getItem("Trang cá nhân", "sub1", <ProfileOutlined />),
+    // getItem("Đổi mật khẩu", "sub2", <KeyOutlined />),
+    // getItem("Cài đặt", "sub3", <SettingOutlined />),
+    getItem(
+      themeDark === "true" ? "Chế độ sáng" : "Chế độ tối",
+      "sub2",
+      themeDark === "true" ? (
+        <FontAwesomeIcon icon={faSun} />
+      ) : (
+        <FontAwesomeIcon icon={faMoon} />
+      )
+    ),
+    getItem("Đăng xuất", "sub4", <LogoutOutlined />),
+  ];
+
+  const rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4", "sub5"];
+
   const { auth, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,13 +97,26 @@ const Header = () => {
     if (e.key === "sub1") {
       navigate(`/profile/${auth.user._id}`);
       setIsShowProfile(false);
+      setBtnActiveHeader("");
     }
     // if (e.key === "sub2") navigate("/password");
     // if (e.key === "sub3") navigate("/setting");
-    if (e.key === "sub4")
+    else if (e.key === "sub4")
       dispatch({ type: GLOBALTYPES.CONFIRM, payload: { action: "Đăng xuất" } });
+    else if (e.key === "sub2") {
+      document.querySelector("body").style.transition = "all 0.3s ease-in-out";
+      localStorage.setItem(
+        "theme-dark",
+        themeDark === "true" ? "false" : "true"
+      );
+      if (themeDark === "true")
+        document.querySelector("body").removeAttribute("data-theme");
+      else document.querySelector("body").setAttribute("data-theme", `dark`);
+      setThemeDark(themeDark === "true" ? "false" : "true");
+      setIsShowProfile(false);
+    }
   };
-
+  const { btnActiveHeader, setBtnActiveHeader } = useAppContext();
   const handleFocus = () => {
     setIsShowNotification(false);
     setIsShowProfile(false);
@@ -106,6 +125,7 @@ const Header = () => {
   const handleLogo = () => {
     window.scrollTo({ top: 0 });
     navigate("/");
+    setBtnActiveHeader("");
   };
 
   const handleNotification = () => {
@@ -157,25 +177,52 @@ const Header = () => {
         </div>
       </form>
       <div className="menu">
-        <button className="btn-discover" onClick={() => navigate("/explore")}>
-          <CompassOutlined
-            className="discover-icon"
-            style={{ fontSize: "24px", margin: "auto" }}
+        <button
+          className={`btn-discover ${
+            btnActiveHeader === "explore" ? "active" : ""
+          }`}
+          onClick={(e) => {
+            setBtnActiveHeader("explore");
+            navigate("/explore");
+          }}
+          title="explore"
+        >
+          <SVG
+            className="explore-icon"
+            src={process.env.PUBLIC_URL + "/icons/explore.svg"}
+            alt="explore"
           />
         </button>
-        <button className="btn-message" onClick={() => navigate("/message")}>
-          <MessageOutlined
-            className="message-icon"
-            style={{ fontSize: "24px", margin: "auto" }}
+        <button
+          className={`btn-message ${
+            btnActiveHeader === "messenger" ? "active" : ""
+          }`}
+          onClick={() => {
+            setBtnActiveHeader("messenger");
+            navigate("/message");
+          }}
+        >
+          <SVG
+            className="messenger-icon"
+            src={process.env.PUBLIC_URL + "/icons/facebook-messenger.svg"}
+            alt="messenger"
           />
         </button>
-        <button className="btn-notification" onClick={handleNotification}>
-          <HeartOutlined
-            className="notification-icon"
-            style={{ fontSize: "24px", margin: "auto" }}
+        <button
+          className={`btn-notification ${isShowNotification ? "active" : ""}`}
+          onClick={() => {
+            handleNotification();
+          }}
+        >
+          <SVG
+            className="notifications-icon"
+            src={process.env.PUBLIC_URL + "/icons/notifications.svg"}
+            alt="notifications"
           />
-          {notify.data.length > 0 && (
-            <FontAwesomeIcon icon={faCircle} size="2xs" style={{ color: "#ff0000", position:"absolute" , right: "0", top: "0"}} />
+          {notify.data.filter((el) => !el.isRead).length > 0 && (
+            <div className="notify-number">
+              {notify.data.filter((el) => !el.isRead).length}
+            </div>
           )}
         </button>
         {isShowNotification && (
@@ -205,7 +252,7 @@ const Header = () => {
             )}
           </div>
         ) : (
-          <SpinLoader />
+          <Splash />
         )}
         {checkLogout && (
           <div className="back-form">

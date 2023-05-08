@@ -15,7 +15,7 @@
       cursor: pointer;
     }
     .content-comment {
-      background: #f0f2f5;
+      background: var(--background-color-third);
       border-radius: 18px;
       max-width: 85%;
       padding: 8px 12px;
@@ -23,7 +23,7 @@
       width: fit-content;
       .content {
         word-wrap: break-word;
-        color: #050505;
+        color: var(--color-primary);
       }
       .edit-text {
         color: #65676b;
@@ -38,7 +38,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #ffffff;
+        background: var(--background-color-second);
         border-radius: 12px;
         bottom: -9px;
         right: 0;
@@ -63,15 +63,30 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        svg {
+          path {
+            fill: var(--color-second);
+          }
+        }
       }
       .option-comment:hover {
-        background: #f0f2f5;
+        background: var(--background-color-primary);
         cursor: pointer;
+      }
+      .dropdown-menu {
+        color: var(--color-primary);
+        background-color: var(--background-color-second);
+        a {
+          color: var(--color-primary) !important;
+          &:hover {
+            background-color: var(--background-color-third);
+          }
+        }
       }
     }
 
     .user-comment {
-      color: #050505;
+      color: var(--color-primary);
       font-size: 16px;
       font-weight: 600;
       &:hover {
@@ -86,7 +101,7 @@
       gap: 12px;
       margin-left: 12px;
       margin-top: 10px;
-      color: #65676b;
+      color: var(--color-second);
       font-weight: 500;
       align-items: center;
       small {

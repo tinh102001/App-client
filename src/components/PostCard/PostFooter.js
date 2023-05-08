@@ -16,12 +16,12 @@ import {
 const PostFooter = ({ post }) => {
   const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveLoad, setSaveLoad] = useState(false);
-
+  
   useEffect(() => {
     if (post.likes.find((like) => like._id === auth.user._id)) {
       setIsLike(true);

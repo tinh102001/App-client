@@ -4,14 +4,14 @@
   .user_card_info_username {
     font-weight: bold;
     font-size: large;
-    color: black;
+    color: var(--color-primary);
   }
   .user_card_info_fullname {
     font-size: medium;
-    color: gray;
+    color: var(--color-second);
   }
 }
 
 .user_card_container:hover {
-  background-color: #ecf3ff;
+  background-color: var(--color-hover-input);
 }

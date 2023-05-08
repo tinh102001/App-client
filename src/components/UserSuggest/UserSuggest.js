@@ -8,6 +8,7 @@ import { getSuggestions } from "../../redux/actions/suggestionsAction";
 
 import Avatar from "../Avatar/Avatar";
 import FollowButton from "../Button/FollowButton";
+import "./style.scss";
 
 const UserSuggest = ({ users }) => {
   const { auth, suggestions } = useSelector((state) => state);

@@ -5,9 +5,9 @@
     height: 60px;
     display: flex;
     justify-content: space-between;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-hover-input);
     align-items: center;
-    background: white;
+    background: var(--background-color-second);
     z-index: 0;
   }
   .chat_container {
@@ -96,19 +96,38 @@
       height: 30px;
       border-radius: 50px;
       border: none;
-      background: #dadde1;
+      background: var(--background-color-third);
+      color: var(--color-primary);
       padding: 0 5px;
     }
     button {
       border: none;
       outline: none;
-      background: white;
       cursor: pointer;
+      background-color: var(--background-color-second);
+      svg {
+        path {
+          fill: var(--color-primary);
+        }
+        fill: var(--color-primary);
+      }
     }
     .file_upload {
       position: relative;
       overflow: hidden;
       margin: 0 10px;
+      .btn-upload-img {
+        svg {
+          path {
+            fill: var(--color-primary);
+          }
+          fill: var(--color-primary);
+        }
+        &:hover {
+          background-color: var(--color-hover-input);
+          cursor: pointer;
+        }
+      }
       #file {
         position: absolute;
         top: 0;
